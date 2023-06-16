@@ -308,3 +308,151 @@
 [debug] [2023-06-16T14:10:41.807Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
 [debug] [2023-06-16T14:10:42.567Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
 [debug] [2023-06-16T14:10:42.568Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Creating build","state":"IN_PROGRESS","resource":"projects/467950154544/locations/us-central1/builds/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544"},{"name":"SERVICE","state":"NOT_STARTED"}]},"done":false}
+[debug] [2023-06-16T14:10:52.580Z] [create-default-us-central1-helloWorld] Retrying task index 0
+[debug] [2023-06-16T14:10:52.580Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
+[debug] [2023-06-16T14:10:52.796Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
+[debug] [2023-06-16T14:10:52.796Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Creating build","state":"IN_PROGRESS","resource":"projects/467950154544/locations/us-central1/builds/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544"},{"name":"SERVICE","state":"NOT_STARTED"}]},"done":false}
+[debug] [2023-06-16T14:11:02.807Z] [create-default-us-central1-helloWorld] Retrying task index 0
+[debug] [2023-06-16T14:11:02.808Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
+[debug] [2023-06-16T14:11:03.523Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
+[debug] [2023-06-16T14:11:03.523Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Creating build","state":"IN_PROGRESS","resource":"projects/467950154544/locations/us-central1/builds/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544"},{"name":"SERVICE","state":"NOT_STARTED"}]},"done":false}
+[debug] [2023-06-16T14:11:13.531Z] [create-default-us-central1-helloWorld] Retrying task index 0
+[debug] [2023-06-16T14:11:13.532Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
+[debug] [2023-06-16T14:11:14.289Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
+[debug] [2023-06-16T14:11:14.290Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Creating build","state":"IN_PROGRESS","resource":"projects/467950154544/locations/us-central1/builds/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544"},{"name":"SERVICE","state":"NOT_STARTED"}]},"done":false}
+[debug] [2023-06-16T14:11:24.296Z] [create-default-us-central1-helloWorld] Retrying task index 0
+[debug] [2023-06-16T14:11:24.297Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
+[debug] [2023-06-16T14:11:25.028Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
+[debug] [2023-06-16T14:11:25.029Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Creating build","state":"IN_PROGRESS","resource":"projects/467950154544/locations/us-central1/builds/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544"},{"name":"SERVICE","state":"NOT_STARTED"}]},"done":false}
+[debug] [2023-06-16T14:11:35.042Z] [create-default-us-central1-helloWorld] Retrying task index 0
+[debug] [2023-06-16T14:11:35.042Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 [none]
+[debug] [2023-06-16T14:11:35.782Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 200
+[debug] [2023-06-16T14:11:35.783Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451 {"name":"projects/scandit-live/locations/us-central1/operations/operation-1686924621355-5fe3fbed19825-160c302b-479a5451","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2023-06-16T14:10:22.453249540Z","endTime":"2023-06-16T14:11:29.958902857Z","target":"projects/scandit-live/locations/us-central1/functions/helloWorld","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/scandit-live/locations/us-central1/functions/helloWorld","buildConfig":{"runtime":"nodejs18","entryPoint":"helloWorld","source":{"storageSource":{"bucket":"gcf-v2-sources-467950154544-us-central1","object":"helloWorld/function-source.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"service":"projects/scandit-live/locations/us-central1/services/helloworld","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}","GCLOUD_PROJECT":"scandit-live","EVENTARC_CLOUD_EVENT_SOURCE":"projects/scandit-live/locations/us-central1/services/helloWorld"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"467950154544-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b327d3da658b96715a70beb89e3a94d162bd9650"},"environment":"GEN_2"},"stages":[{"name":"ARTIFACT_REGISTRY","message":"Deleting function artifacts in Artifact Registry","state":"COMPLETE"},{"name":"SERVICE","message":"Deleting Cloud Run service","state":"COMPLETE","resource":"projects/scandit-live/locations/us-central1/services/helloworld"}]},"done":true,"error":{"code":3,"message":"Build failed with status: FAILURE and message: ...: lines-and-columns@1.2.4 from lock file\nnpm ERR! Missing: is-arrayish@0.2.1 from lock file\nnpm ERR! Missing: ansi-styles@5.2.0 from lock file\nnpm ERR! Missing: react-is@18.2.0 from lock file\nnpm ERR! Missing: kleur@3.0.3 from lock file\nnpm ERR! Missing: sisteransi@1.0.5 from lock file\nnpm ERR! Missing: is-core-module@2.12.1 from lock file\nnpm ERR! Missing: path-parse@1.0.7 from lock file\nnpm ERR! Missing: supports-preserve-symlinks-flag@1.0.0 from lock file\nnpm ERR! Missing: shebang-regex@3.0.0 from lock file\nnpm ERR! Missing: buffer-from@1.1.2 from lock file\nnpm ERR! Missing: char-regex@1.0.2 from lock file\nnpm ERR! Missing: glob@7.2.3 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: is-number@7.0.0 from lock file\nnpm ERR! Missing: picocolors@1.0.0 from lock file\nnpm ERR! Missing: convert-source-map@1.9.0 from lock file\nnpm ERR! Missing: makeerror@1.0.12 from lock file\nnpm ERR! Missing: tmpl@1.0.5 from lock file\nnpm ERR! Missing: isexe@2.0.0 from lock file\nnpm ERR! Missing: imurmurhash@0.1.4 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: yallist@3.1.1 from lock file\nnpm ERR! Missing: ansi-styles@3.2.1 from lock file\nnpm ERR! Missing: escape-string-regexp@1.0.5 from lock file\nnpm ERR! Missing: supports-color@5.5.0 from lock file\nnpm ERR! Missing: color-convert@1.9.3 from lock file\nnpm ERR! Missing: color-name@1.1.3 from lock file\nnpm ERR! Missing: has-flag@3.0.0 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: sprintf-js@1.0.3 from lock file\nnpm ERR! Missing: p-try@2.2.0 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! \nnpm ERR! Clean install a project\nnpm ERR! \nnpm ERR! Usage:\nnpm ERR! npm ci\nnpm ERR! \nnpm ERR! Options:\nnpm ERR! [-S|--save|--no-save|--save-prod|--save-dev|--save-optional|--save-peer|--save-bundle]\nnpm ERR! [-E|--save-exact] [-g|--global]\nnpm ERR! [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]\nnpm ERR! [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]\nnpm ERR! [--strict-peer-deps] [--no-package-lock] [--foreground-scripts]\nnpm ERR! [--ignore-scripts] [--no-audit] [--no-bin-links] [--no-fund] [--dry-run]\nnpm ERR! [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]\nnpm ERR! [-ws|--workspaces] [--include-workspace-root] [--install-links]\nnpm ERR! \nnpm ERR! aliases: clean-install, ic, install-clean, isntall-clean\nnpm ERR! \nnpm ERR! Run \"npm help ci\" for more info\n\nnpm ERR! A complete log of this run can be found in:\nnpm ERR!     /www-data-home/.npm/_logs/2023-06-16T14_10_55_335Z-debug-0.log. For more details see the logs at https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544."}}
+[error] Build failed with status: FAILURE and message: ...: lines-and-columns@1.2.4 from lock file
+npm ERR! Missing: is-arrayish@0.2.1 from lock file
+npm ERR! Missing: ansi-styles@5.2.0 from lock file
+npm ERR! Missing: react-is@18.2.0 from lock file
+npm ERR! Missing: kleur@3.0.3 from lock file
+npm ERR! Missing: sisteransi@1.0.5 from lock file
+npm ERR! Missing: is-core-module@2.12.1 from lock file
+npm ERR! Missing: path-parse@1.0.7 from lock file
+npm ERR! Missing: supports-preserve-symlinks-flag@1.0.0 from lock file
+npm ERR! Missing: shebang-regex@3.0.0 from lock file
+npm ERR! Missing: buffer-from@1.1.2 from lock file
+npm ERR! Missing: char-regex@1.0.2 from lock file
+npm ERR! Missing: glob@7.2.3 from lock file
+npm ERR! Missing: minimatch@3.1.2 from lock file
+npm ERR! Missing: is-number@7.0.0 from lock file
+npm ERR! Missing: picocolors@1.0.0 from lock file
+npm ERR! Missing: convert-source-map@1.9.0 from lock file
+npm ERR! Missing: makeerror@1.0.12 from lock file
+npm ERR! Missing: tmpl@1.0.5 from lock file
+npm ERR! Missing: isexe@2.0.0 from lock file
+npm ERR! Missing: imurmurhash@0.1.4 from lock file
+npm ERR! Missing: ms@2.1.2 from lock file
+npm ERR! Missing: yallist@3.1.1 from lock file
+npm ERR! Missing: ansi-styles@3.2.1 from lock file
+npm ERR! Missing: escape-string-regexp@1.0.5 from lock file
+npm ERR! Missing: supports-color@5.5.0 from lock file
+npm ERR! Missing: color-convert@1.9.3 from lock file
+npm ERR! Missing: color-name@1.1.3 from lock file
+npm ERR! Missing: has-flag@3.0.0 from lock file
+npm ERR! Missing: ms@2.1.2 from lock file
+npm ERR! Missing: minimatch@3.1.2 from lock file
+npm ERR! Missing: brace-expansion@1.1.11 from lock file
+npm ERR! Missing: ms@2.1.2 from lock file
+npm ERR! Missing: minimatch@3.1.2 from lock file
+npm ERR! Missing: brace-expansion@1.1.11 from lock file
+npm ERR! Missing: minimatch@3.1.2 from lock file
+npm ERR! Missing: brace-expansion@1.1.11 from lock file
+npm ERR! Missing: sprintf-js@1.0.3 from lock file
+npm ERR! Missing: p-try@2.2.0 from lock file
+npm ERR! Missing: brace-expansion@1.1.11 from lock file
+npm ERR! 
+npm ERR! Clean install a project
+npm ERR! 
+npm ERR! Usage:
+npm ERR! npm ci
+npm ERR! 
+npm ERR! Options:
+npm ERR! [-S|--save|--no-save|--save-prod|--save-dev|--save-optional|--save-peer|--save-bundle]
+npm ERR! [-E|--save-exact] [-g|--global]
+npm ERR! [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm ERR! [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm ERR! [--strict-peer-deps] [--no-package-lock] [--foreground-scripts]
+npm ERR! [--ignore-scripts] [--no-audit] [--no-bin-links] [--no-fund] [--dry-run]
+npm ERR! [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm ERR! [-ws|--workspaces] [--include-workspace-root] [--install-links]
+npm ERR! 
+npm ERR! aliases: clean-install, ic, install-clean, isntall-clean
+npm ERR! 
+npm ERR! Run "npm help ci" for more info
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /www-data-home/.npm/_logs/2023-06-16T14_10_55_335Z-debug-0.log. For more details see the logs at https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544.
+[debug] [2023-06-16T14:11:35.796Z] Total Function Deployment time: 75132
+[debug] [2023-06-16T14:11:35.796Z] 1 Functions Deployed
+[debug] [2023-06-16T14:11:35.796Z] 1 Functions Errored
+[debug] [2023-06-16T14:11:35.796Z] 0 Function Deployments Aborted
+[debug] [2023-06-16T14:11:35.796Z] Average Function Deployment time: 75131
+[info] 
+[info] Functions deploy had errors with the following functions:
+	helloWorld(us-central1)
+[debug] [2023-06-16T14:11:35.879Z] Not printing URL for HTTPS function. Typically this means it didn't match a filter or we failed deployment
+[info] i  functions: cleaning up build files... 
+[debug] [2023-06-16T14:11:35.882Z] >>> [apiv2][query] DELETE https://artifactregistry.googleapis.com/v1beta2/projects/scandit-live/locations/us-central1/repositories/gcf-artifacts/packages/hello_world [none]
+[debug] [2023-06-16T14:11:35.888Z] >>> [apiv2][query] GET https://us.gcr.io/v2/scandit-live/gcf/us-central1/tags/list [none]
+[debug] [2023-06-16T14:11:36.659Z] <<< [apiv2][status] DELETE https://artifactregistry.googleapis.com/v1beta2/projects/scandit-live/locations/us-central1/repositories/gcf-artifacts/packages/hello_world 404
+[debug] [2023-06-16T14:11:36.659Z] <<< [apiv2][body] DELETE https://artifactregistry.googleapis.com/v1beta2/projects/scandit-live/locations/us-central1/repositories/gcf-artifacts/packages/hello_world {"error":{"code":404,"message":"Package \"projects/scandit-live/locations/us-central1/repositories/gcf-artifacts/packages/hello_world\" was not found.","status":"NOT_FOUND"}}
+[debug] [2023-06-16T14:11:39.751Z] <<< [apiv2][status] GET https://us.gcr.io/v2/scandit-live/gcf/us-central1/tags/list 200
+[debug] [2023-06-16T14:11:39.752Z] <<< [apiv2][body] GET https://us.gcr.io/v2/scandit-live/gcf/us-central1/tags/list {"child":[],"manifest":{},"name":"scandit-live/gcf/us-central1","tags":[]}
+[debug] [2023-06-16T14:11:39.752Z] Could not find image for function projects/scandit-live/locations/us-central1/functions/helloWorld
+[debug] [2023-06-16T14:11:39.752Z] Functions deploy failed.
+[debug] [2023-06-16T14:11:39.754Z] {
+  "endpoint": {
+    "id": "helloWorld",
+    "project": "scandit-live",
+    "region": "us-central1",
+    "entryPoint": "helloWorld",
+    "platform": "gcfv2",
+    "runtime": "nodejs18",
+    "httpsTrigger": {},
+    "labels": {
+      "deployment-tool": "cli-firebase"
+    },
+    "serviceAccount": null,
+    "ingressSettings": null,
+    "availableMemoryMb": null,
+    "timeoutSeconds": null,
+    "maxInstances": null,
+    "minInstances": null,
+    "concurrency": 80,
+    "vpc": null,
+    "environmentVariables": {
+      "FIREBASE_CONFIG": "{\"projectId\":\"scandit-live\",\"databaseURL\":\"https://scandit-live-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"scandit-live.appspot.com\"}",
+      "GCLOUD_PROJECT": "scandit-live",
+      "EVENTARC_CLOUD_EVENT_SOURCE": "projects/scandit-live/locations/us-central1/services/helloWorld"
+    },
+    "codebase": "default",
+    "cpu": 1,
+    "targetedByOnly": false,
+    "hash": "b327d3da658b96715a70beb89e3a94d162bd9650"
+  },
+  "op": "create",
+  "original": {
+    "name": "FirebaseError",
+    "children": [],
+    "exit": 1,
+    "message": "Build failed with status: FAILURE and message: ...: lines-and-columns@1.2.4 from lock file\nnpm ERR! Missing: is-arrayish@0.2.1 from lock file\nnpm ERR! Missing: ansi-styles@5.2.0 from lock file\nnpm ERR! Missing: react-is@18.2.0 from lock file\nnpm ERR! Missing: kleur@3.0.3 from lock file\nnpm ERR! Missing: sisteransi@1.0.5 from lock file\nnpm ERR! Missing: is-core-module@2.12.1 from lock file\nnpm ERR! Missing: path-parse@1.0.7 from lock file\nnpm ERR! Missing: supports-preserve-symlinks-flag@1.0.0 from lock file\nnpm ERR! Missing: shebang-regex@3.0.0 from lock file\nnpm ERR! Missing: buffer-from@1.1.2 from lock file\nnpm ERR! Missing: char-regex@1.0.2 from lock file\nnpm ERR! Missing: glob@7.2.3 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: is-number@7.0.0 from lock file\nnpm ERR! Missing: picocolors@1.0.0 from lock file\nnpm ERR! Missing: convert-source-map@1.9.0 from lock file\nnpm ERR! Missing: makeerror@1.0.12 from lock file\nnpm ERR! Missing: tmpl@1.0.5 from lock file\nnpm ERR! Missing: isexe@2.0.0 from lock file\nnpm ERR! Missing: imurmurhash@0.1.4 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: yallist@3.1.1 from lock file\nnpm ERR! Missing: ansi-styles@3.2.1 from lock file\nnpm ERR! Missing: escape-string-regexp@1.0.5 from lock file\nnpm ERR! Missing: supports-color@5.5.0 from lock file\nnpm ERR! Missing: color-convert@1.9.3 from lock file\nnpm ERR! Missing: color-name@1.1.3 from lock file\nnpm ERR! Missing: has-flag@3.0.0 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: ms@2.1.2 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: minimatch@3.1.2 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! Missing: sprintf-js@1.0.3 from lock file\nnpm ERR! Missing: p-try@2.2.0 from lock file\nnpm ERR! Missing: brace-expansion@1.1.11 from lock file\nnpm ERR! \nnpm ERR! Clean install a project\nnpm ERR! \nnpm ERR! Usage:\nnpm ERR! npm ci\nnpm ERR! \nnpm ERR! Options:\nnpm ERR! [-S|--save|--no-save|--save-prod|--save-dev|--save-optional|--save-peer|--save-bundle]\nnpm ERR! [-E|--save-exact] [-g|--global]\nnpm ERR! [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]\nnpm ERR! [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]\nnpm ERR! [--strict-peer-deps] [--no-package-lock] [--foreground-scripts]\nnpm ERR! [--ignore-scripts] [--no-audit] [--no-bin-links] [--no-fund] [--dry-run]\nnpm ERR! [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]\nnpm ERR! [-ws|--workspaces] [--include-workspace-root] [--install-links]\nnpm ERR! \nnpm ERR! aliases: clean-install, ic, install-clean, isntall-clean\nnpm ERR! \nnpm ERR! Run \"npm help ci\" for more info\n\nnpm ERR! A complete log of this run can be found in:\nnpm ERR!     /www-data-home/.npm/_logs/2023-06-16T14_10_55_335Z-debug-0.log. For more details see the logs at https://console.cloud.google.com/cloud-build/builds;region=us-central1/2f8a2214-3b51-4335-bb1f-bda8edd3c1e1?project=467950154544.",
+    "status": 3,
+    "code": 3
+  }
+}
+[debug] [2023-06-16T14:11:39.836Z] Error: Failed to create function helloWorld in region us-central1
+    at C:\Users\holfeld\AppData\Roaming\nvm\v16.18.1\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:288:27
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Fabricator.createV2Function (C:\Users\holfeld\AppData\Roaming\nvm\v16.18.1\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:276:30)
+    at async Fabricator.createEndpoint (C:\Users\holfeld\AppData\Roaming\nvm\v16.18.1\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:135:13)
+    at async handle (C:\Users\holfeld\AppData\Roaming\nvm\v16.18.1\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:88:17)
+[error] 
+[error] Error: There was an error deploying functions
