@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import {Upload} from "./components/upload";
 
 function App() {
   return (
     <div className="App">
-     <h1>hello world</h1>
+      <Upload />
     </div>
   );
 }
