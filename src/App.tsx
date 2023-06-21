@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import {Upload} from "./components/upload";
+import {AppRoutes} from "./routing/approutes";
 
 function App() {
-  return (
-    <div className="App">
-      <Upload />
-    </div>
-  );
+    return (
+        <div className="App">
+            <AppRoutes/>
+        </div>
+    );
 }
 
 export default App;

@@ -1,13 +1,13 @@
 import {configureStore, createReducer} from '@reduxjs/toolkit'
+import sideBarSlice from "./slices/sidebar";
+import {useDispatch} from "react-redux";
 
-const testReducer = createReducer(0, (builder) => {
-    builder.addCase('test', (state, action) => {
-        return state + 1;
-    })
-});
-
-export default configureStore({
+export const store = configureStore({
     reducer: {
-        test: testReducer,
+        sidebar: sideBarSlice,
     },
 })
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
