@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, Outlet} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import {Menu, MenuItem, Sidebar} from 'react-pro-sidebar';
 import {menuItems} from "../routing/menu-items";
 import {BottomNavigation, BottomNavigationAction, Divider, Paper} from "@mui/material";
@@ -11,13 +11,16 @@ import {setIsOpen} from "../store/slices/sidebar/reducer";
 import "./style.css"
 
 export const Dashboard = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const sidebarIsOpen = useSelector(selectIsOpen);
     const isBottomBar = useSelector(selectIsBottomBar);
     const [value, setValue] = React.useState('Upload');
 
     const handleBottomNavigation = (event: React.SyntheticEvent, newValue: string) => {
+        const path: string = menuItems.dashboard.find(item => item.title === newValue)?.path as string;
         setValue(newValue);
+        navigate(path);
     };
 
     return (
@@ -69,18 +72,19 @@ export const Dashboard = () => {
             {
                 isBottomBar &&
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-                <BottomNavigation showLabels value={value} onChange={handleBottomNavigation}>
+                <BottomNavigation
+                    showLabels
+                    value={value}
+                    onChange={handleBottomNavigation}>
                     {
                         menuItems.dashboard.map((item, index) => {
                             return (
-                                <Link to={item.path} key={index} className="link-bottombar">
-                                    <BottomNavigationAction
-                                        style={{color: primaryMain}}
-                                        value={item.title}
-                                        label={item.title}
-                                        icon={<i className={item.icon}></i>}>
-                                    </BottomNavigationAction>
-                                </Link>
+                                <BottomNavigationAction
+                                    style={{color: primaryMain}}
+                                    value={item.title}
+                                    label={item.title}
+                                    icon={<i className={item.icon}></i>}>
+                                </BottomNavigationAction>
                             )
                         })
                     }
