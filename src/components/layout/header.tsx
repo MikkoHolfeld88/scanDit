@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,7 +15,6 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {ROUTE_PATHS} from "../../routing/routePaths";
 import {useNavigate} from "react-router-dom";
 import {menuItems} from "../../routing/menu-items";
-import {useEffect} from "react";
 import {auth} from "../../firebase/firebase";
 
 function Header() {
@@ -59,10 +59,11 @@ function Header() {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" color="primary">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} onClick={event => handleRerouteNavMenu(ROUTE_PATHS.HOME)}/>
+                    <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}
+                             onClick={event => handleRerouteNavMenu(ROUTE_PATHS.HOME)}/>
                     <Typography
                         variant="h6"
                         noWrap
@@ -137,8 +138,8 @@ function Header() {
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {menuItems.main.map((menuItem) => (
                             <Button key={menuItem.title}
-                                onClick={event => handleRerouteNavMenu(menuItem.path)}
-                                sx={{my: 2, color: 'white', display: 'block'}}>
+                                    onClick={event => handleRerouteNavMenu(menuItem.path)}
+                                    sx={{my: 2, color: 'white', display: 'block'}}>
                                 {menuItem.title}
                             </Button>
                         ))}

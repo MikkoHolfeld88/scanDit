@@ -5,7 +5,7 @@ export const menuItems = {
             title: 'Home',
         },
         {
-            path: '/dashboard',
+            path: '/dashboard/upload',
             title: 'Dashboard',
         }
     ],
@@ -21,6 +21,18 @@ export const menuItems = {
         {
             path: '/logout',
             title: 'Logout',
+        }
+    ],
+    dashboard: [
+        {
+            path: '/dashboard/upload',
+            title: 'Upload',
+            icon: 'pi pi-image'
+        },
+        {
+            path: '/dashboard/configuration',
+            title: 'Configuration',
+            icon: 'pi pi-sitemap'
         }
     ]
 }

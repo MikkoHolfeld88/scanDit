@@ -9,6 +9,8 @@ import {Dashboard} from "../pages/dashboard";
 import {Profile} from "../pages/profile";
 import {Settings} from "../pages/settings";
 import {Logout} from "../pages/logout";
+import {Upload} from "../pages/upload";
+import {Configuration} from "../components/configuration";
 
 interface ProtectedRouteProps {
     loggedIn: boolean,
@@ -44,15 +46,17 @@ export const AppRoutes = () => {
             <Route path={ROUTE_PATHS.SIGN_IN} element={<SignInPage/>}/>
             <Route path={ROUTE_PATHS.REGISTER} element={<RegisterPage/>}/>
             <Route
-                path={ROUTE_PATHS.DASHBOARD}
+                path={ROUTE_PATHS.DASHBOARD + '/*'}
                 element={
                     <ProtectedRoute
                         loggedIn={loggedIn}
                         redirectPath={ROUTE_PATHS.SIGN_IN}>
-                        <Dashboard/>
+                        <Dashboard />
                     </ProtectedRoute>
-                }
-            />
+                }>
+                <Route path={ROUTE_PATHS.UPLOAD} element={<Upload />}/>
+                <Route path={ROUTE_PATHS.CONFIGURATION} element={<Configuration />}/>
+            </Route>
             <Route
                 path={ROUTE_PATHS.PROFILE}
                 element={

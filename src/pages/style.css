@@ -1,0 +1,15 @@
+.sidebar {
+  height: 100vh;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+}
+
+.dashboard-content {
+  margin: 10px;
+  padding: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

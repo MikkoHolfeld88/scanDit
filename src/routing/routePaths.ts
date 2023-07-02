@@ -4,6 +4,8 @@ export const ROUTE_PATHS = {
     SIGN_IN: '/sign-in',
     REGISTER:  '/register',
     DASHBOARD: '/dashboard',
+        UPLOAD: 'upload',
+        CONFIGURATION: 'configuration',
     PROFILE: '/profile',
     SETTINGS: '/settings',
     LOGOUT: '/logout',

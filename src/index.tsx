@@ -15,17 +15,21 @@ import '@fontsource/roboto/700.css';
 import {Provider} from "react-redux"
 import {store} from "./store/store";
 import {BrowserRouter} from "react-router-dom";
+import {ThemeProvider} from "@mui/material";
+import {MUITheme} from "./style/theme";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
 root.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-    </Provider>
+    <ThemeProvider theme={MUITheme}>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>
+    </ThemeProvider>
 );
 
 
