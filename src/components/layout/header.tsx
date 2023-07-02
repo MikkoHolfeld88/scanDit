@@ -16,6 +16,7 @@ import {ROUTE_PATHS} from "../../routing/routePaths";
 import {useNavigate} from "react-router-dom";
 import {menuItems} from "../../routing/menu-items";
 import {auth} from "../../firebase/firebase";
+import {brightMain, primaryMain} from "../../style/theme";
 
 function Header() {
     const navigate = useNavigate();
@@ -59,10 +60,10 @@ function Header() {
     }
 
     return (
-        <AppBar position="static" color="primary">
+        <AppBar position="static" style={{backgroundColor: brightMain}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}
+                    <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1, color: primaryMain}}
                              onClick={event => handleRerouteNavMenu(ROUTE_PATHS.HOME)}/>
                     <Typography
                         variant="h6"
@@ -75,21 +76,20 @@ function Header() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: 'inherit',
+                            color: primaryMain,
                             textDecoration: 'none',
-                        }}
-                    >
+                        }}>
                         LOGO
                     </Typography>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
+                            style={{color: primaryMain}}
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit">
+                            onClick={handleOpenNavMenu}>
                             <MenuIcon/>
                         </IconButton>
                         <Menu
@@ -109,13 +109,13 @@ function Header() {
                             sx={{display: {xs: 'block', md: 'none'},}}>
                             {menuItems.main.map((menuItem) => (
                                 <MenuItem key={menuItem.title} onClick={event => handleRerouteNavMenu(menuItem.path)}>
-                                    <Typography textAlign="center">{menuItem.title}</Typography>
+                                    <Typography textAlign="center" style={{color: primaryMain}}>{menuItem.title}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
 
-                    <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
+                    <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1, color: primaryMain}}/>
 
                     <Typography
                         variant="h5"
@@ -129,7 +129,7 @@ function Header() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: 'inherit',
+                            color: primaryMain,
                             textDecoration: 'none',
                         }}>
                         ScanDit
@@ -139,7 +139,7 @@ function Header() {
                         {menuItems.main.map((menuItem) => (
                             <Button key={menuItem.title}
                                     onClick={event => handleRerouteNavMenu(menuItem.path)}
-                                    sx={{my: 2, color: 'white', display: 'block'}}>
+                                    sx={{my: 2, color: primaryMain, display: 'block'}}>
                                 {menuItem.title}
                             </Button>
                         ))}
@@ -168,7 +168,7 @@ function Header() {
                                 onClose={handleCloseUserMenu}>
                                 {menuItems.settings.map((setting) => (
                                     <MenuItem key={setting.title} onClick={event => handleRerouteUserMenu(setting.path)}>
-                                        <Typography textAlign="center">{setting.title}</Typography>
+                                        <Typography style={{color: primaryMain}} textAlign="center">{setting.title}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
