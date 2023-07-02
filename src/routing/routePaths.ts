@@ -3,7 +3,9 @@ export const ROUTE_PATHS = {
     HOME: '/home',
     SIGN_IN: '/sign-in',
     REGISTER:  '/register',
-    DASHBOARD: '/dashboard/*',
-    UPLOAD: '/upload',
-    CONFIGURATION: '/configuration',
+    DASHBOARD: '/dashboard',
+    PROFILE: '/profile',
+    SETTINGS: '/settings',
+    LOGOUT: '/logout',
+    BACKDROP_CLICK: 'backdrop-click',
 }

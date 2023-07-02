@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './index.css';
 
 import 'primeicons/primeicons.css';
 import "primereact/resources/primereact.min.css";
@@ -12,7 +13,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {Provider} from "react-redux"
-import { store } from "./store/store";
+import {store} from "./store/store";
 import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(

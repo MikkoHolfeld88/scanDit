@@ -5,8 +5,10 @@ import {RegisterPage} from "../pages/register";
 import React, {useEffect} from "react";
 import {auth} from "../firebase/firebase";
 import {Home} from "../pages/home";
-import Sidebar from "../components/sidebar";
-import {DashboardRoutes} from "./dashboardroutes";
+import {Dashboard} from "../pages/dashboard";
+import {Profile} from "../pages/profile";
+import {Settings} from "../pages/settings";
+import {Logout} from "../pages/logout";
 
 interface ProtectedRouteProps {
     loggedIn: boolean,
@@ -47,10 +49,39 @@ export const AppRoutes = () => {
                     <ProtectedRoute
                         loggedIn={loggedIn}
                         redirectPath={ROUTE_PATHS.SIGN_IN}>
-                        <Sidebar />
+                        <Dashboard/>
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path={ROUTE_PATHS.PROFILE}
+                element={
+                    <ProtectedRoute
+                        loggedIn={loggedIn}
+                        redirectPath={ROUTE_PATHS.SIGN_IN}>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTE_PATHS.SETTINGS}
+                element={
+                    <ProtectedRoute
+                        loggedIn={loggedIn}
+                        redirectPath={ROUTE_PATHS.SIGN_IN}>
+                        <Settings />
+                    </ProtectedRoute>
+                }/>
+            <Route
+                path={ROUTE_PATHS.LOGOUT}
+                element={
+                    <ProtectedRoute
+                        loggedIn={loggedIn}
+                        redirectPath={ROUTE_PATHS.HOME}>
+                        <Logout />
+                    </ProtectedRoute>
+                }/>
+            <Route path="*" element={<Navigate to={ROUTE_PATHS.BASE}/>}/>
         </Routes>
     );
 };
