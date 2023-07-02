@@ -53,9 +53,7 @@ export default function SignIn() {
             return;
         }
 
-        console.log("here");
-
-        navigate(ROUTE_PATHS.UPLOAD, {replace: true});
+        navigate(`${ROUTE_PATHS.DASHBOARD}/${ROUTE_PATHS.UPLOAD}/`, {replace: true});
     };
 
     return (

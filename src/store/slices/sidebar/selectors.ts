@@ -1,3 +1,4 @@
 import {RootState} from "../../store";
 
-export const sidebarOpen = (state: RootState) => state.sidebar.isOpen;
+export const selectIsOpen = (state: RootState) => state.sidebar.isOpen;
+export const selectIsBottomBar = (state: RootState) => state.sidebar.isBottomBar;

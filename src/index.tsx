@@ -23,13 +23,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <ThemeProvider theme={MUITheme}>
-        <Provider store={store}>
-            <BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <ThemeProvider theme={MUITheme}>
                 <App/>
-            </BrowserRouter>
-        </Provider>
-    </ThemeProvider>
+            </ThemeProvider>
+        </BrowserRouter>
+    </Provider>
 );
 
 
