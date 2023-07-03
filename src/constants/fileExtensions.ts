@@ -1,0 +1,15 @@
+export const FILE_EXTENSIONS = {
+    JPG: 'jpg',
+    JPEG: 'jpeg',
+    PNG: 'png',
+    GIF: 'gif',
+    CSV: 'csv',
+    JSON: 'json',
+    XML: 'xml',
+    PDF: 'pdf',
+    DOC: 'doc',
+    DOCX: 'docx',
+    TXT: 'txt',
+    XLS: 'xls',
+    XLSX: 'xlsx',
+}

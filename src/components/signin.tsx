@@ -53,7 +53,7 @@ export default function SignIn() {
             return;
         }
 
-        navigate(`${ROUTE_PATHS.DASHBOARD}/${ROUTE_PATHS.UPLOAD}/`, {replace: true});
+        navigate(`${ROUTE_PATHS.DASHBOARD}/${ROUTE_PATHS.DATA}/`, {replace: true});
     };
 
     return (
