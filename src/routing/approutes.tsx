@@ -9,7 +9,7 @@ import {Dashboard} from "../pages/dashboard";
 import {Profile} from "../pages/profile";
 import {Settings} from "../pages/settings";
 import {Logout} from "../pages/logout";
-import {UploadPage} from "../pages/uploadPage";
+import {Data} from "../pages/data";
 import {Configuration} from "../components/configuration";
 import {Tasks} from "../pages/tasks";
 
@@ -55,7 +55,7 @@ export const AppRoutes = () => {
                         <Dashboard />
                     </ProtectedRoute>
                 }>
-                <Route path={ROUTE_PATHS.DATA} element={<UploadPage />}/>
+                <Route path={ROUTE_PATHS.DATA} element={<Data />}/>
                 <Route path={ROUTE_PATHS.PIPELINE} element={<Configuration />}/>
                 <Route path={ROUTE_PATHS.TASKS} element={<Tasks />}/>
                 <Route path="*" element={<Navigate to={ROUTE_PATHS.DATA}/>}/>

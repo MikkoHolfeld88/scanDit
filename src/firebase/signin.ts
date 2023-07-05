@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
-import { doc, setDoc, collection } from "@firebase/firestore";
-import { auth, db } from "./firebase";
-import {Collections} from "./collections.enum";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
+import {doc, setDoc} from "@firebase/firestore";
+import {auth, db} from "./firebase";
+import {COLLECTIONS_FIRESTORE} from "./enums/collections.firestore";
 
 const getAuthprovider = (email: string) => {
     return email.substring(
@@ -14,7 +14,7 @@ export const registerWithEmailAndPassword = async (name: any, email: string, pas
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        const docRef = doc(db, Collections.USERS, user.uid);
+        const docRef = doc(db, COLLECTIONS_FIRESTORE.USERS, user.uid);
 
         await setDoc(docRef, {
             uid: user.uid,
@@ -25,8 +25,8 @@ export const registerWithEmailAndPassword = async (name: any, email: string, pas
             created: new Date()
         });
     } catch (error: any) {
-       console.error(error.message, error);
-       return error;
+        console.error(error.message, error);
+        return error;
     }
 }
 

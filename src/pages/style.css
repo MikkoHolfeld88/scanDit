@@ -10,8 +10,9 @@
 }
 
 .dashboard-content {
-  margin: 10px;
-  padding: 10px;
+    width: 95vw;
+    margin: 10px;
+    padding: 10px;
 }
 
 .link {
@@ -21,5 +22,9 @@
 
 .link-bottombar {
     text-decoration: none;
+}
+
+#data-page-header > * {
+    margin: 0 10px 0 10px;
 }
 

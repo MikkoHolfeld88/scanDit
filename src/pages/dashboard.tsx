@@ -7,7 +7,7 @@ import {brightMain, primaryMain} from "../style/theme";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../store/store";
 import {selectIsBottomBar, selectIsOpen} from "../store/slices/sidebar/selectors";
-import {setIsOpen} from "../store/slices/sidebar/reducer";
+import {setIsOpen} from "../store/slices/sidebar/reducers";
 import "./style.css"
 
 export const Dashboard = () => {

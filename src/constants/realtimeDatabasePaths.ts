@@ -4,5 +4,12 @@ export const REALTIME_DATABASE_PATHS = {
     JSON: 'json',
     XML: 'xml',
     PDF: 'pdf',
+    TXT: 'txt',
+    DOC: 'doc',
+    DOCX: 'docx',
+    XLS: 'xls',
+    XLSX: 'xlsx',
+    PPT: 'ppt',
+    PPTX: 'pptx',
     UNKNOWN: 'unknown',
-}
+} as const;

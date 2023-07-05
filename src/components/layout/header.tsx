@@ -174,8 +174,6 @@ function Header() {
                             </Menu>
                         </Box>
                     }
-
-
                 </Toolbar>
             </Container>
         </AppBar>

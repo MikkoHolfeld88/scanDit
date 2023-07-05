@@ -4,7 +4,7 @@ import {AppRoutes} from "./routing/approutes";
 import Header from "./components/layout/header";
 import {Footer} from "./components/layout/footer";
 import {useAppDispatch} from "./store/store";
-import {setIsBottomBar, setIsOpen} from "./store/slices/sidebar/reducer";
+import {setIsBottomBar, setIsOpen} from "./store/slices/sidebar/reducers";
 import {useMediaQuery} from "@mui/material";
 
 function App() {

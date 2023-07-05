@@ -1,8 +1,4 @@
-export enum Collections {
-    USERS = 'users',
-}
-
-export interface User {
+export interface CollectionsUser {
     uid: string;
     name: string;
     authProvider: string;

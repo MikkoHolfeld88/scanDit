@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {logInWithEmailAndPassword} from '../firebase/signin';
 import {ROUTE_PATHS} from "../routing/routePaths";
-import {useEffect} from "react";
 
 export default function SignIn() {
     const [email, setEmail] = React.useState('');
@@ -41,15 +41,15 @@ export default function SignIn() {
 
         const error = await logInWithEmailAndPassword(email, password);
 
-        if(error && error.message.includes('user-not-found')){
+        if (error && error.message.includes('user-not-found')) {
             setUserNotFoundError(true);
             setWrongPasswordError(false);
-        } else if(error && error.message.includes('wrong-password')){
+        } else if (error && error.message.includes('wrong-password')) {
             setWrongPasswordError(true);
             setUserNotFoundError(false);
         }
 
-        if (error){
+        if (error) {
             return;
         }
 
@@ -86,7 +86,7 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        helperText={userNotFoundError && 'User not found!'}
+                        helperText={userNotFoundError && 'CollectionsUser not found!'}
                     />
                     <TextField
                         onChange={(e) => setPassword(e.target.value)}
@@ -120,7 +120,7 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <RouterLink to={ROUTE_PATHS.REGISTER} style={{ textDecoration: 'none' }}>
+                            <RouterLink to={ROUTE_PATHS.REGISTER} style={{textDecoration: 'none'}}>
                                 <Link variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
