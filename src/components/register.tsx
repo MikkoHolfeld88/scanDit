@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {registerWithEmailAndPassword} from "../firebase/signin";
+import {registerWithEmailAndPassword} from "../firebase/authentication";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import {Link as RouterLink, useNavigate} from "react-router-dom";

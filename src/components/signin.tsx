@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {logInWithEmailAndPassword} from '../firebase/signin';
+import {logInWithEmailAndPassword} from '../firebase/authentication';
 import {ROUTE_PATHS} from "../routing/routePaths";
 
 export default function SignIn() {

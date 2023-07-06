@@ -3,7 +3,6 @@ import {Button} from "@mui/material";
 import {storage} from "../../firebase/firebase";
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 import {createStorageName, mapDatatypeToDatabasePath, postFile} from "../../services/uploadService";
-import {RealtimeDatabasePaths} from "../../firebase/types/collections.files";
 
 export const Upload = () => {
 

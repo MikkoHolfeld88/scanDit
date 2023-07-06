@@ -1,10 +1,11 @@
 import {getAuth} from "firebase/auth";
 import {REALTIME_DATABASE_PATHS} from "../constants/realtimeDatabasePaths";
-import {child, get, getDatabase, ref, set, update} from "firebase/database";
+import {child, get, getDatabase, ref, set} from "firebase/database";
 import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realtimeDatabase";
 import {CollectionsFiles, RealtimeDatabasePaths} from "../firebase/types/collections.files";
 import {mimeTypeToDatabasePathMapper} from "../constants/mimeTypeToDatabasePathMapper";
 import {MIME_TYPE} from "../enums/mimeType.enum";
+import {v4 as uuidv4} from 'uuid';
 
 export const mapDatatypeToDatabasePath = (file: File): string => {
     const mimeType = file.type as MIME_TYPE;
@@ -58,12 +59,14 @@ export const postFile = async (
             uploaded: new Date().toString(),
             filename: filename,
             url: filePathURL,
+            id: uuidv4()
         };
 
         if (existingIndex !== -1) {
             // Update existing file
             if (currentData) {
-                currentData[existingIndex] = newFileData;
+                // keeps everything from newFileData except the id
+                currentData[existingIndex] = {...newFileData, id: currentData[existingIndex].id};
             }
         } else {
             // Add new file

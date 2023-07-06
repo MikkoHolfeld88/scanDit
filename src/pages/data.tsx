@@ -1,38 +1,50 @@
 import React, {useEffect} from "react";
 import {Upload} from "../components/data/upload";
 import ListViewStyle from "../components/data/listViewStyle";
-import {getDatabase, onValue, ref} from "firebase/database";
-import {getAuth} from "firebase/auth";
-import {CollectionsFiles, File} from "../firebase/types/collections.files";
-import {Col, Container, Row} from "react-bootstrap";
-import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realtimeDatabase";
+import {CollectionsFiles, File, RealtimeDatabasePaths} from "../firebase/types/collections.files";
 import Table from "../components/data/table";
-import {Accordion, AccordionTab} from "primereact/accordion";
+import {getUserFiles} from "../firebase/realtimeDatabase";
 
 export const Data = () => {
+    const emptyRow = {id: '', filename: '', filetype: '', uploaded: '', url: ''};
     const [data, setData] = React.useState<CollectionsFiles | null>(null);
-    const [activeIndex, setActiveIndex] = React.useState<number | number[]>(0);
+    const [rows, setRows] = React.useState<File[]>([emptyRow]);
 
     useEffect(() => {
-        const db = getDatabase();
-        const auth = getAuth();
-        const user = auth.currentUser;
+        const unsubscribe = getUserFiles(setData);
 
-        if (user) {
-            const uid = user.uid;
-            const dbRef = ref(db, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}`);
-
-            const unsubscribe = onValue(dbRef, (snapshot) => {
-                const data = snapshot.val();
-
-                setData(data);
-            });
-
-            return () => {
-                unsubscribe();
-            };
-        }
+        return () => {
+            unsubscribe();
+        };
     }, []);
+
+    useEffect(() => {
+        setRows(createRowsFromData());
+    }, [data]);
+
+    const parseDate = (date: string) => {
+        return `${new Date(date).toLocaleDateString()}, ${new Date(date).toLocaleTimeString()}`
+    }
+
+    const createRowsFromData = () => {
+        if (!data) return [emptyRow];
+
+        const rows = Object.keys(data).flatMap((key, index) => {
+            return data[key as keyof RealtimeDatabasePaths]?.map((file: File, index2) => {
+                return {
+                    index: index + index2 + 1,
+                    id: file.id,
+                    filename: file.filename,
+                    filetype: key,
+                    uploaded: parseDate(file.uploaded),
+                    url: file.url
+                };
+            }) || [emptyRow];
+        });
+
+        return rows;
+    }
+
 
     return (
         <React.Fragment>
@@ -41,35 +53,9 @@ export const Data = () => {
                 <ListViewStyle/>
             </div>
 
-                        {
-                            <Accordion
-                                style={{marginTop: "10px"}}
-                                multiple
-                                activeIndex={activeIndex}
-                                onTabChange={(e) => setActiveIndex(e.index)}>
-                                {
-                                    data && (Object.keys(data) as Array<keyof typeof data>).map((key) => {
-                                        return (
-                                            <AccordionTab key={key} header={key}>
-                                                <Table rows={
-                                                    data[key]?.map((file: File, index: number) => {
-                                                        return (
-                                                            {
-                                                                filename: file.filename,
-                                                                url: file.url,
-                                                                uploaded: file.uploaded,
-                                                                id: index + 1
-                                                            }
-                                                        );
-                                                    })
-                                                } />
-                                            </AccordionTab>
-                                        );
-                                    })
-                                }
-                            </Accordion>
-                        }
-
+            <div id="data-page-table" className="data-table">
+                <Table rows={rows}/>
+            </div>
         </React.Fragment>
     );
 }

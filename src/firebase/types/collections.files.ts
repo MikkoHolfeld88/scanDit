@@ -4,7 +4,9 @@ export type RealtimeDatabasePaths = typeof REALTIME_DATABASE_PATHS;
 export type File = {
     uploaded: string,
     filename: string,
-    url: string
+    filetype?: string,
+    url: string,
+    id: string
 }
 
 /**
