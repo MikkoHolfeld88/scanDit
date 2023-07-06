@@ -3,7 +3,7 @@ import {LIST_VIEW_STYLES} from "../../../enums/listViewStyles.enum";
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: AppConfigState = {
-    listViewStyle: LIST_VIEW_STYLES.LIST
+    listViewStyle: LIST_VIEW_STYLES.LIST,
 }
 
 export const appConfigSlice = createSlice({

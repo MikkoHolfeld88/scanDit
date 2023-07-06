@@ -4,8 +4,14 @@ import ListViewStyle from "../components/data/listViewStyle";
 import {CollectionsFiles, File, RealtimeDatabasePaths} from "../firebase/types/collections.files";
 import Table from "../components/data/table";
 import {getUserFiles} from "../firebase/realtimeDatabase";
+import {useAppDispatch} from "../store/store";
+import {useSelector} from "react-redux";
+import {LIST_VIEW_STYLES} from "../enums/listViewStyles.enum";
 
 export const Data = () => {
+    const dispatch = useAppDispatch();
+    const viewStyle = useSelector((state: any) => state.appConfig.listViewStyle);
+
     const emptyRow = {id: '', filename: '', filetype: '', uploaded: '', url: ''};
     const [data, setData] = React.useState<CollectionsFiles | null>(null);
     const [rows, setRows] = React.useState<File[]>([emptyRow]);
@@ -53,9 +59,12 @@ export const Data = () => {
                 <ListViewStyle/>
             </div>
 
-            <div id="data-page-table" className="data-table">
-                <Table rows={rows}/>
-            </div>
+            {
+                viewStyle === LIST_VIEW_STYLES.TABLE &&
+                    <div id="data-page-table" className="data-table">
+                        <Table rows={rows}/>
+                    </div>
+            }
         </React.Fragment>
     );
 }
