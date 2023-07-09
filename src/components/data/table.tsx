@@ -9,22 +9,11 @@ import {
     GridToolbarExport,
     GridToolbarFilterButton
 } from '@mui/x-data-grid';
-import {File} from "../../firebase/types/collections.files";
+import {File} from "../../models/File";
 import Button from "@mui/material/Button";
-import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    styled
-} from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import Avatar from "@mui/material/Avatar";
+import {styled} from "@mui/material";
+
+import {ToolbarDeleteButton as GridToolbarDeleteButton} from "./toolbarDeleteButton";
 
 const StyledDataGrid = styled(DataGrid)({
     '& .MuiTablePagination-toolbar': {
@@ -41,48 +30,6 @@ export default function Table(props: TableProps) {
     const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
     const [openDeletionDialog, setOpenDeletionDialog] = React.useState(false);
 
-    const GridToolbarDeleteButton = () => {
-        const handleDelete = () => {
-            setOpenDeletionDialog(true);
-        }
-
-        return (
-            <React.Fragment>
-                <Dialog onClose={() => setOpenDeletionDialog(false)} open={openDeletionDialog}>
-                    <DialogTitle>Delete files?</DialogTitle>
-                    <DialogContent>
-                        <List>
-                            {
-                                selectedRows.map((rowId: string) => {
-                                    const filename = props?.rows?.find((file: File) => file.id === rowId)?.filename;
-                                    return (
-
-                                        <ListItem key={rowId}>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <InsertDriveFileIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={filename}
-                                            />
-                                        </ListItem>
-                                    )
-                                })
-                            }
-                        </List>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setOpenDeletionDialog(false)}>Delete</Button>
-                        <Button onClick={() => setOpenDeletionDialog(false)} autoFocus>Cancel</Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Button startIcon={<DeleteIcon fontSize="small"/>} onClick={handleDelete}>Delete</Button>
-            </React.Fragment>
-        )
-    }
-
     const CustomGridToolbar = () => {
         return (
             <GridToolbarContainer>
@@ -90,7 +37,13 @@ export default function Table(props: TableProps) {
                 <GridToolbarFilterButton/>
                 <GridToolbarDensitySelector/>
                 <GridToolbarExport/>
-                <GridToolbarDeleteButton/>
+                <GridToolbarDeleteButton
+                    selectedRows={selectedRows}
+                    rows={props.rows}
+                    setOpenDeletionDialog={setOpenDeletionDialog}
+                    openDeletionDialog={openDeletionDialog}
+                    setSelectedRows={setSelectedRows}
+                />
             </GridToolbarContainer>
         )
 

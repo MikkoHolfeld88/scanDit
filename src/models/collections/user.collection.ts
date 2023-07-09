@@ -1,4 +1,4 @@
-export interface CollectionsUser {
+export interface UserCollection {
     uid: string;
     name: string;
     authProvider: string;

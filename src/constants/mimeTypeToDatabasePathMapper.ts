@@ -1,6 +1,6 @@
 import {REALTIME_DATABASE_PATHS} from "./realtimeDatabasePaths";
 import {MIME_TYPE} from "../enums/mimeType.enum"
-import {RealtimeDatabasePaths} from "../firebase/types/collections.files";
+import {RealtimeDatabasePaths} from "../models/RealtimeDatabasePaths";
 
 export const mimeTypeToDatabasePathMapper: { [K in MIME_TYPE]: RealtimeDatabasePaths[keyof RealtimeDatabasePaths] } = {
     [MIME_TYPE.PNG]: REALTIME_DATABASE_PATHS.IMAGES,

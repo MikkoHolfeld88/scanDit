@@ -86,7 +86,7 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        helperText={userNotFoundError && 'CollectionsUser not found!'}
+                        helperText={userNotFoundError && 'UserCollection not found!'}
                     />
                     <TextField
                         onChange={(e) => setPassword(e.target.value)}

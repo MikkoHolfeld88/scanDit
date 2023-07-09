@@ -1,19 +1,19 @@
 import React, {useEffect} from "react";
 import {Upload} from "../components/data/upload";
 import ListViewStyle from "../components/data/listViewStyle";
-import {CollectionsFiles, File, RealtimeDatabasePaths} from "../firebase/types/collections.files";
+import {FilesCollection} from "../models/collections/files.collection"
+import {File} from "../models/File";
+import {RealtimeDatabasePaths} from "../models/RealtimeDatabasePaths";
 import Table from "../components/data/table";
 import {getUserFiles} from "../firebase/realtimeDatabase";
-import {useAppDispatch} from "../store/store";
 import {useSelector} from "react-redux";
 import {LIST_VIEW_STYLES} from "../enums/listViewStyles.enum";
 
 export const Data = () => {
-    const dispatch = useAppDispatch();
     const viewStyle = useSelector((state: any) => state.appConfig.listViewStyle);
 
     const emptyRow = {id: '', filename: '', filetype: '', uploaded: '', url: ''};
-    const [data, setData] = React.useState<CollectionsFiles | null>(null);
+    const [data, setData] = React.useState<FilesCollection | null>(null);
     const [rows, setRows] = React.useState<File[]>([emptyRow]);
 
     useEffect(() => {
@@ -32,6 +32,11 @@ export const Data = () => {
         return `${new Date(date).toLocaleDateString()}, ${new Date(date).toLocaleTimeString()}`
     }
 
+
+    /**
+     * Maps the data from the database to the rows fitting to the
+     * table exepcted format.
+     */
     const createRowsFromData = () => {
         if (!data) return [emptyRow];
 
@@ -61,9 +66,9 @@ export const Data = () => {
 
             {
                 viewStyle === LIST_VIEW_STYLES.TABLE &&
-                    <div id="data-page-table" className="data-table">
-                        <Table rows={rows}/>
-                    </div>
+                <div id="data-page-table" className="data-table">
+                    <Table rows={rows}/>
+                </div>
             }
         </React.Fragment>
     );
