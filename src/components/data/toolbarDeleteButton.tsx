@@ -21,9 +21,19 @@ export interface ToolbarDeleteButtonProps {
     setSelectedRows: (selectedRows: string[]) => void;
     openDeletionDialog: boolean;
     setOpenDeletionDialog: (openDeletionDialog: boolean) => void;
+    clickDelete: () => void;
 }
 
 export const ToolbarDeleteButton = (props: ToolbarDeleteButtonProps) => {
+    const onClickCancel = () => {
+        props.setOpenDeletionDialog(false);
+    }
+
+    const onClickDelete = () => {
+        props.clickDelete();
+        props.setOpenDeletionDialog(false);
+    }
+
     return (
         <React.Fragment>
             <Dialog onClose={() => props.setOpenDeletionDialog(false)} open={props.openDeletionDialog}>
@@ -51,8 +61,8 @@ export const ToolbarDeleteButton = (props: ToolbarDeleteButtonProps) => {
                     </List>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => props.setOpenDeletionDialog(false)}>Delete</Button>
-                    <Button onClick={() => props.setOpenDeletionDialog(false)} autoFocus>Cancel</Button>
+                    <Button onClick={onClickDelete}>Delete</Button>
+                    <Button onClick={onClickCancel} autoFocus>Cancel</Button>
                 </DialogActions>
             </Dialog>
 

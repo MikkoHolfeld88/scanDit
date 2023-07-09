@@ -30,6 +30,10 @@ export default function Table(props: TableProps) {
     const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
     const [openDeletionDialog, setOpenDeletionDialog] = React.useState(false);
 
+    const onClickDelete = () => {
+        console.log("delete");
+    }
+
     const CustomGridToolbar = () => {
         return (
             <GridToolbarContainer>
@@ -37,16 +41,9 @@ export default function Table(props: TableProps) {
                 <GridToolbarFilterButton/>
                 <GridToolbarDensitySelector/>
                 <GridToolbarExport/>
-                <GridToolbarDeleteButton
-                    selectedRows={selectedRows}
-                    rows={props.rows}
-                    setOpenDeletionDialog={setOpenDeletionDialog}
-                    openDeletionDialog={openDeletionDialog}
-                    setSelectedRows={setSelectedRows}
-                />
+                <GridToolbarDeleteButton selectedRows={selectedRows} rows={props.rows} setOpenDeletionDialog={setOpenDeletionDialog} openDeletionDialog={openDeletionDialog} setSelectedRows={setSelectedRows} clickDelete={onClickDelete}/>
             </GridToolbarContainer>
         )
-
     }
 
     const handleSelectionChange = (rowIds: string[] | any) => {

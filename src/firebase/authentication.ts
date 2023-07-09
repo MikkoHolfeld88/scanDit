@@ -1,6 +1,6 @@
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth";
 import {doc, setDoc} from "@firebase/firestore";
-import {auth, db} from "./firebase";
+import {auth, firestore} from "./firebase";
 import {COLLECTIONS_FIRESTORE} from "./enums/collections.firestore";
 
 const getAuthprovider = (email: string) => {
@@ -14,7 +14,7 @@ export const registerWithEmailAndPassword = async (name: any, email: string, pas
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        const docRef = doc(db, COLLECTIONS_FIRESTORE.USERS, user.uid);
+        const docRef = doc(firestore, COLLECTIONS_FIRESTORE.USERS, user.uid);
 
         await setDoc(docRef, {
             uid: user.uid,

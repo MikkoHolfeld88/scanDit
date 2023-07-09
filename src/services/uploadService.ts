@@ -1,13 +1,12 @@
-import {getAuth, User, Auth} from "firebase/auth";
+import {getAuth, User} from "firebase/auth";
 import {REALTIME_DATABASE_PATHS} from "../constants/realtimeDatabasePaths";
-import {child, get, getDatabase, ref, set, Database, DatabaseReference, DataSnapshot} from "firebase/database";
+import {child, DatabaseReference, DataSnapshot, get, ref, set} from "firebase/database";
 import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realtimeDatabase";
-import {RealtimeDatabasePaths} from "../models/RealtimeDatabasePaths";
-import {FilesCollection} from "../models/collections/files.collection"
 import {mimeTypeToDatabasePathMapper} from "../constants/mimeTypeToDatabasePathMapper";
 import {MIME_TYPE} from "../enums/mimeType.enum";
 import {v4 as uuidv4} from 'uuid';
 import {File as FileObject} from "../models/File";
+import {auth, realtimeDatabase} from "../firebase/firebase";
 
 export const mapDatatypeToDatabasePath = (file: File): string => {
     const mimeType = file.type as MIME_TYPE;
@@ -29,13 +28,19 @@ export const createStorageName = (file: File): string => {
     throw new Error('User is not logged in!')
 }
 
+/**
+ * Diese Funktion lädt eine Datei in Firebase Storage hoch und speichert die Metadaten in der Realtime Database.
+ * @param filePathURL - Pfad zur Datei
+ * @param databasePathName - Name des Pfads in der Realtime Database
+ * @param filename - Name der Datei
+ * @param category - Kategorie der Datei
+ */
 export const postFile = async (
     filePathURL: string,
     databasePathName: string,
-    filename: string
+    filename: string,
+    category?: string[]
 ) => {
-    const realtimeDatabase: Database = getDatabase();
-    const auth: Auth = getAuth();
     const user: User | null = auth.currentUser;
 
     if (user) {
@@ -61,7 +66,8 @@ export const postFile = async (
             uploaded: new Date().toString(),
             filename: filename,
             url: filePathURL,
-            id: uuidv4()
+            id: uuidv4(),
+            category: category ?? []
         };
 
         if (existingIndex !== -1) {

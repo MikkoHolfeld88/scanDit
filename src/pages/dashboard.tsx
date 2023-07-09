@@ -39,26 +39,16 @@ export const Dashboard = () => {
 
                         {
                             menuItems.dashboard.map((item, index) => {
-                                if (!sidebarIsOpen) {
-                                    return (
-                                        <Link to={item.path} key={index} className="link">
-                                            <MenuItem key={index} icon={
-                                                <i className={item.icon} style={{color: primaryMain}}></i>}>
-                                            </MenuItem>
-                                        </Link>
-                                    )
-                                }
+                                const iconElement = <i className={item.icon} style={{color: primaryMain}}></i>;
+                                const menuItemContent = !sidebarIsOpen ? null : item.title;
 
                                 return (
                                     <Link to={item.path} key={index} className="link">
-                                        <MenuItem key={index} icon={
-                                            <i className={item.icon}
-                                               style={{color: primaryMain}}>
-                                            </i>}>
-                                            {item.title}
+                                        <MenuItem key={index} icon={iconElement}>
+                                            {menuItemContent}
                                         </MenuItem>
                                     </Link>
-                                )
+                                );
                             })
                         }
                     </Menu>
@@ -72,24 +62,23 @@ export const Dashboard = () => {
             {
                 isBottomBar &&
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-                <BottomNavigation
-                    showLabels
-                    value={value}
-                    onChange={handleBottomNavigation}>
-                    {
-                        menuItems.dashboard.map((item, index) => {
-                            return (
-                                <BottomNavigationAction
-                                    style={{color: primaryMain}}
-                                    value={item.title}
-                                    label={item.title}
-                                    icon={<i className={item.icon}></i>}>
-                                </BottomNavigationAction>
-                            )
-                        })
-                    }
-
-                </BottomNavigation>
+                    <BottomNavigation
+                        showLabels
+                        value={value}
+                        onChange={handleBottomNavigation}>
+                        {
+                            menuItems.dashboard.map((item) => {
+                                return (
+                                    <BottomNavigationAction
+                                        style={{color: primaryMain}}
+                                        value={item.title}
+                                        label={item.title}
+                                        icon={<i className={item.icon}></i>}>
+                                    </BottomNavigationAction>
+                                )
+                            })
+                        }
+                    </BottomNavigation>
                 </Paper>
             }
         </div>

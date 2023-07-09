@@ -1,11 +1,10 @@
 import React, {useRef} from 'react';
 import {Button} from "@mui/material";
 import {storage} from "../../firebase/firebase";
-import {getDownloadURL, ref, uploadBytes} from 'firebase/storage';
+import {getDownloadURL, ref, uploadBytes, StorageReference} from 'firebase/storage';
 import {createStorageName, mapDatatypeToDatabasePath, postFile} from "../../services/uploadService";
 
 export const Upload = () => {
-
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const onFileChange = (e: any) => {
@@ -22,7 +21,7 @@ export const Upload = () => {
     const upload = (file: File) => {
         const storagePathName: string = createStorageName(file);
         const databasePathName: string = mapDatatypeToDatabasePath(file);
-        const imageRef = ref(storage, storagePathName);
+        const imageRef: StorageReference = ref(storage, storagePathName);
 
         uploadBytes(imageRef, file).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((filePathURL) => {

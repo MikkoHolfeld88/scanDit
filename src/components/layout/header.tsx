@@ -23,12 +23,15 @@ function Header() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [loggedIn, setLoggedIn] = React.useState(false);
+    const [userName, setUserName] = React.useState<string | null>('');
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
+                setUserName(user.displayName);
                 setLoggedIn(true);
             } else {
+                setUserName(null);
                 setLoggedIn(false);
             }
         });
@@ -109,7 +112,8 @@ function Header() {
                             sx={{display: {xs: 'block', md: 'none'},}}>
                             {menuItems.main.map((menuItem) => (
                                 <MenuItem key={menuItem.title} onClick={event => handleRerouteNavMenu(menuItem.path)}>
-                                    <Typography textAlign="center" style={{color: primaryMain}}>{menuItem.title}</Typography>
+                                    <Typography textAlign="center"
+                                                style={{color: primaryMain}}>{menuItem.title}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -146,9 +150,10 @@ function Header() {
                     </Box>
 
                     {
-                        loggedIn && <Box sx={{flexGrow: 0}}>
+                        loggedIn &&
+                        <Box sx={{flexGrow: 0}}>
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                <Avatar alt={userName ? userName : "user"} src="/static/images/avatar/2.jpg"/>
                             </IconButton>
 
                             <Menu
@@ -167,8 +172,10 @@ function Header() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 {menuItems.settings.map((setting) => (
-                                    <MenuItem key={setting.title} onClick={event => handleRerouteUserMenu(setting.path)}>
-                                        <Typography style={{color: primaryMain}} textAlign="center">{setting.title}</Typography>
+                                    <MenuItem key={setting.title}
+                                              onClick={event => handleRerouteUserMenu(setting.path)}>
+                                        <Typography style={{color: primaryMain}}
+                                                    textAlign="center">{setting.title}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
