@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {loadState} from "./operations/loadState";
 import {saveState} from "./operations/saveState";
 import dataSlice from "./slices/data/reducers";
+import thunk from "redux-thunk";
 
 export const store = configureStore({
     preloadedState: loadState(),
@@ -13,6 +14,7 @@ export const store = configureStore({
         data: dataSlice,
         sidebar: sidebarSlice,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
 })
 
 store.subscribe(() => {

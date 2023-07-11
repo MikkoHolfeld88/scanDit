@@ -1,26 +1,25 @@
 import {DataState} from "./types";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {getFirestore} from "firebase/firestore";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: DataState = {
-    isLoading: false,
-    data: null,
+    isUploading: false,
+    files: null,
 }
-
 
 export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
         setData: (state, action) => {
-            state.data = action.payload;
+            state.files = action.payload;
+            state.isUploading = false;
         },
-        setIsLoading: (state, action) => {
-            state.isLoading = action.payload;
+        setIsUploading: (state, action) => {
+            state.isUploading = action.payload;
         }
     }
 });
 
-export const {setData} = dataSlice.actions;
+export const {setData, setIsUploading} = dataSlice.actions;
 
 export default dataSlice.reducer;

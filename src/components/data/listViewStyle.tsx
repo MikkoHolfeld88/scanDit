@@ -20,10 +20,10 @@ export default function ListViewStyle() {
 
     return (
         <ToggleButtonGroup value={viewStyle} exclusive onChange={handleViewStyle}>
-            <ToggleButton value={LIST_VIEW_STYLES.TABLE}>
+            <ToggleButton value={LIST_VIEW_STYLES.LIST}>
                 <TableRowsIcon/>
             </ToggleButton>
-            <ToggleButton value={LIST_VIEW_STYLES.LIST}>
+            <ToggleButton value={LIST_VIEW_STYLES.TABLE}>
                 <ViewListIcon/>
             </ToggleButton>
             <ToggleButton value={LIST_VIEW_STYLES.FREE}>

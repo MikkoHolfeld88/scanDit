@@ -3,8 +3,11 @@ import {Button} from "@mui/material";
 import {storage} from "../../firebase/firebase";
 import {getDownloadURL, ref, uploadBytes, StorageReference} from 'firebase/storage';
 import {createStorageName, mapDatatypeToDatabasePath, postFile} from "../../services/uploadService";
+import {useAppDispatch} from "../../store/store";
+import {setIsUploading} from "../../store/slices/data/reducers";
 
 export const Upload = () => {
+    const dispatch = useAppDispatch();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const onFileChange = (e: any) => {
@@ -19,15 +22,17 @@ export const Upload = () => {
     }
 
     const upload = (file: File) => {
+        dispatch(setIsUploading(true));
         const storagePathName: string = createStorageName(file);
-        const databasePathName: string = mapDatatypeToDatabasePath(file);
+        const filetype: string = mapDatatypeToDatabasePath(file);
         const imageRef: StorageReference = ref(storage, storagePathName);
 
-        uploadBytes(imageRef, file).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((filePathURL) => {
-                postFile(filePathURL, databasePathName, file.name);
-            });
-
+        uploadBytes(imageRef, file)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref)
+                    .then((filePathURL) => {
+                        postFile(filePathURL, filetype, file.name);
+                });
         });
     }
 
@@ -47,7 +52,11 @@ export const Upload = () => {
                 style={{display: 'none'}}
                 type="file"
                 onChange={onFileChange}/>
-            <Button variant='contained' onClick={handleClick}>Upload</Button>
+            <Button
+                variant='contained'
+                onClick={handleClick}>
+                Upload
+            </Button>
         </React.Fragment>
     );
 }

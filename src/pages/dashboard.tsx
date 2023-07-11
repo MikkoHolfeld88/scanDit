@@ -70,6 +70,7 @@ export const Dashboard = () => {
                             menuItems.dashboard.map((item) => {
                                 return (
                                     <BottomNavigationAction
+                                        key={item.title}
                                         style={{color: primaryMain}}
                                         value={item.title}
                                         label={item.title}

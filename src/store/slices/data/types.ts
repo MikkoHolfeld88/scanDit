@@ -1,4 +1,6 @@
+import {File} from "../../../models/File";
+
 export interface DataState {
-    data: any,
-    isLoading: boolean,
+    files: File[] | null,
+    isUploading: boolean,
 }

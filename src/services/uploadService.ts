@@ -1,6 +1,6 @@
 import {getAuth, User} from "firebase/auth";
 import {REALTIME_DATABASE_PATHS} from "../constants/realtimeDatabasePaths";
-import {child, DatabaseReference, DataSnapshot, get, ref, set} from "firebase/database";
+import {update, DatabaseReference, DataSnapshot, get, ref, set} from "firebase/database";
 import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realtimeDatabase";
 import {mimeTypeToDatabasePathMapper} from "../constants/mimeTypeToDatabasePathMapper";
 import {MIME_TYPE} from "../enums/mimeType.enum";
@@ -31,65 +31,52 @@ export const createStorageName = (file: File): string => {
 /**
  * Diese Funktion lädt eine Datei in Firebase Storage hoch und speichert die Metadaten in der Realtime Database.
  * @param filePathURL - Pfad zur Datei
- * @param databasePathName - Name des Pfads in der Realtime Database
+ * @param filetype - Name des filetypes
  * @param filename - Name der Datei
- * @param category - Kategorie der Datei
+ * @param tags - Kategorie der Datei
  */
 export const postFile = async (
     filePathURL: string,
-    databasePathName: string,
-    filename: string,
-    category?: string[]
+    filetype: string,
+    filename: string
 ) => {
     const user: User | null = auth.currentUser;
 
     if (user) {
         const uid: string = user.uid;
-        const dbRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}/${databasePathName}`);
-
-        let currentData: FileObject[] | undefined = [];
-
-        try {
-            const snapshot: DataSnapshot = await (get(child(dbRef, '/')));
-
-            if (snapshot.exists()) {
-                currentData = snapshot.val() ?? [];
-            }
-        } catch (error) {
-            console.error("Failed to load data from Realtime Database:", error);
-            return;
-        }
-
-        const existingIndex = currentData?.findIndex((data) => data.filename === filename) ?? -1;
-
         const newFileData: FileObject = {
-            uploaded: new Date().toString(),
-            filename: filename,
-            url: filePathURL,
             id: uuidv4(),
-            category: category ?? []
+            filename: filename,
+            uploaded: new Date().toISOString(),
+            url: filePathURL,
+            filetype: filetype,
         };
 
-        if (existingIndex !== -1) {
-            // Update existing file
-            if (currentData) {
-                // keeps everything from newFileData except the id
-                currentData[existingIndex] = {...newFileData, id: currentData[existingIndex].id};
+        // Erstelle Referenz zum Dateiordner
+        const filesRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}`);
+
+        // Lade die aktuellen Daten
+        const snapshot: DataSnapshot = await get(filesRef);
+
+        // Prüfe, ob eine Datei mit demselben Namen existiert
+        const existingFile = snapshot.exists() && Object.values(snapshot.val() as Record<string, FileObject>).find((file: FileObject) => file.filename === filename);
+
+        if (existingFile) {
+            // Wenn die Datei existiert, aktualisiere sie
+            const fileRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}/${existingFile.id}`);
+            try {
+                await update(fileRef, newFileData);
+            } catch (error) {
+                console.error("Failed to update file in Realtime Database:", error);
             }
         } else {
-            // Add new file
-            if (currentData) {
-                currentData.push(newFileData);
-            } else {
-                console.error("Could not add data to currentData. CurrentData is undefined.")
+            // Wenn die Datei nicht existiert, erstelle sie
+            const fileRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}/${newFileData.id}`);
+            try {
+                await set(fileRef, newFileData);
+            } catch (error) {
+                console.error("Failed to add new file to Realtime Database:", error);
             }
-        }
-
-        try {
-            await set(dbRef, currentData);
-        } catch (error) {
-            console.error("Failed to set data in Realtime Database:", error);
         }
     }
 }
-
