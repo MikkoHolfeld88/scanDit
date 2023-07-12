@@ -7,4 +7,6 @@ export type OperationType =
     'translation' |
     'classification' |
     'sentiment' |
-    'calculation';
+    'transformation' |
+    'calculation' |
+    'export';

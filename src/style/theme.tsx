@@ -1,8 +1,8 @@
 import {createTheme} from "@mui/material";
 
-// export const primaryMain = '#3F72AF';
 export const primaryMain = '#000000';
-export const secondaryMain = '#9ebdee';
+export const primaryGrey = 'rgba(0, 0, 0, .03)'
+export const secondaryMain = 'rgba(205,211,220,0.66)';
 export const infoMain = '#F9F7F7'
 export const darkMain = '#42a5f5'
 export const brightMain = '#ffffff';
@@ -25,7 +25,7 @@ export const MUITheme = createTheme({
         MuiTab: {
             styleOverrides: {
                 root: {
-                    fontSize: '13px',  // Ändern Sie die Schriftgröße nach Ihren Wünschen
+                    fontSize: '13px',
                 },
             },
         },

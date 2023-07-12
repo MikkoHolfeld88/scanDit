@@ -1,6 +1,3 @@
-import {OperatorType} from "./OperatorType";
+import {Prompt} from "./Prompt";
 
-export interface Operator {
-    id: string,
-    type: OperatorType
-}
+export type Operator = Prompt | 'audio-analysis' | 'image-analysis' | 'data-transformer';
