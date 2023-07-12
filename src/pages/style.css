@@ -9,10 +9,19 @@
     font-family: "Roboto", sans-serif;
 }
 
-.dashboard-content {
-    width: 95vw;
-    margin: 10px;
-    padding: 10px;
+@media (min-width: 575px) {
+    .dashboard-content {
+        width: 95vw;
+        margin: 10px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    .data-content {
+        margin: 10px;
+        padding: 10px;
+    }
 }
 
 .link {

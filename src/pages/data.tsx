@@ -24,7 +24,7 @@ export const Data = () => {
     }, []);
 
     return (
-        <React.Fragment>
+        <div className="data-content">
             <div id="data-page-header" className="d-flex">
                 <Upload/>
                 <ListViewStyle/>
@@ -47,6 +47,6 @@ export const Data = () => {
 
                 </div>
             }
-        </React.Fragment>
+        </div>
     );
 }

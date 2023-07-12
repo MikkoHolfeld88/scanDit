@@ -5,7 +5,7 @@ export const ROUTE_PATHS = {
     REGISTER:  '/register',
     DASHBOARD: '/dashboard',
         DATA: 'data',
-        PIPELINE: 'pipeline',
+        CONFIGURATION: 'configuration',
         TASKS: 'tasks',
     PROFILE: '/profile',
     SETTINGS: '/settings',

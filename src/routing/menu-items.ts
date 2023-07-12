@@ -30,8 +30,8 @@ export const menuItems = {
             icon: 'pi pi-database'
         },
         {
-            path: '/dashboard/pipeline',
-            title: 'Pipeline',
+            path: '/dashboard/configuration',
+            title: 'Configuration',
             icon: 'pi pi-sitemap'
         },
         {

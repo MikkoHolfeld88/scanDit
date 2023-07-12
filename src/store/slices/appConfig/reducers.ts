@@ -4,6 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: AppConfigState = {
     listViewStyle: LIST_VIEW_STYLES.LIST,
+    configurationTab: 0
 }
 
 export const appConfigSlice = createSlice({
@@ -12,10 +13,13 @@ export const appConfigSlice = createSlice({
     reducers: {
         setListViewStyle: (state, action) => {
             state.listViewStyle = action.payload;
+        },
+        setConfigurationTab: (state, action) => {
+            state.configurationTab = action.payload;
         }
     }
 });
 
-export const {setListViewStyle} = appConfigSlice.actions;
+export const {setListViewStyle, setConfigurationTab} = appConfigSlice.actions;
 
 export default appConfigSlice.reducer;

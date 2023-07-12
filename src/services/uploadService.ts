@@ -1,32 +1,9 @@
-import {getAuth, User} from "firebase/auth";
-import {REALTIME_DATABASE_PATHS} from "../constants/realtimeDatabasePaths";
-import {update, DatabaseReference, DataSnapshot, get, ref, set} from "firebase/database";
+import {User} from "firebase/auth";
+import {DatabaseReference, DataSnapshot, get, ref, set, update} from "firebase/database";
 import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realtimeDatabase";
-import {mimeTypeToDatabasePathMapper} from "../constants/mimeTypeToDatabasePathMapper";
-import {MIME_TYPE} from "../enums/mimeType.enum";
 import {v4 as uuidv4} from 'uuid';
 import {File as FileObject} from "../models/File";
 import {auth, realtimeDatabase} from "../firebase/firebase";
-
-export const mapDatatypeToDatabasePath = (file: File): string => {
-    const mimeType = file.type as MIME_TYPE;
-
-    return mimeTypeToDatabasePathMapper[mimeType] || REALTIME_DATABASE_PATHS.UNKNOWN;
-}
-
-export const createStorageName = (file: File): string => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    const databasePath: string = mapDatatypeToDatabasePath(file);
-
-    if (user) {
-        return `${user.uid}/${databasePath}/${file.name}`
-    }
-
-    console.error('User is not logged in!')
-    throw new Error('User is not logged in!')
-}
 
 /**
  * Diese Funktion lädt eine Datei in Firebase Storage hoch und speichert die Metadaten in der Realtime Database.
@@ -35,11 +12,7 @@ export const createStorageName = (file: File): string => {
  * @param filename - Name der Datei
  * @param tags - Kategorie der Datei
  */
-export const postFile = async (
-    filePathURL: string,
-    filetype: string,
-    filename: string
-) => {
+export const postFile = async (filePathURL: string, filetype: string, filename: string) => {
     const user: User | null = auth.currentUser;
 
     if (user) {

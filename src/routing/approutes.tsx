@@ -10,7 +10,7 @@ import {Profile} from "../pages/profile";
 import {Settings} from "../pages/settings";
 import {Logout} from "../pages/logout";
 import {Data} from "../pages/data";
-import {Configuration} from "../components/configuration";
+import {Configuration} from "../pages/configuration";
 import {Tasks} from "../pages/tasks";
 
 interface ProtectedRouteProps {
@@ -56,7 +56,7 @@ export const AppRoutes = () => {
                     </ProtectedRoute>
                 }>
                 <Route path={ROUTE_PATHS.DATA} element={<Data />}/>
-                <Route path={ROUTE_PATHS.PIPELINE} element={<Configuration />}/>
+                <Route path={ROUTE_PATHS.CONFIGURATION} element={<Configuration />}/>
                 <Route path={ROUTE_PATHS.TASKS} element={<Tasks />}/>
                 <Route path="*" element={<Navigate to={ROUTE_PATHS.DATA}/>}/>
             </Route>

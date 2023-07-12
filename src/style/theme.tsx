@@ -21,4 +21,13 @@ export const MUITheme = createTheme({
         },
 
     },
+    components: {
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    fontSize: '13px',  // Ändern Sie die Schriftgröße nach Ihren Wünschen
+                },
+            },
+        },
+    },
 });
