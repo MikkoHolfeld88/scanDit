@@ -4,7 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: AppConfigState = {
     listViewStyle: LIST_VIEW_STYLES.LIST,
-    configurationTab: 0
+    configurationTab: 0,
 }
 
 export const appConfigSlice = createSlice({

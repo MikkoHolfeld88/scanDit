@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import {selectConfigurationTab} from "../store/slices/appConfig/selectors";
 import {useAppDispatch} from "../store/store";
 import {setConfigurationTab} from "../store/slices/appConfig/reducers";
+import {Pipelines} from "./pipelines";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -60,7 +61,7 @@ export const Configuration = () => {
 
             <SwipeableViews index={configurationTab} onChangeIndex={handleChange}>
                 <TabPanel value={configurationTab} index={0}>
-                    <h1>Pipelines</h1>
+                    <Pipelines />
                 </TabPanel>
                 <TabPanel value={configurationTab} index={1}>
                     <h1>Templates</h1>
