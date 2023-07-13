@@ -1,12 +1,16 @@
 import {Extraction} from "./Extraction";
+import {Generation} from "./Generation";
+import {Transformation} from "./Transformation";
 
 export type OperationType =
+    'prepare-data' |
     Extraction |
     'summarization' |
-    'generation' |
+    Generation |
     'translation' |
     'classification' |
     'sentiment' |
-    'transformation' |
+    Transformation |
     'calculation' |
+    'comparison' |
     'export';

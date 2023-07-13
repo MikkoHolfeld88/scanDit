@@ -1,18 +1,20 @@
 import {configureStore} from '@reduxjs/toolkit'
-import sidebarSlice from "./slices/sidebar/reducers";
 import appConfigSlice from "./slices/appConfig/reducers";
+import dataSlice from "./slices/data/reducers";
+import pipelineSlice from "./slices/pipeline/reducers";
+import sidebarSlice from "./slices/sidebar/reducers";
 import {useDispatch} from "react-redux";
 import {loadState} from "./operations/loadState";
 import {saveState} from "./operations/saveState";
-import dataSlice from "./slices/data/reducers";
 import thunk from "redux-thunk";
 
 export const store = configureStore({
-    preloadedState: loadState(),
+    // preloadedState: loadState(),
     reducer: {
         appConfig: appConfigSlice,
         data: dataSlice,
-        sidebar: sidebarSlice,
+        pipeline: pipelineSlice,
+        sidebar: sidebarSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
 })

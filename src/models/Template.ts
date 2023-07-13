@@ -1,4 +1,5 @@
 import {Operation} from "./Operation";
+import {TemplateType} from "./TemplateType";
 
 export interface Template {
     id: string,
@@ -7,5 +8,7 @@ export interface Template {
     created: string,
     updated?: string,
     author?: string,
+    type: TemplateType,
+    inputData?: any[],
     operations: Operation[]
 }

@@ -1,4 +1,28 @@
 .react-flow-container {
     height: 50vh;
-    width: 80vw;
+}
+
+.template-card {
+    /*width: 250px;*/
+    padding-bottom: 0;
+    background-color: white;
+}
+
+.template-card-content {
+    padding-bottom: 0px;
+    background-color: var(--grey-main);
+}
+
+.card-actions {
+    padding: 0 5px 0 5px !important;
+    margin: 0 5px 2px 5px;
+}
+
+.css-46bh2p-MuiCardContent-root {
+    padding-bottom: 2px !important;
+}
+
+.template-heading {
+    font-size: 14px;
+    margin-bottom: 0;
 }
