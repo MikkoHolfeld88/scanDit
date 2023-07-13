@@ -4,22 +4,15 @@ import Typography from '@mui/material/Typography';
 import {Pipeline as PipelineType} from "../../../models/Pipeline";
 import "reactflow/dist/style.css";
 import "./style.css"
-import ReactFlow, {Edge, EdgeChange, Node, NodeChange, useNodesState} from 'reactflow';
+import ReactFlow, {Edge, EdgeChange, Node, NodeChange} from 'reactflow';
 import {Accordion, AccordionDetails, AccordionSummary} from "./accordionElements";
 import {CustomNodeComponent} from "./customNode";
 import {useSelector} from "react-redux";
 import {selectEdges, selectNodes} from "../../../store/slices/pipeline/selectors";
 import {useAppDispatch} from "../../../store/store";
-import {
-    centerNodesHorizontally,
-    centerNodesVertically,
-    setEdges,
-    setNodes
-} from "../../../store/slices/pipeline/reducers";
+import {setEdges, setNodes} from "../../../store/slices/pipeline/reducers";
 import {selectExpandedPipelineAccordion} from "../../../store/slices/appConfig/selectors";
 import {setExpandedPipelineAccordion} from "../../../store/slices/appConfig/reducers";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import Box from "@mui/material/Box";
 
 const examplePipeline: PipelineType = {
     id: '1',
@@ -160,11 +153,11 @@ export function Pipeline() {
     };
 
     const handleNodeChange = (nodeChanges: NodeChange[]) => {
-        console.log(nodeChanges);
+
     }
 
     const handleEdgeChange = (edgeChanges: EdgeChange[]) => {
-        console.log(edgeChanges);
+
     }
 
     return (
@@ -172,9 +165,10 @@ export function Pipeline() {
             {
                 pipelines.map((pipeline, index) => {
                     return (
-                        <Accordion key={pipeline.id} expanded={expanded === pipeline.id} onChange={handleExpandedChange(pipeline.id)}>
+                        <Accordion key={pipeline.id} expanded={expanded === pipeline.id}
+                                   onChange={handleExpandedChange(pipeline.id)}>
                             <AccordionSummary>
-                                    <Typography variant="h6">{pipeline.name}</Typography>
+                                <Typography variant="h6">{pipeline.name}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <div className="react-flow-container">

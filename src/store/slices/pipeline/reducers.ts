@@ -37,8 +37,7 @@ export const pipelineSlice = createSlice({
                 const heightBefore: number = state.nodes.slice(0, index).reduce((acc, node) => acc + (node.height || 0), 0);
                 node.position.y = heightBefore + margin * index;
             });
-        }
-
+        },
     }
 });
 
