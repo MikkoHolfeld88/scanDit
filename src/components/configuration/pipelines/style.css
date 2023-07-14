@@ -1,9 +1,8 @@
 .react-flow-container {
-    height: 50vh;
+    height: 52vh;
 }
 
 .template-card {
-    /*width: 250px;*/
     padding-bottom: 0;
     background-color: white;
 }

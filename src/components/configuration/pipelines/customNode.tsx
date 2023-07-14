@@ -13,9 +13,12 @@ import {useSelector} from "react-redux";
 import {selectLastNodeId} from "../../../store/slices/pipeline/selectors";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import Box from "@mui/material/Box";
-import {Operation} from "../../../models/Operation";
 import {selectIsTabletOrGreater} from "../../../store/slices/sidebar/selectors";
-import {PipelineOperation} from "./operation";
+import {PipelineOperation} from "./pipelineOperation";
+import {PipelineSource} from "./pipelineSource";
+import {calcPlacement} from "../../../style/calcFunctions/calcOperationSourcesPlacement";
+import {Source} from "../../../models/Source";
+import {Operation} from "../../../models/Operation";
 
 export function CustomNodeComponent({data}: NodeProps<NodeData>) {
     const dispatch = useAppDispatch();
@@ -40,40 +43,60 @@ export function CustomNodeComponent({data}: NodeProps<NodeData>) {
 
     }, [data]);
 
-    const calcOperationPlacement = (operations: Operation[]) => {
-        if (isTabletOrGreater) {
-            switch (operations.length) {
-                case 0:
-                    return 'repeat(1, 1fr)';
-                case 1:
-                    return 'repeat(1, 1fr)';
-                case 2:
-                    return 'repeat(2, 1fr)';
-                case 3:
-                    return 'repeat(3, 1fr)';
-                case 4:
-                    return 'repeat(4, 1fr)';
-                case 5:
-                    return 'repeat(5, 1fr)';
-                case 6:
-                    return 'repeat(6, 1fr)';
-                default:
-                    return 'repeat(6, 1fr)';
-            }
-        }
+    /**
+     * Rendert die Quellen basierend auf den übergebenen Quellen.
+     *
+     * @param sources - Die Quellen, die gerendert werden sollen.
+     * @return Gibt eine Liste von PipelineSource Elementen zurück.
+     */
+    const renderSources = (sources: Source[]) => {
+        return sources.map((source, index) => (
+            <PipelineSource
+                index={index}
+                dataUrl={source.dataUrl}
+                data={source.data}
+                type={source.type}/>
+        ));
+    }
 
-        switch (operations.length) {
-            case 0:
-                return 'repeat(1, 1fr)';
-            case 1:
-                return 'repeat(1, 1fr)';
-            case 2:
-                return 'repeat(2, 1fr)';
-            case 3:
-                return 'repeat(3, 1fr)';
-            default:
-                return 'repeat(3, 1fr)';
-        }
+    /**
+     * Rendert die Operationen basierend auf den übergebenen Operationen.
+     *
+     * @param operations - Die Operationen, die gerendert werden sollen.
+     * @return Gibt eine Liste von PipelineOperation Elementen zurück.
+     */
+    const renderOperations = (operations: Operation[]) => {
+        return operations.map((operation, index) => (
+            <PipelineOperation
+                index={index}
+                id={operation.id}
+                type={operation.type}/>
+        ));
+    }
+
+    /**
+     * Rendert die Innenobjekte (Quellen oder Operationen) basierend auf den übergebenen Daten.
+     *
+     * @param data - Die Daten, die entweder Quellen oder Operationen enthalten.
+     * @param isTabletOrGreater - Ein boolescher Wert, der angibt, ob das Gerät ein Tablet oder größer ist.
+     * @return Gibt ein Box-Element zurück, das entweder eine Liste von PipelineSource oder PipelineOperation Elementen enthält, basierend auf den Daten.
+     */
+    const renderInnerObjects = (data: NodeData, isTabletOrGreater: boolean) => {
+        const objects: any = data.type === 'input' ? data.sources : data.operations;
+
+        const placement = calcPlacement(objects, isTabletOrGreater);
+
+        return (
+            <Box sx={{
+                display: 'grid',
+                gridTemplateColumns: placement,
+                gap: '5px'
+            }}>
+                {
+                    data.type === 'input' ? renderSources(objects as Source[]) : renderOperations(objects as Operation[])
+                }
+            </Box>
+        );
     }
 
     return (
@@ -99,26 +122,13 @@ export function CustomNodeComponent({data}: NodeProps<NodeData>) {
                     </Typography>
                 </CardContent>
                 <CardActions className="card-actions">
-                    <Box sx={{
-                        display: 'grid',
-                        gridTemplateColumns: calcOperationPlacement(data.operations),
-                        gap: '5px'
-                    }}>
-                        {
-                            data.operations.map((operation, index) => {
-                                return (
-                                    <PipelineOperation
-                                        index={index}
-                                        id={operation.id}
-                                        type={operation.type}/>
-                                )
-                            })
-                        }
-                    </Box>
+                    {
+                        renderInnerObjects(data, isTabletOrGreater)
+                    }
                 </CardActions>
             </Card>
             {
-            data.type !== 'output' && <Handle type="source" position={Position.Bottom}/>
+                data.type !== 'output' && <Handle type="source" position={Position.Bottom}/>
             }
         </div>
     );

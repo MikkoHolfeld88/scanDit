@@ -1,3 +1,4 @@
 import {Prompt} from "./Prompt";
+import {Export} from "./Export";
 
-export type Operator = Prompt | 'audio-analysis' | 'image-analysis' | 'file-download' | 'file-transfer' | 'messaging';
+export type Operator = Prompt | Export;

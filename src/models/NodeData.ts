@@ -1,5 +1,6 @@
 import {Operation} from "./Operation";
 import {TemplateType} from "./TemplateType";
+import {Source} from "./Source";
 
 export interface NodeData {
     id: string,
@@ -7,5 +8,6 @@ export interface NodeData {
     index: number,
     type: TemplateType,
     description?: string,
-    operations: Operation[]
+    operations?: Operation[],
+    sources?: Source[]
 }
