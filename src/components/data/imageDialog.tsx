@@ -17,16 +17,12 @@ export const ImageDialog = (props: IImageDialogProps) => {
     }
 
     return (
-        <Dialog open={props.open} onClose={() => props.setOpen(false)} fullWidth>
+        <Dialog open={props.open} onClose={() => props.setOpen(false)} maxWidth="xl">
             <DialogTitle>
                 {truncateFilename(props.imageName, 10)}
             </DialogTitle>
             <DialogContent dividers>
-                <TransformWrapper>
-                    <TransformComponent>
-                        <img src={props.imageUrl} style={{maxWidth: "100%"}}/>
-                    </TransformComponent>
-                </TransformWrapper>
+                <img src={props.imageUrl} style={{maxWidth: "100%", maxHeight:"100vh"}}/>
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" autoFocus onClick={() => props.setOpen(false)}>

@@ -10,3 +10,4 @@ export const selectFilesAsArray = createSelector(
         return Object.values(files ?? {}) as File[];
     }
 )
+export const selectSelectedFiles = (state: RootState) => state.data.selectedFiles;

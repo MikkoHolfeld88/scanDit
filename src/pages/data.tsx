@@ -5,13 +5,18 @@ import {File} from "../models/File";
 import {getUserFiles} from "../firebase/realtimeDatabase";
 import {useSelector} from "react-redux";
 import {LIST_VIEW_STYLES} from "../enums/listViewStyles.enum";
-import {useAppDispatch} from "../store/store";
+import {RootState, useAppDispatch} from "../store/store";
 import {setData} from "../store/slices/data/reducers";
 import {List} from "../components/data/list";
+import {IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {selectListViewStyle} from "../store/slices/appConfig/selectors";
+import {selectSelectedFiles} from "../store/slices/data/selectors";
 
 export const Data = () => {
     const dispatch = useAppDispatch();
-    const viewStyle = useSelector((state: any) => state.appConfig.listViewStyle);
+    const selectedFiles = useSelector(selectSelectedFiles);
+    const viewStyle = useSelector(selectListViewStyle);
 
     useEffect(() => {
         const unsubscribe = getUserFiles((data: File[] | null) => {
@@ -28,6 +33,9 @@ export const Data = () => {
             <div id="data-page-header" className="d-flex">
                 <Upload/>
                 <ListViewStyle/>
+                <IconButton color="error" edge="end" disabled={selectedFiles?.length === 0} style={{marginLeft: 'auto'}}>
+                    <DeleteIcon fontSize="large" />
+                </IconButton>
             </div>
             {
                 viewStyle === LIST_VIEW_STYLES.LIST &&
