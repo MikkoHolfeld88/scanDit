@@ -93,7 +93,7 @@ export function Pipeline() {
                             <AccordionSummary>
                                 <Typography variant="h6">{pipeline.name}</Typography>
                             </AccordionSummary>
-                            <AccordionDetails>
+                            <AccordionDetails sx={{padding: 0}}>
                                 <div className="react-flow-container">
                                     <ReactFlow
                                         nodeTypes={nodeTypes}

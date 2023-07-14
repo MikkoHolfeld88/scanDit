@@ -15,6 +15,7 @@ export default function ListViewStyle() {
     const viewStyle = useSelector((state: any) => state.appConfig.listViewStyle);
 
     const handleViewStyle = (event: React.MouseEvent<HTMLElement>, newViewStyle: ListViewStylesType) => {
+        if (newViewStyle === null) return;
         dispatch(setListViewStyle(newViewStyle));
     };
 
@@ -23,10 +24,10 @@ export default function ListViewStyle() {
             <ToggleButton value={LIST_VIEW_STYLES.LIST}>
                 <TableRowsIcon/>
             </ToggleButton>
-            <ToggleButton value={LIST_VIEW_STYLES.TABLE}>
+            <ToggleButton value={LIST_VIEW_STYLES.TABLE} disabled>
                 <ViewListIcon/>
             </ToggleButton>
-            <ToggleButton value={LIST_VIEW_STYLES.FREE}>
+            <ToggleButton value={LIST_VIEW_STYLES.FREE} disabled>
                 <ViewQuiltIcon/>
             </ToggleButton>
         </ToggleButtonGroup>

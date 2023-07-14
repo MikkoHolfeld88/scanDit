@@ -17,6 +17,8 @@ export const Dashboard = () => {
     const isBottomBar = useSelector(selectIsBottomBar);
     const [value, setValue] = React.useState('Upload');
 
+    const dashboardContentStyle = isBottomBar ? { paddingBottom: '56px' } : {};
+
     const handleBottomNavigation = (event: React.SyntheticEvent, newValue: string) => {
         const path: string = menuItems.dashboard.find(item => item.title === newValue)?.path as string;
         setValue(newValue);
@@ -55,7 +57,7 @@ export const Dashboard = () => {
                 </Sidebar>
             }
 
-            <main className="dashboard-content">
+            <main className="dashboard-content" style={dashboardContentStyle}>
                 <Outlet/>
             </main>
 

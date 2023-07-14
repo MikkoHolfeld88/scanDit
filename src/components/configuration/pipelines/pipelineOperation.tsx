@@ -1,4 +1,4 @@
-import {Card, CardContent, Menu, MenuItem} from "@mui/material";
+import {Card, CardContent, Menu, MenuItem, MenuList} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
@@ -66,10 +66,8 @@ export const PipelineOperation = (props: IPipelineOperationProps) => {
                 onClose={handleClose}
                 PaperProps={PaperProps}>
                 <MenuItem onClick={handleClose}><EditIcon sx={{color: darkMain, marginRight: "4px"}}/>Edit</MenuItem>
-                <MenuItem onClick={handleClose}><OpenWithIcon
-                    sx={{color: darkMain, marginRight: "4px"}}/>Move</MenuItem>
-                <MenuItem onClick={handleClose}><DeleteIcon
-                    sx={{color: darkMain, marginRight: "4px"}}/>Delete</MenuItem>
+                <MenuItem onClick={handleClose}><OpenWithIcon sx={{color: darkMain, marginRight: "4px"}}/>Move</MenuItem>
+                <MenuItem onClick={handleClose}><DeleteIcon sx={{color: darkMain, marginRight: "4px"}}/>Delete</MenuItem>
             </Menu>
         </React.Fragment>
     )

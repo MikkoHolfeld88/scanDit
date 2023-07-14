@@ -63,7 +63,7 @@ function Header() {
     }
 
     return (
-        <AppBar position="static" style={{backgroundColor: brightMain}}>
+        <AppBar position="sticky" style={{backgroundColor: brightMain, width: '100vw'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1, color: primaryMain}}

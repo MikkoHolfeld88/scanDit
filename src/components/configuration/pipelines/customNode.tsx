@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import {selectIsTabletOrGreater} from "../../../store/slices/sidebar/selectors";
 import {PipelineOperation} from "./pipelineOperation";
 import {PipelineSource} from "./pipelineSource";
-import {calcPlacement} from "../../../style/calcFunctions/calcOperationSourcesPlacement";
+import {calcPlacement} from "../../../style/displayFunctions/calcOperationSourcesPlacement";
 import {Source} from "../../../models/Source";
 import {Operation} from "../../../models/Operation";
 
