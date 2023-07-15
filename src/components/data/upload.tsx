@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {Button} from "@mui/material";
 import {storage} from "../../firebase/firebase";
 import {getDownloadURL, ref, uploadBytes, StorageReference} from 'firebase/storage';
-import {postFile} from "../../services/uploadService";
+import {postFile} from "../../services/realtimeDatabaseService";
 import {createStorageName, mapDatatypeToDatabasePath} from "../../services/storageService";
 import {useAppDispatch} from "../../store/store";
 import {setIsUploading} from "../../store/slices/data/reducers";

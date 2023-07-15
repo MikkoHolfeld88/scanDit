@@ -53,3 +53,34 @@ export const postFile = async (filePathURL: string, filetype: string, filename: 
         }
     }
 }
+
+/**
+ * Diese Funktion aktualisiert den Dateinamen einer bestimmten Datei in der Firebase Realtime Database.
+ *
+ * @param {string} fileId - Die eindeutige ID der Datei, deren Name aktualisiert werden soll.
+ * @param {string} newFilename - Der neue Dateiname.
+ *
+ * @returns {Promise<void>} Eine Promise, die sich auflöst, wenn die Aktualisierung erfolgreich war.
+ * Wenn während der Aktualisierung ein Fehler auftritt, wird dieser Fehler in der Konsole protokolliert.
+ *
+ * @throws {Error} Wirft einen Fehler, wenn die Aktualisierung fehlschlägt.
+ */
+export const updateFilenameInDatabase = async (fileId: string | undefined, newFilename: string) => {
+    if (!fileId || !newFilename) {
+        return;
+    }
+
+    const user: User | null = auth.currentUser;
+
+    if (user) {
+        const uid: string = user.uid;
+
+        const fileRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}/${fileId}`);
+
+        try {
+            await update(fileRef, { filename: newFilename, updated: new Date().toISOString() });
+        } catch (error) {
+            console.error("Failed to update filename in Realtime Database:", error);
+        }
+    }
+}

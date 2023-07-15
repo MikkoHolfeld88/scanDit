@@ -4,5 +4,7 @@ export type File = {
     url: string,
     id?: string
     filetype?: string,
-    tags?: string[]
+    tags?: string[],
+    updated?: string,
+
 }

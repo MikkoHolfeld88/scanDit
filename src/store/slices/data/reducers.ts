@@ -17,23 +17,10 @@ export const dataSlice = createSlice({
         },
         setIsUploading: (state, action) => {
             state.isUploading = action.payload;
-        },
-        setSelectedFiles : (state, action) => {
-            state.selectedFiles = action.payload;
-        },
-        addSelectedFile: (state, action) => {
-            if (state.selectedFiles) {
-                state.selectedFiles.push(action.payload);
-            }
-        },
-        removeSelectedFile: (state, action) => {
-            if (state.selectedFiles) {
-                state.selectedFiles = state.selectedFiles.filter(file => file.id !== action.payload);
-            }
         }
     }
 });
 
-export const {setData, setIsUploading, setSelectedFiles, addSelectedFile, removeSelectedFile} = dataSlice.actions;
+export const {setData, setIsUploading } = dataSlice.actions;
 
 export default dataSlice.reducer;
