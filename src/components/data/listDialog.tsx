@@ -1,4 +1,4 @@
-import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, TextField} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import {File} from "../../models/File";
@@ -50,8 +50,11 @@ export const ListDialog = (props: IImageDialogProps) => {
             </DialogTitle>
             <DialogContent className="dialog-content">
                 <TextField variant="standard" label="Filename" onChange={updateFilename} value={filename} fullWidth/>
+                <Divider />
                 <TextField variant="standard" label="Filetype" onChange={updateFilename} disabled value={props.file?.filetype} fullWidth/>
+                <Divider />
                 <TextField variant="standard" label="Uploaded" onChange={updateFilename} disabled value={props.file?.uploaded} fullWidth/>
+                <Divider />
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>

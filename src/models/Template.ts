@@ -1,6 +1,7 @@
 import {Operation} from "./Operation";
 import {TemplateType} from "./TemplateType";
 import {Source} from "./Source";
+import {Target} from "./Target";
 
 export interface Template {
     id: string,
@@ -11,5 +12,6 @@ export interface Template {
     author?: string,
     type: TemplateType,
     sources?: Source[],
+    targets?: Target[],
     operations?: Operation[]
 }

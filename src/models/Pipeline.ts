@@ -7,8 +7,7 @@ export interface Pipeline {
     created: string,
     updated?: string,
     author?: string,
+    icon?: any,
     templates: Template[]
-    input?: any[],
-    output?: any[]
 }
 

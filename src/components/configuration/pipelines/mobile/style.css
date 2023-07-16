@@ -1,0 +1,14 @@
+.react-flow-container {
+    margin: 0;
+    padding: 0;
+}
+
+.dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.dialog-content-description {
+    margin-bottom: 10px;
+    padding: 20px;
+}

@@ -6,5 +6,4 @@ export type File = {
     filetype?: string,
     tags?: string[],
     updated?: string,
-
 }
