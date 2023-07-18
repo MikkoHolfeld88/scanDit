@@ -1,4 +1,5 @@
 import {Pipeline as PipelineType} from "../../../../models/Pipeline";
+import {NODE_TYPE} from "../../../../enums/nodeType.enum";
 
 export const examplePipeline: PipelineType = {
     id: '1',
@@ -250,17 +251,23 @@ export const examplePipeline: PipelineType = {
                 },
             ]
         },
+        // {
+        //     id: '7',
+        //     name: 'CSV-Export',
+        //     type: 'output',
+        //     created: '2023-07-12T12:00:00Z',
+        //     operations: [{
+        //         id: '1',
+        //         type: 'export',
+        //         created: '2023-07-12T12:00:00Z',
+        //         operator: 'download'
+        //     }]
+        // },
         {
-            id: '7',
-            name: 'CSV-Export',
-            type: 'output',
+            id: '8',
+            name: NODE_TYPE.ADD_TEMPLATE_NODE,
+            type: 'process',
             created: '2023-07-12T12:00:00Z',
-            operations: [{
-                id: '1',
-                type: 'export',
-                created: '2023-07-12T12:00:00Z',
-                operator: 'download'
-            }]
         }
     ],
 }

@@ -10,4 +10,3 @@ export const selectLastNodeId = (state: RootState) => {
 };
 
 export const selectEdges = (state: RootState) => state.pipeline.edges;
-

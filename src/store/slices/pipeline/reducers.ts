@@ -26,13 +26,12 @@ export const pipelineSlice = createSlice({
         },
         centerNodesHorizontally: (state) => {
             const maxWidth = state.nodes.reduce((maxWidth, node) => Math.max(maxWidth, node.width || 0), 0);
-
             state.nodes.forEach(node => {
                 node.position.x = (maxWidth - (node.width || 0)) / 2;
             });
         },
         centerNodesVertically: (state) => {
-            const margin: number = 40;
+            const margin: number = 50;
             state.nodes.forEach((node, index) => {
                 const heightBefore: number = state.nodes.slice(0, index).reduce((acc, node) => acc + (node.height || 0), 0);
                 node.position.y = heightBefore + margin * index;

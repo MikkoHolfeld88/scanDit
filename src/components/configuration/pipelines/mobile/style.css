@@ -4,6 +4,8 @@
 }
 
 .dialog-content {
+    border: #d2d2d2 1px solid;
+    border-raduis: 5px;
     margin: 0 !important;
     padding: 0 !important;
 }

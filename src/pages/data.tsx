@@ -6,7 +6,7 @@ import {getUserFiles} from "../firebase/realtimeDatabase";
 import {useSelector} from "react-redux";
 import {LIST_VIEW_STYLES} from "../enums/listViewStyles.enum";
 import {useAppDispatch} from "../store/store";
-import {setData} from "../store/slices/data/reducers";
+import {setFiles} from "../store/slices/data/reducers";
 import {List} from "../components/data/list";
 import {selectListViewStyle} from "../store/slices/appConfig/selectors";
 
@@ -17,7 +17,7 @@ export const Data = () => {
     useEffect(() => {
         const unsubscribe = getUserFiles((data: File[] | null) => {
             console.log(data);
-            dispatch(setData(data));
+            dispatch(setFiles(data));
         });
 
         return () => {

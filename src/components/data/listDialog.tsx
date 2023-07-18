@@ -21,7 +21,7 @@ export const ListDialog = (props: IImageDialogProps) => {
     }, [props.file]);
 
     useEffect(() => {
-        if (filename === "") setFilename(props.file?.filename || "untitled");
+        if (filename === "") setFilename(props?.file?.filename || "untitled");
     }, [filename]);
 
     const handleAnalyse = () => {
@@ -48,20 +48,17 @@ export const ListDialog = (props: IImageDialogProps) => {
                     </IconButton>
                 </div>
             </DialogTitle>
-            <DialogContent className="dialog-content">
+            <DialogContent className="dialog-content-description">
                 <TextField variant="standard" label="Filename" onChange={updateFilename} value={filename} fullWidth/>
-                <Divider />
                 <TextField variant="standard" label="Filetype" onChange={updateFilename} disabled value={props.file?.filetype} fullWidth/>
-                <Divider />
                 <TextField variant="standard" label="Uploaded" onChange={updateFilename} disabled value={props.file?.uploaded} fullWidth/>
-                <Divider />
             </DialogContent>
             <DialogActions>
+                <Button variant="outlined" onClick={handleAnalyse}>
+                    Start
+                </Button>
                 <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>
                     {props.file?.filename === filename || filename === "" ? "Close" : "Update"}
-                </Button>
-                <Button variant="outlined" onClick={handleAnalyse}>
-                    Create Input Template
                 </Button>
             </DialogActions>
         </Dialog>

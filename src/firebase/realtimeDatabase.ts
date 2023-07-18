@@ -16,9 +16,7 @@ export const getUserFiles = (setUserFiles: (data: File[] | null) => void) => {
 
             const data: File[] | null = snapshot.val();
 
-            if (data) {
-                setUserFiles(data);
-            }
+            setUserFiles(data);
         });
 
         return unsubscribe;

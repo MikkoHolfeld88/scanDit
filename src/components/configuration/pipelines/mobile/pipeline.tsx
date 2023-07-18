@@ -8,13 +8,12 @@ import PipelineIcon from "../../../../assets/icons/pipeline.png"
 import {styled} from "@mui/material/styles";
 import {Pipeline as PipelineType} from "../../../../models/Pipeline";
 import {examplePipeline} from "../desktop/examplePipeline";
-import {Template} from "../../../../models/Template";
 import ListItemButton from "@mui/material/ListItemButton";
 import {PipelineMobileDialog} from "./pipelineMobileDialog";
 
 const pipelines: PipelineType[] = [examplePipeline];
 
-const SmallAvatar = styled(Avatar)(({ theme }) => ({
+const SmallAvatar = styled(Avatar)(({theme}) => ({
     fontSize: "12px",
     width: 22,
     height: 22,
@@ -25,20 +24,6 @@ export const Pipeline = () => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [currentPipeline, setCurrentPipeline] = React.useState<PipelineType>(pipelines[0]);
 
-    const updatePipeline = (id: string, name: string | undefined, description: string | undefined) => {
-        const updatedPipeline = pipelines.find(pipeline => pipeline.id === id);
-        if (updatedPipeline) {
-            if (name !== undefined){
-                updatedPipeline.name = name;
-            }
-
-            if (description !== undefined){
-                updatedPipeline.description = description;
-            }
-
-        }
-    }
-
     const displayPipelineDialog = (pipeline: PipelineType) => {
         setCurrentPipeline(pipeline);
         setDialogOpen(true);
@@ -46,7 +31,7 @@ export const Pipeline = () => {
 
     return (
         <React.Fragment>
-            <List sx={{ width: '100%', maxWidth: "100vw", bgcolor: 'background.paper', padding: 0 }}>
+            <List sx={{width: '100%', maxWidth: "100vw", bgcolor: 'background.paper', padding: 0}}>
                 {
                     pipelines.map((pipeline: PipelineType, index: number) => {
                         return (
@@ -55,13 +40,18 @@ export const Pipeline = () => {
                                     <ListItemAvatar>
                                         <Badge
                                             overlap="circular"
-                                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                                             badgeContent={
-                                                <SmallAvatar style={{border: "solid 1px grey", color: "black", backgroundColor: "white"}}>
+                                                <SmallAvatar style={{
+                                                    border: "solid 1px grey",
+                                                    color: "black",
+                                                    backgroundColor: "white"
+                                                }}>
                                                     {index + 1}
                                                 </SmallAvatar>
                                             }>
-                                            <Avatar alt="Remy Sharp" src={PipelineIcon} style={{border: "solid 1px grey"}}/>
+                                            <Avatar alt="Remy Sharp" src={PipelineIcon}
+                                                    style={{border: "solid 1px grey"}}/>
                                         </Badge>
                                     </ListItemAvatar>
                                     <ListItemText
@@ -69,7 +59,7 @@ export const Pipeline = () => {
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
-                                                    sx={{ display: 'inline' }}
+                                                    sx={{display: 'inline'}}
                                                     component="span"
                                                     variant="body2"
                                                     color="text.primary">
@@ -84,7 +74,7 @@ export const Pipeline = () => {
                     })
                 }
             </List>
-            <PipelineMobileDialog open={dialogOpen} setOpen={setDialogOpen} pipeline={currentPipeline} updatePipeline={updatePipeline}/>
+            <PipelineMobileDialog open={dialogOpen} setOpen={setDialogOpen} pipeline={currentPipeline}/>
         </React.Fragment>
 
     )

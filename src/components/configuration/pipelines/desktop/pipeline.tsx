@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import {Pipeline as PipelineType} from "../../../../models/Pipeline";
 import "reactflow/dist/style.css";
 import "./style.css"
-import ReactFlow, {Edge, EdgeChange, Node, NodeChange} from 'reactflow';
+import ReactFlow, {Controls, Edge, MarkerType, Node} from 'reactflow';
 import {Accordion, AccordionDetails, AccordionSummary} from "./accordionElements";
-import {CustomNodeComponent} from "./customNode";
+import {CustomNodeComponent} from "../node-types/customNode";
 import {useSelector} from "react-redux";
 import {selectEdges, selectNodes} from "../../../../store/slices/pipeline/selectors";
 import {useAppDispatch} from "../../../../store/store";
@@ -14,14 +14,16 @@ import {setEdges, setNodes} from "../../../../store/slices/pipeline/reducers";
 import {selectExpandedPipelineAccordion} from "../../../../store/slices/appConfig/selectors";
 import {setExpandedPipelineAccordion} from "../../../../store/slices/appConfig/reducers";
 import {examplePipeline} from "./examplePipeline";
+import {NODE_TYPE} from "../../../../enums/nodeType.enum";
+import {AddTemplateNode} from "../node-types/addTemplateNode";
 
 const pipelines: PipelineType[] = [examplePipeline];
 
 export const createNodes = (pipeline: PipelineType) => {
-    const nodes = pipeline.templates.map((template, index) => {
+    return pipeline.templates.map((template, index) => {
         return {
             id: template.id,
-            type: 'customNode',
+            type: template.name === NODE_TYPE.ADD_TEMPLATE_NODE ? NODE_TYPE.ADD_TEMPLATE_NODE : NODE_TYPE.CUSTOM_NODE,
             data: {
                 sources: template.sources,
                 title: template.name,
@@ -30,12 +32,11 @@ export const createNodes = (pipeline: PipelineType) => {
                 type: template.type,
                 id: template.id
             },
+            draggable: true,
             position: {x: 0, y: 0},
             height: undefined
         };
     });
-
-    return nodes;
 };
 
 export const createEdges = (pipeline: PipelineType) => {
@@ -44,11 +45,39 @@ export const createEdges = (pipeline: PipelineType) => {
         const sourceTemplate = pipeline.templates[index];
         const targetTemplate = pipeline.templates[index + 1];
 
-        edges.push({
-            id: `e${sourceTemplate.id}-${targetTemplate.id}`,
-            source: sourceTemplate.id,
-            target: targetTemplate.id,
-        });
+        // Check if the target template's name is 'ADD_TEMPLATE_NODE'
+        if (targetTemplate.name === NODE_TYPE.ADD_TEMPLATE_NODE) {
+            console.log("true");
+            edges.push({
+                id: `e${sourceTemplate.id}-${targetTemplate.id}`,
+                source: sourceTemplate.id,
+                target: targetTemplate.id,
+                type: 'floating',
+                animated: true,
+                style: {
+                    strokeWidth: 2,
+                    stroke: 'linear-gradient(90deg, #d2d2d2 50%, transparent 50%)',
+                    strokeDasharray: '1,1,1,1,1' // This creates a dashed line
+                }
+            });
+        } else {
+            edges.push({
+                id: `e${sourceTemplate.id}-${targetTemplate.id}`,
+                source: sourceTemplate.id,
+                target: targetTemplate.id,
+                type: 'floating',
+                markerEnd: {
+                    width: 20,
+                    height: 20,
+                    type: MarkerType.ArrowClosed,
+                    color: '#000'
+                },
+                style: {
+                    strokeWidth: 2,
+                    stroke: '#000'
+                }
+            });
+        }
     }
 
     return edges;
@@ -59,7 +88,10 @@ export function Pipeline() {
     const nodes: Node[] = useSelector(selectNodes);
     const edges: Edge[] = useSelector(selectEdges);
     const expanded: string = useSelector(selectExpandedPipelineAccordion)
-    const nodeTypes = useMemo(() => ({customNode: CustomNodeComponent}), []);
+    const nodeTypes = useMemo(() => ({
+        [NODE_TYPE.CUSTOM_NODE]: CustomNodeComponent,
+        [NODE_TYPE.ADD_TEMPLATE_NODE]: AddTemplateNode
+    }), []);
 
     useEffect(() => {
         const initialNodes: Node[] = createNodes(examplePipeline);
@@ -72,14 +104,6 @@ export function Pipeline() {
     const handleExpandedChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
         dispatch((setExpandedPipelineAccordion(newExpanded ? panel : false)));
     };
-
-    const handleNodeChange = (nodeChanges: NodeChange[]) => {
-
-    }
-
-    const handleEdgeChange = (edgeChanges: EdgeChange[]) => {
-
-    }
 
     return (
         <React.Fragment>
@@ -97,11 +121,10 @@ export function Pipeline() {
                                 <div className="react-flow-container">
                                     <ReactFlow
                                         nodeTypes={nodeTypes}
-                                        onNodesChange={(node) => handleNodeChange(node)}
-                                        onEdgesChange={(edge) => handleEdgeChange(edge)}
                                         nodes={nodes}
                                         edges={edges}
                                         fitView>
+                                        <Controls/>
                                     </ReactFlow>
                                 </div>
                             </AccordionDetails>

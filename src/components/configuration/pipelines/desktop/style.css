@@ -4,12 +4,42 @@
 
 .template-card {
     padding-bottom: 0;
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .template-card-content {
     padding-bottom: 0px;
     background-color: var(--grey-main);
+}
+
+.template-card-content-add {
+    color: #d7d7d7;
+    border-radius: 5px;
+    padding: 2px;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        background-color: #e8f9ff;
+    }
+}
+
+@keyframes textBlinker {
+    50% {
+        color: #9ad5e1;
+    }
+}
+
+/* Neue Text- und Symbolanimationsstile */
+.template-card-content-add .MuiTypography-root,
+.template-card-content-add .MuiSvgIcon-root {
+    animation: textBlinker 1s linear infinite;
+}
+
+.template-card-content-add-menu-opened {
+    background-color: #777777;
+    color: white;
 }
 
 .card-actions {
@@ -24,4 +54,23 @@
 .template-heading {
     font-size: 14px;
     margin-bottom: 0;
+}
+
+.node-handle {
+    width: 20%;
+    height: 20%;
+    bottom: -11%;
+    background-color: #ffffff;
+    border: 1px solid #d2d2d2;
+    border-radius: 4px;
+    cursor: move;
+}
+
+.node-handle-top {
+    width: 20%;
+    height: 20%;
+    top: -10%;
+    background-color: #ffffff;
+    border: 1px solid #d2d2d2;
+    cursor: move;
 }
