@@ -1,4 +1,7 @@
-import {Prompt} from "./Prompt";
 import {Export} from "./Export";
 
-export type Operator = Prompt | Export;
+export interface Operator {
+    type: 'prompt' | Export,
+    text?: string,
+    transformer?: any,
+}

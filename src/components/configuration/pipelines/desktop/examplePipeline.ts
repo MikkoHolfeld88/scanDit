@@ -22,10 +22,8 @@ export const examplePipeline: PipelineType = {
                     type: 'prepare-data',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Datenimport',
-                        created: '2023-07-12T12:00:00Z',
-                        text: "Importiere die Daten aus dem Lieferschein und bereite sie für die weitere Verarbeitung vor."
+                        type: "prompt",
+                        text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 }]
         },
@@ -41,10 +39,8 @@ export const examplePipeline: PipelineType = {
                     type: 'key-value-extraction',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Lieferschein-Analyse und Zusammenfassung',
-                        created: '2023-07-12T12:00:00Z',
-                        text: "Analysiere den Lieferschein und extrahiere alles was wirtschaftlich relevant ist in kurzen sauberen Sätzen und lasse keine wichtigen Daten aus!"
+                        type: "prompt",
+                        text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
                 {
@@ -52,9 +48,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-csv',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -63,9 +57,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-xlsx',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -86,10 +78,8 @@ export const examplePipeline: PipelineType = {
                     type: 'key-value-extraction',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Lieferschein-Analyse und Zusammenfassung',
-                        created: '2023-07-12T12:00:00Z',
-                        text: "Analysiere den Lieferschein und extrahiere alles was wirtschaftlich relevant ist in kurzen sauberen Sätzen und lasse keine wichtigen Daten aus!"
+                        type: "prompt",
+                        text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
                 {
@@ -97,9 +87,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-csv',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -108,9 +96,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-xlsx',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -131,9 +117,7 @@ export const examplePipeline: PipelineType = {
                     type: 'key-value-extraction',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Lieferschein-Analyse und Zusammenfassung',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Analysiere den Lieferschein und extrahiere alles was wirtschaftlich relevant ist in kurzen sauberen Sätzen und lasse keine wichtigen Daten aus!"
                     }
                 },
@@ -142,9 +126,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-csv',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -153,9 +135,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-xlsx',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -176,9 +156,7 @@ export const examplePipeline: PipelineType = {
                     type: 'key-value-extraction',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Lieferschein-Analyse und Zusammenfassung',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Analysiere den Lieferschein und extrahiere alles was wirtschaftlich relevant ist in kurzen sauberen Sätzen und lasse keine wichtigen Daten aus!"
                     }
                 },
@@ -187,9 +165,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-csv',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -198,9 +174,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-xlsx',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type:"prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -221,9 +195,7 @@ export const examplePipeline: PipelineType = {
                     type: 'key-value-extraction',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '1',
-                        name: 'Lieferschein-Analyse und Zusammenfassung',
-                        created: '2023-07-12T12:00:00Z',
+                        type:"prompt",
                         text: "Analysiere den Lieferschein und extrahiere alles was wirtschaftlich relevant ist in kurzen sauberen Sätzen und lasse keine wichtigen Daten aus!"
                     }
                 },
@@ -232,9 +204,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-csv',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },
@@ -243,9 +213,7 @@ export const examplePipeline: PipelineType = {
                     type: 'transform-to-xlsx',
                     created: '2023-07-12T12:00:00Z',
                     operator: {
-                        id: '2',
-                        name: 'Ergebnisumwandlung in Tabelle',
-                        created: '2023-07-12T12:00:00Z',
+                        type: "prompt",
                         text: "Wandle das Ergebnis in eine Tabelle um, dabei sollen die Keys in der ersten Spalte und die Values in der zweiten Spalte stehen. Die deiner Meinung nach wichtigsten Keys oben."
                     }
                 },

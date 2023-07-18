@@ -48,7 +48,7 @@ export function AddTemplateNode({data}: NodeProps<NodeData>) {
     return (
         <div id={data.id}>
             <Handle type="target" position={Position.Top}/>
-            <Card className="template-card" onClick={handleClick}>
+            <Card className="template-card" onClick={handleClick} elevation={0}>
                 <CardContent className={openAddTemplateMenu ? "template-card-content-add-menu-opened" : "template-card-content-add"}>
                     <Box style={{display: "flex", justifyContent: "space-between"}}>
                         <Typography sx={{fontSize: 22, color: "linear-gradient(90deg, #d2d2d2 50%, transparent 50%)"}} gutterBottom>

@@ -9,6 +9,7 @@ export interface Template {
     description?: string,
     created: string,
     updated?: string,
+    deleted?: string,
     author?: string,
     type: TemplateType,
     sources?: Source[],
