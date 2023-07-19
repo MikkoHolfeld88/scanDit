@@ -1,10 +1,26 @@
 import {PipelineState} from "./types";
 import {createSlice} from "@reduxjs/toolkit";
+import {NODE_TYPE} from "../../../enums/nodeType.enum";
+import {Pipeline} from "../../../models/Pipeline";
+
+const initialPipeline: Pipeline = {
+    id: 'initial',
+    name: '',
+    created: new Date().toISOString(),
+    templates: [
+        {
+            id: 'add_template_node_button',
+            name: NODE_TYPE.ADD_TEMPLATE_NODE,
+            type: 'process',
+            created: new Date().toISOString()
+        }
+    ]
+}
 
 const initialState: PipelineState = {
     nodes: [],
     edges: [],
-    pipelines: [],
+    pipelines: [initialPipeline],
 }
 
 export const pipelineSlice = createSlice({

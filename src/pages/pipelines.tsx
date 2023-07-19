@@ -1,15 +1,13 @@
-import {Pipeline as PipelineDesktop} from "../components/configuration/pipelines/desktop/pipeline";
-import {Pipeline as PipelineMobile} from "../components/configuration/pipelines/mobile/pipeline";
 import "./style.css"
-import {selectIsTabletOrGreater} from "../store/slices/sidebar/selectors";
-import {useSelector} from "react-redux";
+import {PipelineBuilder} from "../components/configuration/pipelines/pipelineBuilder";
+import {PipelineViewer} from "../components/configuration/pipelines/pipelineViewer";
+import React from "react";
 
 export const Pipelines = () => {
-    const isTableOrGreater = useSelector(selectIsTabletOrGreater)
-
     return (
-        isTableOrGreater
-            ? <PipelineDesktop/>
-            : <PipelineMobile/>
+        <div id="pipeline-management-container">
+            <PipelineBuilder/>
+            <PipelineViewer/>
+        </div>
     );
 }

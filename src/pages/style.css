@@ -40,3 +40,7 @@
 .data-table {
     margin-top: 10px;
 }
+
+#pipeline-management-container {
+    /*height: 100vh;*/
+}
