@@ -59,7 +59,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                         <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        {`Edit ${pipeline?.name}`}
+                        {`Edit "${pipeline?.name}"`}
                     </Typography>
                     <Button autoFocus color="inherit" onClick={handleSave}>
                         Save

@@ -27,7 +27,7 @@ export const PipelineList = () => {
 
     return (
         <React.Fragment>
-            <List dense sx={{width: '100%', bgcolor: 'background.paper'}}>
+            <List dense sx={{width: '100%', bgcolor: 'background.paper', borderRadius: "0px"}}>
                 {pipelines.map((pipeline) => {
                     return (
                         <ListItem
