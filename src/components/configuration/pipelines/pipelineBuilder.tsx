@@ -1,5 +1,7 @@
+import "./style.css"
+
 export const PipelineBuilder = () => {
     return (
-        <h1>Pipeline builder</h1>
+        <h1>Pipeline Builder</h1>
     )
 }

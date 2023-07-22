@@ -10,3 +10,6 @@ export const selectLastNodeId = (state: RootState) => {
 };
 
 export const selectEdges = (state: RootState) => state.pipeline.edges;
+
+export const selectPipelines = (state: RootState) => state.pipeline.pipelines;
+export const selectPipelineById = (state: RootState, pipelineId: string) => state.pipeline.pipelines.find(pipeline => pipeline.id === pipelineId);

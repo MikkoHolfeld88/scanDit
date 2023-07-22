@@ -5,8 +5,9 @@ import {Pipeline} from "../../../models/Pipeline";
 
 const initialPipeline: Pipeline = {
     id: 'initial',
-    name: '',
+    name: 'Test pipeline',
     created: new Date().toISOString(),
+    icon: 'https://www.flaticon.com/svg/static/icons/svg/1828/1828884.svg',
     templates: [
         {
             id: 'add_template_node_button',
