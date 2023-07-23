@@ -5,7 +5,6 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState: AppConfigState = {
     listViewStyle: LIST_VIEW_STYLES.LIST,
     configurationTab: 0,
-    expandedPipelineAccordion: '',
 }
 
 export const appConfigSlice = createSlice({
@@ -17,13 +16,10 @@ export const appConfigSlice = createSlice({
         },
         setConfigurationTab: (state, action) => {
             state.configurationTab = action.payload;
-        },
-        setExpandedPipelineAccordion: (state, action) => {
-            state.expandedPipelineAccordion = action.payload;
         }
     }
 });
 
-export const {setListViewStyle, setConfigurationTab, setExpandedPipelineAccordion} = appConfigSlice.actions;
+export const {setListViewStyle, setConfigurationTab} = appConfigSlice.actions;
 
 export default appConfigSlice.reducer;

@@ -5,5 +5,4 @@ export type ListViewStylesType = LIST_VIEW_STYLES.LIST | LIST_VIEW_STYLES.FREE |
 export interface AppConfigState {
     listViewStyle: ListViewStylesType;
     configurationTab: number;
-    expandedPipelineAccordion: string;
 }

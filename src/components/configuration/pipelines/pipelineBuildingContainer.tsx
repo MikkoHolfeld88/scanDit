@@ -14,6 +14,8 @@ import {RootState} from "../../../store/store";
 import {PipelineBuilder} from "./pipelineBuilder";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import {PipelineViewer} from "./pipelineViewer";
+import {Container, Row} from "react-bootstrap";
+import {DIRECTIONS} from "../../../enums/directions.enum";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -33,7 +35,6 @@ interface PipelineBuildingContainerProps {
 export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps) => {
     const pipeline = useSelector((state: RootState) => selectPipelineById(state, props.pipelineId));
 
-
     const handleClose = () => {
         props.setOpen(false);
     };
@@ -41,6 +42,14 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
     const handleSave = () => {
         console.log("Save pipeline");
         props.setOpen(false);
+    }
+
+    const onCreateNode = () => {
+        console.log("Create node");
+    }
+
+    const onNavigateToNode = (direction: DIRECTIONS) => {
+        console.log("Navigate to node", direction);
     }
 
     return (
@@ -58,9 +67,18 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                         aria-label="close">
                         <CloseIcon/>
                     </IconButton>
-                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        {`Edit "${pipeline?.name}"`}
-                    </Typography>
+                    <Container>
+                        <Row>
+                            <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
+                                {`Pipeline editor`}
+                            </Typography>
+                        </Row>
+                        <Row>
+                            <Typography sx={{ml: 2, flex: 1}} variant="caption" component="div">
+                                {pipeline?.name}
+                            </Typography>
+                        </Row>
+                    </Container>
                     <Button autoFocus color="inherit" onClick={handleSave}>
                         Save
                     </Button>
@@ -68,7 +86,9 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
             </AppBar>
             <Splitter style={{ height: '100%' }} layout="vertical">
                 <SplitterPanel size={20}>
-                    <PipelineBuilder />
+                    <PipelineBuilder
+                        onCreate={onCreateNode}
+                        onNavigate={onNavigateToNode}/>
                 </SplitterPanel>
                 <SplitterPanel size={80} minSize={50}>
                     <PipelineViewer />

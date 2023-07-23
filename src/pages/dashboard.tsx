@@ -1,23 +1,18 @@
 import React from "react";
-import {Link, Outlet, useNavigate} from "react-router-dom";
-import {Menu, MenuItem, Sidebar} from 'react-pro-sidebar';
+import {Outlet, useNavigate} from "react-router-dom";
 import {menuItems} from "../routing/menu-items";
-import {BottomNavigation, BottomNavigationAction, Divider, Paper} from "@mui/material";
-import {brightMain, primaryMain} from "../style/theme";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../store/store";
-import {selectIsBottomBar, selectIsOpen} from "../store/slices/sidebar/selectors";
-import {setIsOpen} from "../store/slices/sidebar/reducers";
+import {selectIsBottomBar} from "../store/slices/sidebar/selectors";
 import "./style.css"
+import {BottomBar} from "../components/layout/bottom-bar";
+import {Sidebar} from "../components/layout/sidebar";
 
 export const Dashboard = () => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-    const sidebarIsOpen = useSelector(selectIsOpen);
     const isBottomBar = useSelector(selectIsBottomBar);
     const [value, setValue] = React.useState('Upload');
 
-    const dashboardContentStyle = isBottomBar ? { paddingBottom: '56px' } : {};
+    const dashboardContentStyle = isBottomBar ? {paddingBottom: '56px'} : {};
 
     const handleBottomNavigation = (event: React.SyntheticEvent, newValue: string) => {
         const path: string = menuItems.dashboard.find(item => item.title === newValue)?.path as string;
@@ -29,32 +24,7 @@ export const Dashboard = () => {
         <div className={isBottomBar ? "bottombar" : "sidebar"}>
             {
                 !isBottomBar &&
-                <Sidebar collapsed={!sidebarIsOpen} backgroundColor={brightMain} >
-                    <Menu>
-                        <MenuItem
-                            onClick={() => dispatch(setIsOpen(!sidebarIsOpen))}
-                            icon={<i className={!sidebarIsOpen ? "pi pi-angle-double-right" : "pi pi-angle-double-left"} style={{color: primaryMain}}>
-                            </i>}>
-                        </MenuItem>
-
-                        <Divider/>
-
-                        {
-                            menuItems.dashboard.map((item, index) => {
-                                const iconElement = <i className={item.icon} style={{color: primaryMain}}></i>;
-                                const menuItemContent = !sidebarIsOpen ? null : item.title;
-
-                                return (
-                                    <Link to={item.path} key={index} className="link">
-                                        <MenuItem key={index} icon={iconElement}>
-                                            {menuItemContent}
-                                        </MenuItem>
-                                    </Link>
-                                );
-                            })
-                        }
-                    </Menu>
-                </Sidebar>
+                <Sidebar/>
             }
 
             <main className="dashboard-content" style={dashboardContentStyle}>
@@ -63,26 +33,7 @@ export const Dashboard = () => {
 
             {
                 isBottomBar &&
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-                    <BottomNavigation
-                        showLabels
-                        value={value}
-                        onChange={handleBottomNavigation}>
-                        {
-                            menuItems.dashboard.map((item) => {
-                                return (
-                                    <BottomNavigationAction
-                                        key={item.title}
-                                        style={{color: primaryMain}}
-                                        value={item.title}
-                                        label={item.title}
-                                        icon={<i className={item.icon}></i>}>
-                                    </BottomNavigationAction>
-                                )
-                            })
-                        }
-                    </BottomNavigation>
-                </Paper>
+                <BottomBar value={value} handleBottomNavigation={handleBottomNavigation}/>
             }
         </div>
     );

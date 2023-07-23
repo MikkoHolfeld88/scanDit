@@ -12,6 +12,7 @@ import {selectConfigurationTab} from "../store/slices/appConfig/selectors";
 import {useAppDispatch} from "../store/store";
 import {setConfigurationTab} from "../store/slices/appConfig/reducers";
 import {Pipelines} from "./pipelines";
+import {CONFIGURATION_TAB_NAMES} from "../enums/configurationTabNames.enum";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -33,7 +34,7 @@ function TabPanel(props: TabPanelProps) {
         >
             {value === index && (
                 <Box sx={{ p: 0, m: 0 }}>
-                    <Typography>{children}</Typography>
+                    {children}
                 </Box>
             )}
         </div>
@@ -52,9 +53,9 @@ export const Configuration = () => {
     return (
         <div id="configuration-content">
             <Tabs value={configurationTab} onChange={(event, newValue) => handleChange(newValue)} centered={isBottomBar}>
-                <Tab icon={<AccountTreeIcon fontSize="small" />} label="Pipelines" />
-                <Tab icon={<ExtensionIcon fontSize="small" />} label="Templates" />
-                <Tab icon={<PrecisionManufacturingIcon fontSize="small" />} label="Operations" />
+                <Tab icon={<AccountTreeIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.PIPELINES} />
+                <Tab icon={<ExtensionIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.TEMPLATES} />
+                <Tab icon={<PrecisionManufacturingIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.OPERATIONS} />
             </Tabs>
 
             <Divider />

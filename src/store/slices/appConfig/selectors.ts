@@ -1,5 +1,13 @@
 import {RootState} from "../../store";
+import {CONFIGURATION_TAB_NAMES} from "../../../enums/configurationTabNames.enum";
 
 export const selectListViewStyle = (state: RootState) => state.appConfig.listViewStyle;
 export const selectConfigurationTab = (state: RootState) => state.appConfig.configurationTab;
-export const selectExpandedPipelineAccordion = (state: RootState) => state.appConfig.expandedPipelineAccordion;
+export const selectConfigurationTabNames = (state: RootState) => {
+    switch (state.appConfig.configurationTab) {
+        case 0: return CONFIGURATION_TAB_NAMES.PIPELINES;
+        case 1: return CONFIGURATION_TAB_NAMES.TEMPLATES;
+        case 2: return CONFIGURATION_TAB_NAMES.OPERATIONS;
+        default: return null;
+    }
+};

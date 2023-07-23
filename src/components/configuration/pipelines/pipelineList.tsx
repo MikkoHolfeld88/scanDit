@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import {useSelector} from "react-redux";
 import {selectPipelines} from "../../../store/slices/pipeline/selectors";
 import {PipelineBuildingContainer} from "./pipelineBuildingContainer";
+import {PipelineSpeedDial} from "./pipelineSpeedDial";
 
 export const PipelineList = () => {
     const pipelines = useSelector(selectPipelines)

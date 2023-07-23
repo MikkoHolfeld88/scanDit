@@ -21,7 +21,7 @@ const initialPipeline: Pipeline = {
 const initialState: PipelineState = {
     nodes: [],
     edges: [],
-    pipelines: [initialPipeline],
+    pipelines: [initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline, initialPipeline],
 }
 
 export const pipelineSlice = createSlice({
