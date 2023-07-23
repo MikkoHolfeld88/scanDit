@@ -17,6 +17,7 @@ function App() {
         dispatch(setIsBottomBar(isMobileOrLess))
     }, [dispatch, isTabletOrGreater, isMobileOrLess]);
 
+
     return (
         <div className="App">
             <Header/>

@@ -11,3 +11,5 @@ export const selectConfigurationTabNames = (state: RootState) => {
         default: return null;
     }
 };
+
+export const selectAppMode = (state: RootState) => state.appConfig.mode;

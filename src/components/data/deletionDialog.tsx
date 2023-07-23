@@ -15,8 +15,7 @@ export interface IDeletionDialogProps {
 
 export const DeletionDialog = (props: IDeletionDialogProps) => {
     const handleDeletion = () => {
-        const deletedFile: File | null = isValidFile(props?.file) ? {...props.file, deleted: new Date().toISOString()} : props?.file;
-        moveToDeletedFiles(deletedFile);
+        deleteFileFromDatabase(props?.file?.id);
         props.setOpen(false);
     }
 

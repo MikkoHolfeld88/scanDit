@@ -10,7 +10,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {ListDialog} from "./listDialog";
-import {truncateFilename} from "../../style/displayFunctions/truncateFilename";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Image} from "primereact/image";
 import {DeletionDialog} from "./deletionDialog";
@@ -61,8 +60,10 @@ export const List = () => {
                                             renderAvatar(file)
                                         }
                                     </ListItemAvatar>
-                                    <ListItemText id={file.id} primary={truncateFilename(file.filename)}
-                                                  onClick={() => onFileClick(file)}/>
+                                    <ListItemText
+                                        id={file.id}
+                                        primary={file?.filenameToDisplay ? file?.filenameToDisplay : ''}
+                                        onClick={() => onFileClick(file)}/>
                                 </ListItemButton>
                             </ListItem>
                         );

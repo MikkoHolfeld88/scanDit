@@ -5,9 +5,11 @@ import React, {useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import {ROUTE_PATHS} from "../../routing/routePaths";
 import {useSelector} from "react-redux";
-import {selectConfigurationTabNames} from "../../store/slices/appConfig/selectors";
+import {selectAppMode, selectConfigurationTabNames} from "../../store/slices/appConfig/selectors";
 import {CONFIGURATION_TAB_NAMES} from "../../enums/configurationTabNames.enum";
 import {PipelineSpeedDial} from "../configuration/pipelines/pipelineSpeedDial";
+import {AppMode} from "../../models/AppMode";
+import {APP_MODE} from "../../enums/appMode.enum";
 
 interface BottomBarProps {
     value: string;
@@ -16,6 +18,7 @@ interface BottomBarProps {
 
 export const BottomBar = (props: BottomBarProps) => {
     const location = useLocation();
+    const appMode: AppMode = useSelector(selectAppMode);
     const currentTab = useSelector(selectConfigurationTabNames);
 
     /**

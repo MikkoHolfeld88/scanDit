@@ -17,12 +17,8 @@ export const ListDialog = (props: IImageDialogProps) => {
     const [filename, setFilename] = useState<string>("");
 
     useEffect(() => {
-        setFilename(props.file?.filename || "untitled");
+        setFilename(props.file?.filenameToDisplay || "untitled");
     }, [props.file]);
-
-    useEffect(() => {
-        if (filename === "") setFilename(props?.file?.filename || "untitled");
-    }, [filename]);
 
     const handleAnalyse = () => {
         console.log("Analyse");
@@ -48,17 +44,40 @@ export const ListDialog = (props: IImageDialogProps) => {
                     </IconButton>
                 </div>
             </DialogTitle>
-            <DialogContent className="dialog-content-description">
-                <TextField variant="standard" label="Filename" onChange={updateFilename} value={filename} fullWidth/>
-                <TextField variant="standard" label="Filetype" onChange={updateFilename} disabled value={props.file?.filetype} fullWidth/>
-                <TextField variant="standard" label="Uploaded" onChange={updateFilename} disabled value={props.file?.uploaded} fullWidth/>
+            <DialogContent>
+                <TextField
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Filename"
+                    onChange={updateFilename}
+                    value={filename}
+                    fullWidth/>
+                <TextField
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Filetype"
+                    onChange={updateFilename}
+                    disabled
+                    value={props.file?.filetype}
+                    fullWidth/>
+                {
+                    props?.file?.uploaded &&
+                    <TextField
+                        sx={{mb: 1, mt: 1}}
+                        variant="outlined"
+                        label="Uploaded"
+                        onChange={updateFilename}
+                        disabled
+                        value={new Date(props.file?.uploaded).toLocaleDateString()}
+                        fullWidth/>
+                }
             </DialogContent>
             <DialogActions>
+                <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>
+                    {props.file?.filename === filename || filename === "" ? "Cancel" : "Update"}
+                </Button>
                 <Button variant="outlined" onClick={handleAnalyse}>
                     Start
-                </Button>
-                <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>
-                    {props.file?.filename === filename || filename === "" ? "Close" : "Update"}
                 </Button>
             </DialogActions>
         </Dialog>

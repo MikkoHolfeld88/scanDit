@@ -4,6 +4,7 @@ import {COLLECTIONS_REALTIME_DATABASE} from "../firebase/enums/collections.realt
 import {v4 as uuidv4} from 'uuid';
 import {File as FileObject} from "../models/File";
 import {auth, realtimeDatabase} from "../firebase/firebase";
+import path from 'path-browserify';
 
 /**
  * Diese Funktion lädt eine Datei in Firebase Storage hoch und speichert die Metadaten in der Realtime Database.
@@ -20,6 +21,7 @@ export const postFile = async (filePathURL: string, filetype: string, filename: 
         const newFileData: FileObject = {
             id: uuidv4(),
             filename: filename,
+            filenameToDisplay: path.basename(filename, path.extname(filename)),
             uploaded: new Date().toISOString(),
             url: filePathURL,
             filetype: filetype,
@@ -78,7 +80,7 @@ export const updateFilenameInDatabase = async (fileId: string | undefined, newFi
         const fileRef: DatabaseReference = ref(realtimeDatabase, `/${uid}/${COLLECTIONS_REALTIME_DATABASE.FILES}/${fileId}`);
 
         try {
-            await update(fileRef, { filename: newFilename, updated: new Date().toISOString() });
+            await update(fileRef, { filenameToDisplay: newFilename, updated: new Date().toISOString() });
         } catch (error) {
             console.error("Failed to update filename in Realtime Database:", error);
         }

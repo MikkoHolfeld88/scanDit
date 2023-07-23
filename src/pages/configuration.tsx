@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Divider, Tab, Tabs} from "@mui/material";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ExtensionIcon from '@mui/icons-material/Extension';
@@ -7,12 +7,13 @@ import {useSelector} from "react-redux";
 import {selectIsBottomBar} from "../store/slices/sidebar/selectors";
 import SwipeableViews from 'react-swipeable-views';
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import {selectConfigurationTab} from "../store/slices/appConfig/selectors";
+import {selectAppMode, selectConfigurationTab} from "../store/slices/appConfig/selectors";
 import {useAppDispatch} from "../store/store";
-import {setConfigurationTab} from "../store/slices/appConfig/reducers";
+import {setAppMode, setConfigurationTab} from "../store/slices/appConfig/reducers";
 import {Pipelines} from "./pipelines";
 import {CONFIGURATION_TAB_NAMES} from "../enums/configurationTabNames.enum";
+import {AppMode} from "../models/AppMode";
+import {APP_MODE} from "../enums/appMode.enum";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -42,12 +43,18 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export const Configuration = () => {
+    const appMode: AppMode = useSelector(selectAppMode);
     const dispatch = useAppDispatch();
     const isBottomBar = useSelector(selectIsBottomBar);
     const configurationTab = useSelector(selectConfigurationTab);
 
     const handleChange = (newValue: number) => {
         dispatch(setConfigurationTab(newValue));
+
+        if(appMode === APP_MODE.PIPELINE_DELETION) {
+            dispatch(setAppMode(APP_MODE.DEFAULT));
+        }
+
     };
 
     return (

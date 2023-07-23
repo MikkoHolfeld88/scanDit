@@ -16,6 +16,8 @@ import {Splitter, SplitterPanel} from "primereact/splitter";
 import {PipelineViewer} from "./pipelineViewer";
 import {Container, Row} from "react-bootstrap";
 import {DIRECTIONS} from "../../../enums/directions.enum";
+import {selectAppMode} from "../../../store/slices/appConfig/selectors";
+import {AppMode} from "../../../models/AppMode";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {

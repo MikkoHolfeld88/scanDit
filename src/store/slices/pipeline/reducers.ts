@@ -79,7 +79,7 @@ export const pipelineSlice = createSlice({
                 pipeline.icon = action.payload.icon;
             }
         },
-        removePipeline: (state, action) => {
+        deletePipeline: (state, action) => {
             state.pipelines = state.pipelines.filter(pipeline => pipeline.id !== action.payload);
         },
         addTemplate: (state, action) => {
@@ -196,6 +196,6 @@ export const pipelineSlice = createSlice({
     }
 });
 
-export const {setNodes, setEdges, updateNodeDimensions, centerNodesHorizontally, centerNodesVertically} = pipelineSlice.actions;
+export const {setNodes, setEdges, updateNodeDimensions, centerNodesHorizontally, centerNodesVertically, deletePipeline} = pipelineSlice.actions;
 
 export default pipelineSlice.reducer;

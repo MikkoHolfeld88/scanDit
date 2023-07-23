@@ -35,14 +35,7 @@ export const Upload = () => {
 
         uploadBytes(imageRef, file).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((filePathURL) => {
-                    postFile(filePathURL, filetype, file.name)
-                        // .then(() => {
-                        //     dispatch(setIsUploading(false));  // Zustand auf 'false' setzen, nachdem der Upload abgeschlossen ist
-                        // })
-                        // .catch((error) => {
-                        //     console.error(error);
-                        //     dispatch(setIsUploading(false));  // Zustand auf 'false' setzen, auch wenn ein Fehler auftritt
-                        // });
+                postFile(filePathURL, filetype, file.name)
             });
         });
     }

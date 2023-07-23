@@ -1,6 +1,7 @@
 export type File = {
     uploaded: string,
     filename: string,
+    filenameToDisplay?: string,
     url: string,
     id?: string
     filetype?: string,
