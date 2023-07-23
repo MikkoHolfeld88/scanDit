@@ -12,6 +12,17 @@ export const pipelineSlice = createSlice({
         setPipelines: (state, action) => {
             state.pipelines = action.payload;
         },
+        editPipeline: (state, action) => {
+            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.id);
+            if (pipeline) {
+                pipeline.name = action.payload.name ? action.payload.name : pipeline.name;
+                pipeline.description = action.payload.description ? action.payload.description : pipeline.description
+                pipeline.updated = new Date().toISOString();
+                pipeline.author = action.payload.author ? action.payload.author : pipeline.author;
+                pipeline.icon = action.payload.icon ? action.payload.icon : pipeline.icon;
+                pipeline.templates = action.payload.templates ? action.payload.templates : pipeline.templates;
+            }
+        },
         addPipeline: (state, action) => {
             state.pipelines.push(action.payload);
         },
@@ -47,6 +58,7 @@ export const pipelineSlice = createSlice({
 
 export const {
     addPipeline,
+    editPipeline,
     deletePipeline
 } = pipelineSlice.actions;
 

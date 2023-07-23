@@ -16,18 +16,20 @@ import {APP_MODE} from "../../../enums/appMode.enum";
 import {useAppDispatch} from "../../../store/store";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {deletePipeline} from "../../../store/slices/pipeline/reducers";
+import {PipelineEditDialog} from "./pipelineEditDialog";
 
 export const PipelineList = () => {
     const dispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
     const pipelines = useSelector(selectPipelines)
     const [openPipelineEditionWindow, setOpenPipelineEditionWindow] = React.useState<boolean>(false);
+    const [openPipelineEditDialog, setOpenPipelineEditDialog] = React.useState<boolean>(false);
     const [pipelineId, setPipelineId] = React.useState<string>("");
     const [pipelineName, setPipelineName] = React.useState<string>("");
 
     const handleDetailEdit = (event: React.MouseEvent<SVGSVGElement>) => {
         event.stopPropagation();
-        console.log("Edit pipeline");
+        setOpenPipelineEditDialog(true);
     }
 
     const handlePipelineEdit = (pipelineId: string) => {
@@ -40,13 +42,13 @@ export const PipelineList = () => {
         if (appMode === APP_MODE.PIPELINE_DELETION) {
             dispatch(setAppMode(APP_MODE.DEFAULT));
         }
-    }
+    };
 
     const handlePipelineDeletion = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
         dispatch(deletePipeline(pipelineId));
         dispatch(setAppMode(APP_MODE.DEFAULT));
-    }
+    };
 
     return (
         <React.Fragment>
@@ -76,6 +78,10 @@ export const PipelineList = () => {
                 name={pipelineName}
                 open={openPipelineEditionWindow}
                 setOpen={setOpenPipelineEditionWindow}/>
+            <PipelineEditDialog
+                open={openPipelineEditDialog}
+                setOpen={setOpenPipelineEditDialog}
+                pipelineId={pipelineId} />
         </React.Fragment>
     );
 }

@@ -52,25 +52,6 @@ export const ListDialog = (props: IImageDialogProps) => {
                     onChange={updateFilename}
                     value={filename}
                     fullWidth/>
-                <TextField
-                    sx={{mb: 1, mt: 1}}
-                    variant="outlined"
-                    label="Filetype"
-                    onChange={updateFilename}
-                    disabled
-                    value={props.file?.filetype}
-                    fullWidth/>
-                {
-                    props?.file?.uploaded &&
-                    <TextField
-                        sx={{mb: 1, mt: 1}}
-                        variant="outlined"
-                        label="Uploaded"
-                        onChange={updateFilename}
-                        disabled
-                        value={new Date(props.file?.uploaded).toLocaleDateString()}
-                        fullWidth/>
-                }
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>

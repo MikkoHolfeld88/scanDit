@@ -6,13 +6,15 @@ import Divider from '@mui/material/Divider';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import AddIcon from "@mui/icons-material/Add";
 import ListItemText from "@mui/material/ListItemText";
-import {ExpandLess, ExpandMore, StarBorder} from "@mui/icons-material";
+import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import {Collapse, ListItemIcon} from "@mui/material";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import {selectTemplates} from "../../../store/slices/template/selectors";
 import {useSelector} from "react-redux";
 import {Template} from "../../../models/Template";
+import ExtensionIcon from "@mui/icons-material/Extension";
+import {PuzzleIcon} from "../../../style/providePuzzleIcons";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -65,7 +67,7 @@ interface CreateTemplateMenuProps {
 
 export const CreateTemplateMenu = (props: CreateTemplateMenuProps) => {
     const [open, setOpen] = React.useState(false);
-    const templates: Template[] = useSelector(selectTemplates)
+    const templates: Template[] = useSelector(selectTemplates);
 
     const handleClick = () => {
         setOpen(!open);
@@ -79,8 +81,7 @@ export const CreateTemplateMenu = (props: CreateTemplateMenuProps) => {
             }}
             anchorEl={props.anchorEl}
             open={props.open}
-            onClose={props.handleClose}
-        >
+            onClose={props.handleClose}>
             <MenuItem onClick={props.handleClose} disableRipple>
                 <AddIcon/>
                 Create Template
@@ -93,10 +94,10 @@ export const CreateTemplateMenu = (props: CreateTemplateMenuProps) => {
             </MenuItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {templates.map((template) => (
-                        <ListItemButton key={template.id} sx={{pl: 4}}>
+                    {templates.map((template, index) => (
+                        <ListItemButton key={template.id + "_" + index} sx={{pl: 4}}>
                             <ListItemIcon>
-                                <StarBorder/>
+                                <PuzzleIcon />
                             </ListItemIcon>
                             <ListItemText primary={template.name}/>
                         </ListItemButton>
