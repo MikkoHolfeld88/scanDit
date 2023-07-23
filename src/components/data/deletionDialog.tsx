@@ -23,7 +23,7 @@ export const DeletionDialog = (props: IDeletionDialogProps) => {
         <Dialog open={props.open} onClose={() => props.setOpen(false)} maxWidth="xl" fullWidth>
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Typography variant="body1">Really delete <b>{props.file?.filename}</b>?</Typography>
+                    <Typography variant="body1">Really delete <b>{props.file?.filenameToDisplay}</b>?</Typography>
                     <IconButton edge="end" color="inherit" onClick={() => {
                         props.setOpen(false);
                     }}>
@@ -32,13 +32,13 @@ export const DeletionDialog = (props: IDeletionDialogProps) => {
                 </div>
             </DialogTitle>
             <DialogActions>
-                <Button variant="outlined" onClick={handleDeletion} color="warning">
-                    Delete
-                </Button>
                 <Button variant="outlined" autoFocus onClick={() => {
                     props.setOpen(false);
                 }}>
-                    Close
+                    Cancel
+                </Button>
+                <Button variant="outlined" onClick={handleDeletion} color="warning">
+                    Delete
                 </Button>
             </DialogActions>
         </Dialog>

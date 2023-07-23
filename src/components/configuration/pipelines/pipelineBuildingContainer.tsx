@@ -8,16 +8,11 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
-import {useSelector} from "react-redux";
-import {selectPipelineById} from "../../../store/slices/pipeline/selectors";
-import {RootState} from "../../../store/store";
 import {PipelineBuilder} from "./pipelineBuilder";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import {PipelineViewer} from "./pipelineViewer";
 import {Container, Row} from "react-bootstrap";
 import {DIRECTIONS} from "../../../enums/directions.enum";
-import {selectAppMode} from "../../../store/slices/appConfig/selectors";
-import {AppMode} from "../../../models/AppMode";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -30,27 +25,25 @@ const Transition = React.forwardRef(function Transition(
 
 interface PipelineBuildingContainerProps {
     pipelineId: string;
+    name: string
     open: boolean;
     setOpen: (open: boolean) => void;
 }
 
 export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps) => {
-    const pipeline = useSelector((state: RootState) => selectPipelineById(state, props.pipelineId));
+    const [direction, setDirection] = React.useState<DIRECTIONS>(DIRECTIONS.DOWN);
 
     const handleClose = () => {
         props.setOpen(false);
     };
 
     const handleSave = () => {
-        console.log("Save pipeline");
+        console.log("Save pipeline - call to database");
         props.setOpen(false);
     }
 
-    const onCreateNode = () => {
-        console.log("Create node");
-    }
-
     const onNavigateToNode = (direction: DIRECTIONS) => {
+        setDirection(direction);
         console.log("Navigate to node", direction);
     }
 
@@ -77,7 +70,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                         </Row>
                         <Row>
                             <Typography sx={{ml: 2, flex: 1}} variant="caption" component="div">
-                                {pipeline?.name}
+                                {props.name || props.pipelineId}
                             </Typography>
                         </Row>
                     </Container>
@@ -86,14 +79,14 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Splitter style={{ height: '100%' }} layout="vertical">
+            <Splitter style={{height: '100%'}} layout="vertical">
                 <SplitterPanel size={20}>
                     <PipelineBuilder
-                        onCreate={onCreateNode}
+                        pipelineId={props.pipelineId}
                         onNavigate={onNavigateToNode}/>
                 </SplitterPanel>
                 <SplitterPanel size={80} minSize={50}>
-                    <PipelineViewer />
+                    <PipelineViewer pipelineId={props.pipelineId}/>
                 </SplitterPanel>
             </Splitter>
         </Dialog>

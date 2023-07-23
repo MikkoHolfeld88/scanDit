@@ -16,3 +16,7 @@
 #pipeline-deletion-icon.wiggle {
     animation: wiggle 0.3s linear infinite;
 }
+
+#create-template-menu {
+    margin: 5px;
+}

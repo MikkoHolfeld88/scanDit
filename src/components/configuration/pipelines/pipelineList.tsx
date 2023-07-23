@@ -23,6 +23,7 @@ export const PipelineList = () => {
     const pipelines = useSelector(selectPipelines)
     const [openPipelineEditionWindow, setOpenPipelineEditionWindow] = React.useState<boolean>(false);
     const [pipelineId, setPipelineId] = React.useState<string>("");
+    const [pipelineName, setPipelineName] = React.useState<string>("");
 
     const handleDetailEdit = (event: React.MouseEvent<SVGSVGElement>) => {
         event.stopPropagation();
@@ -32,6 +33,7 @@ export const PipelineList = () => {
     const handlePipelineEdit = (pipelineId: string) => {
         if(appMode !== APP_MODE.PIPELINE_DELETION) {
             setPipelineId(pipelineId);
+            setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
             setOpenPipelineEditionWindow(true);
         }
 
@@ -71,6 +73,7 @@ export const PipelineList = () => {
             </List>
             <PipelineBuildingContainer
                 pipelineId={pipelineId}
+                name={pipelineName}
                 open={openPipelineEditionWindow}
                 setOpen={setOpenPipelineEditionWindow}/>
         </React.Fragment>

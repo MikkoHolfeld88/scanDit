@@ -1,4 +1,5 @@
 import {Template} from "./Template";
+import {TemplateRelation} from "./TemplateRelation";
 
 export interface Pipeline {
     id: string,
@@ -8,6 +9,6 @@ export interface Pipeline {
     updated?: string,
     author?: string,
     icon?: any,
-    templates: Template[]
+    templates: TemplateRelation[],
 }
 

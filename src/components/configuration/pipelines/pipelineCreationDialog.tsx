@@ -12,6 +12,10 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
 import {IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import {useAppDispatch} from "../../../store/store";
+import {addPipeline} from "../../../store/slices/pipeline/reducers";
+import {v4} from "uuid";
+import {Pipeline} from "../../../models/Pipeline";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -28,13 +32,28 @@ interface PipelineCreationDialogProps {
 }
 
 export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
+    const dispatch = useAppDispatch();
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
     const [author, setAuthor] = React.useState<string>(    getAuth().currentUser?.displayName || "");
     const [icon, setIcon] = React.useState<string>("");
 
-    const handleClickOpen = () => {
-        props.setOpen(true);
+    const handleCreate = () => {
+        if (name === "") {
+            return;
+        }
+
+        const newPipeline: Pipeline = {
+            id: v4().toString(),
+            name: name,
+            description: description,
+            created: new Date().toISOString(),
+            author: author,
+            icon: icon,
+            templates: [],
+        }
+        dispatch(addPipeline(newPipeline));
+        props.setOpen(false);
     };
 
     const handleClose = () => {
@@ -58,6 +77,7 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
             </DialogTitle>
             <DialogContent>
                 <TextField
+                    required
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"
                     label="Name"
@@ -83,7 +103,7 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} startIcon={<CancelIcon />} variant="outlined">Cancel</Button>
-                <Button onClick={handleClose} startIcon={<AddIcon />} variant="outlined">Create</Button>
+                <Button onClick={handleCreate} startIcon={<AddIcon />} variant="outlined">Create</Button>
             </DialogActions>
         </Dialog>
     );

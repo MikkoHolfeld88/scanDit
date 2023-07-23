@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {loadState} from "./operations/loadState";
 import {saveState} from "./operations/saveState";
 import thunk from "redux-thunk";
+import templateSlice from "./slices/template/reducers";
 
 export const store = configureStore({
     // preloadedState: loadState(),
@@ -14,6 +15,7 @@ export const store = configureStore({
         appConfig: appConfigSlice,
         data: dataSlice,
         pipeline: pipelineSlice,
+        template: templateSlice,
         sidebar: sidebarSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
