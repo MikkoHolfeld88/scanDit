@@ -1,4 +1,4 @@
-import "./style.css"
+import "../style.css"
 import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Button from "@mui/material/Button";
@@ -11,8 +11,8 @@ import NorthEastIcon from '@mui/icons-material/NorthEast';
 import EastIcon from '@mui/icons-material/East';
 import SouthEastIcon from '@mui/icons-material/SouthEast';
 import AddIcon from '@mui/icons-material/Add';
-import {DIRECTIONS} from "../../../enums/directions.enum";
-import {CreateTemplateMenu} from "./createTemplateMenu";
+import {DIRECTIONS} from "../../../../enums/directions.enum";
+import {CreateTemplateMenu} from "../createTemplateMenu";
 
 interface PipelineBuilderProps {
     pipelineId: string;

@@ -2,12 +2,11 @@ import React, {useEffect} from "react";
 import 'reactflow/dist/style.css';
 import {Controls, MiniMap, ReactFlow, useEdgesState, useNodesState, Node} from "reactflow";
 import {useSelector} from "react-redux";
-import {selectPipelineById} from "../../../store/slices/pipeline/selectors";
-import {Pipeline} from "../../../models/Pipeline";
-import {RootState} from "../../../store/store";
-import {createEdgesFromPipeline, createNodesFromPipeline} from "../../../services/pipelineNodeMappingService";
+import {selectPipelineById} from "../../../../store/slices/pipeline/selectors";
+import {Pipeline} from "../../../../models/Pipeline";
+import {RootState} from "../../../../store/store";
+import {createEdgesFromPipeline, createNodesFromPipeline} from "../../../../services/pipelineNodeMappingService";
 import {nodeTypes} from "./nodes/nodeTypes";
-import {NODE_TYPE} from "../../../enums/nodeType.enum";
 
 interface PipelineViewerProps {
     pipelineId: string;

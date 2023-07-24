@@ -12,17 +12,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
 import {IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {RootState, useAppDispatch} from "../../../store/store";
-import {addPipeline, deletePipeline, editPipeline} from "../../../store/slices/pipeline/reducers";
+import {useAppDispatch} from "../../../../store/store";
+import {addPipeline} from "../../../../store/slices/pipeline/reducers";
 import {v4} from "uuid";
-import {Pipeline} from "../../../models/Pipeline";
-import EditIcon from "@mui/icons-material/Edit";
-import {useSelector} from "react-redux";
-import {selectPipelineById, selectPipelines} from "../../../store/slices/pipeline/selectors";
-import {PipelineBuildingContainer} from "./pipelineBuildingContainer";
+import {Pipeline} from "../../../../models/Pipeline";
 import {useEffect} from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import {PipelineDeletionDialog} from "./pipelineDeletionDialog";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -36,61 +30,38 @@ const Transition = React.forwardRef(function Transition(
 interface PipelineCreationDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
-    pipelineId: string;
 }
 
-export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
+export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
     const dispatch = useAppDispatch();
-    const pipeline: Pipeline | undefined = useSelector((state:RootState) => selectPipelineById(state, props.pipelineId));
-    const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
-    const [openPipelineDeletionDialog, setOpenPipelineDeletionDialog] = React.useState<boolean>(false);
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
-    const [author, setAuthor] = React.useState<string>("");
+    const [author, setAuthor] = React.useState<string>(    getAuth().currentUser?.displayName || "");
     const [icon, setIcon] = React.useState<string>("");
 
     useEffect(() => {
-        if (pipeline) {
-            setName(pipeline.name);
-            setDescription(pipeline.description || "");
-            setAuthor(pipeline.author || "");
-            setIcon(pipeline.icon);
+        return () => {
+            clearLocalStates();
         }
-    }, [pipeline]);
+    }, []);
 
-    const handleUpdate = () => {
-        if (name === "" || !pipeline?.id || !pipeline.created) {
+    const handleCreate = () => {
+        if (name === "") {
             return;
         }
 
-        const editedPipeline: Pipeline = {
-            id: pipeline.id,
+        const newPipeline: Pipeline = {
+            id: v4().toString(),
             name: name,
-            description: description ? description : undefined,
-            created: pipeline.created,
-            author: author ? author : undefined,
-            icon: icon ? icon : undefined,
-            templates: pipeline.templates,
+            description: description,
+            created: new Date().toISOString(),
+            author: author,
+            icon: icon,
+            templates: [],
         }
-
-        dispatch(editPipeline(editedPipeline));
-        props.setOpen(false);
+        dispatch(addPipeline(newPipeline));
+        handleClose();
     };
-
-    const handlePipelineBuilderClick = () => {
-        handleUpdate();
-        setOpenPipelineBuilder(true);
-        props.setOpen(false);
-
-    }
-
-    const handleDeletion = () => {
-        dispatch(deletePipeline(pipeline?.id || ""));
-        setOpenPipelineDeletionDialog(false);
-        clearLocalStates();
-        props.setOpen(false);
-
-    }
 
     const clearLocalStates = () => {
         setName("");
@@ -100,6 +71,7 @@ export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
     }
 
     const handleClose = () => {
+        clearLocalStates();
         props.setOpen(false);
     };
 
@@ -112,8 +84,8 @@ export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Typography variant="h6">Edit pipeline</Typography>
-                    <IconButton edge="end" color="inherit" onClick={() => {props.setOpen(false);}}>
+                    <Typography variant="h6">Create pipeline</Typography>
+                    <IconButton edge="end" color="inherit" onClick={handleClose}>
                         <CloseIcon/>
                     </IconButton>
                 </div>
@@ -143,24 +115,11 @@ export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
                     multiline
                     rows={4}
                     fullWidth/>
-                <Button fullWidth variant="contained" onClick={handlePipelineBuilderClick}>Pipeline builder</Button>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} startIcon={<CancelIcon />} variant="outlined">Cancel</Button>
-                <Button onClick={handleUpdate} startIcon={<EditIcon />} variant="outlined">Update</Button>
-                <Button onClick={() => setOpenPipelineDeletionDialog(true)} startIcon={<DeleteIcon />} variant="outlined" color="warning"></Button>
+                <Button onClick={handleCreate} startIcon={<AddIcon />} variant="outlined">Create</Button>
             </DialogActions>
-            <PipelineBuildingContainer
-                pipelineId={pipeline?.id || ""}
-                name={pipeline?.name || ""}
-                open={openPipelineBuilder}
-                setOpen={setOpenPipelineBuilder}/>
-            <PipelineDeletionDialog
-                handleDeletion={handleDeletion}
-                pipelineId={props.pipelineId}
-                pipelineName={pipeline?.name || ""}
-                open={openPipelineDeletionDialog}
-                setOpen={setOpenPipelineDeletionDialog} />
         </Dialog>
     );
 }

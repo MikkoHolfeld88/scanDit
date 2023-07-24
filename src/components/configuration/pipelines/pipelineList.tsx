@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import EditIcon from "@mui/icons-material/Edit";
 import {useSelector} from "react-redux";
 import {selectPipelines} from "../../../store/slices/pipeline/selectors";
-import {PipelineBuildingContainer} from "./pipelineBuildingContainer";
+import {PipelineBuildingContainer} from "./builder/pipelineBuildingContainer";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {AppMode} from "../../../models/AppMode";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,27 +16,28 @@ import {APP_MODE} from "../../../enums/appMode.enum";
 import {useAppDispatch} from "../../../store/store";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {deletePipeline} from "../../../store/slices/pipeline/reducers";
-import {PipelineEditDialog} from "./pipelineEditDialog";
+import {PipelineEditDialog} from "./dialogs/pipelineEditDialog";
 
 export const PipelineList = () => {
     const dispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
     const pipelines = useSelector(selectPipelines)
-    const [openPipelineEditionWindow, setOpenPipelineEditionWindow] = React.useState<boolean>(false);
+    const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
     const [openPipelineEditDialog, setOpenPipelineEditDialog] = React.useState<boolean>(false);
     const [pipelineId, setPipelineId] = React.useState<string>("");
     const [pipelineName, setPipelineName] = React.useState<string>("");
 
-    const handleDetailEdit = (event: React.MouseEvent<SVGSVGElement>) => {
+    const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
+        setPipelineId(pipelineId);
         setOpenPipelineEditDialog(true);
     }
 
-    const handlePipelineEdit = (pipelineId: string) => {
-        if(appMode !== APP_MODE.PIPELINE_DELETION) {
+    const handlePipelineBuilderOpen = (pipelineId: string) => {
+        if (appMode !== APP_MODE.PIPELINE_DELETION) {
             setPipelineId(pipelineId);
             setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
-            setOpenPipelineEditionWindow(true);
+            setOpenPipelineBuilder(true);
         }
 
         if (appMode === APP_MODE.PIPELINE_DELETION) {
@@ -56,12 +57,17 @@ export const PipelineList = () => {
                 {pipelines.map((pipeline, index) => {
                     return (
                         <ListItem
-                            onClick={() => handlePipelineEdit(pipeline.id)}
+                            onClick={() => handlePipelineBuilderOpen(pipeline.id)}
                             key={pipeline.id + "_" + index}
                             secondaryAction={
-                                appMode !== APP_MODE.PIPELINE_DELETION ?
-                                <EditIcon onClick={(event) => handleDetailEdit(event)}/> :
-                                <DeleteIcon id="pipeline-deletion-icon" className="wiggle" onClick={(event) => handlePipelineDeletion(event, pipeline.id)} color="warning"/>}
+                                appMode !== APP_MODE.PIPELINE_DELETION
+                                    ? <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
+                                    : <DeleteIcon
+                                        id="pipeline-deletion-icon"
+                                        className="wiggle"
+                                        onClick={(event) => handlePipelineDeletion(event, pipeline.id)}
+                                        color="warning"/>
+                            }
                             disablePadding>
                             <ListItemButton>
                                 <ListItemAvatar>
@@ -74,14 +80,16 @@ export const PipelineList = () => {
                 })}
             </List>
             <PipelineBuildingContainer
+                open={openPipelineBuilder}
+                setOpen={setOpenPipelineBuilder}
                 pipelineId={pipelineId}
                 name={pipelineName}
-                open={openPipelineEditionWindow}
-                setOpen={setOpenPipelineEditionWindow}/>
+            />
             <PipelineEditDialog
                 open={openPipelineEditDialog}
                 setOpen={setOpenPipelineEditDialog}
-                pipelineId={pipelineId} />
+                pipelineId={pipelineId}
+            />
         </React.Fragment>
     );
 }

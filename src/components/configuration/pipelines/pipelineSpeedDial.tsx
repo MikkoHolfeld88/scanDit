@@ -12,7 +12,7 @@ import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {Backdrop} from "@mui/material";
 import {useEffect} from "react";
-import {PipelineCreationDialog} from "./pipelineCreationDialog";
+import {PipelineCreationDialog} from "./dialogs/pipelineCreationDialog";
 
 enum PipelineSpeedDialActionNames {
     DELETE = 'Delete',

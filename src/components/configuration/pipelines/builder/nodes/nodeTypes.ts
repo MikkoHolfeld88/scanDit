@@ -1,4 +1,4 @@
-import {NODE_TYPE} from "../../../../enums/nodeType.enum";
+import {NODE_TYPE} from "../../../../../enums/nodeType.enum";
 import {EmptyNode} from "./emptyNode";
 
 export const nodeTypes = {

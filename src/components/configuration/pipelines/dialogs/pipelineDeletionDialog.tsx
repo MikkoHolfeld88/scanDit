@@ -3,7 +3,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import "./style.css"
+import "../style.css"
 
 export interface PipelineDeletionDialogProps {
     handleDeletion: () => void;

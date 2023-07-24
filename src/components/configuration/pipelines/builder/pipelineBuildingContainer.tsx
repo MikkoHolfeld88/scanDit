@@ -12,7 +12,7 @@ import {PipelineBuilder} from "./pipelineBuilder";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import {PipelineViewer} from "./pipelineViewer";
 import {Container, Row} from "react-bootstrap";
-import {DIRECTIONS} from "../../../enums/directions.enum";
+import {DIRECTIONS} from "../../../../enums/directions.enum";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {

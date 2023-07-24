@@ -16,7 +16,6 @@ export const Data = () => {
 
     useEffect(() => {
         const unsubscribe = getUserFiles((data: File[] | null) => {
-            console.log(data);
             dispatch(setFiles(data));
         });
 
