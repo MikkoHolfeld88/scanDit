@@ -1,4 +1,3 @@
-import {Template} from "./Template";
 import {TemplateRelation} from "./TemplateRelation";
 
 export interface Pipeline {
@@ -10,5 +9,6 @@ export interface Pipeline {
     author?: string,
     icon?: any,
     templates: TemplateRelation[],
+    userId?: string
 }
 

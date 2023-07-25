@@ -1,7 +1,11 @@
 import {PipelineState} from "./types";
 import {createSlice} from "@reduxjs/toolkit";
+import {fetchPipelines} from "./thunks";
+import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 
 const initialState: PipelineState = {
+    status: FETCHING_STATE.IDLE,
+    error: undefined,
     pipelines: [],
 }
 
@@ -53,6 +57,19 @@ export const pipelineSlice = createSlice({
         deletePipeline: (state, action) => {
             state.pipelines = state.pipelines.filter(pipeline => pipeline.id !== action.payload);
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchPipelines.pending, (state) => {
+            state.status = FETCHING_STATE.LOADING;
+        });
+        builder.addCase(fetchPipelines.fulfilled, (state, action) => {
+            state.status = FETCHING_STATE.SUCCEEDED;
+            state.pipelines = action.payload;
+        });
+        builder.addCase(fetchPipelines.rejected, (state, action) => {
+            state.status = FETCHING_STATE.FAILED;
+            state.error = action.error.message;
+        });
     }
 });
 

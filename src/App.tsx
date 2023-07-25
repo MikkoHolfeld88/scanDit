@@ -14,9 +14,8 @@ function App() {
 
     useEffect(() => {
         dispatch(setIsOpen(isTabletOrGreater));
-        dispatch(setIsBottomBar(isMobileOrLess))
-    }, [dispatch, isTabletOrGreater, isMobileOrLess]);
-
+        dispatch(setIsBottomBar(isMobileOrLess));
+    }, [dispatch, isMobileOrLess, isTabletOrGreater]);
 
     return (
         <div className="App">

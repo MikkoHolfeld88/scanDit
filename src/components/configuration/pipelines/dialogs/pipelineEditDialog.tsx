@@ -148,7 +148,7 @@ export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
             <DialogActions>
                 <Button onClick={handleClose} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
-                <Button onClick={() => setOpenPipelineDeletionDialog(true)} startIcon={<DeleteIcon/>} sx={{minHeight: "36.5px"}} variant="outlined" color="warning"></Button>
+                <IconButton onClick={() => setOpenPipelineDeletionDialog(true)} sx={{minHeight: "36.5px"}} ><DeleteIcon color="warning" /></IconButton>
             </DialogActions>
             <PipelineBuildingContainer
                 pipelineId={pipeline?.id || ""}

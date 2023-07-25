@@ -1,0 +1,3 @@
+import {FETCHING_STATE} from "../enums/fetchingState.enum";
+
+export type FetchingStatus = FETCHING_STATE.IDLE | FETCHING_STATE.LOADING | FETCHING_STATE.SUCCEEDED | FETCHING_STATE.FAILED;
