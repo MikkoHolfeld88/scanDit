@@ -1,10 +1,10 @@
-import {LIST_VIEW_STYLES} from "../../../enums/listViewStyles.enum";
 import {AppMode} from "../../../models/AppMode";
-
-export type ListViewStylesType = LIST_VIEW_STYLES.LIST | LIST_VIEW_STYLES.FREE | LIST_VIEW_STYLES.TABLE;
+import {ListViewStylesType} from "../../../models/ListViewStylesType";
+import {TemplateSortingType} from "../../../models/TemplateSortingType";
 
 export interface AppConfigState {
     listViewStyle: ListViewStylesType;
     configurationTab: number;
+    templateSorting: TemplateSortingType;
     mode: AppMode;
 }

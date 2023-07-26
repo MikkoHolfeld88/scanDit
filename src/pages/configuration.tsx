@@ -14,6 +14,7 @@ import {Pipelines} from "./pipelines";
 import {CONFIGURATION_TAB_NAMES} from "../enums/configurationTabNames.enum";
 import {AppMode} from "../models/AppMode";
 import {APP_MODE} from "../enums/appMode.enum";
+import {Templates} from "./templates";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -34,7 +35,7 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 0, m: 0 }}>
+                <Box sx={{ padding: 0, margin: 0 }}>
                     {children}
                 </Box>
             )}
@@ -65,14 +66,14 @@ export const Configuration = () => {
                 <Tab icon={<PrecisionManufacturingIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.OPERATIONS} />
             </Tabs>
 
-            <Divider />
+            <Divider/>
 
             <SwipeableViews index={configurationTab} onChangeIndex={handleChange}>
                 <TabPanel value={configurationTab} index={0}>
                     <Pipelines />
                 </TabPanel>
                 <TabPanel value={configurationTab} index={1}>
-                    <h1>Templates</h1>
+                    <Templates />
                 </TabPanel>
                 <TabPanel value={configurationTab} index={2}>
                     <h1>Operations</h1>
