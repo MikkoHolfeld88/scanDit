@@ -1,13 +1,13 @@
-import { useSelector } from "react-redux";
-import { selectSearchValue, selectTemplates } from "../../../store/slices/template/selectors";
-import { Template } from "../../../models/Template";
-import React, { useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { TemplateCard } from "./templateCard";
-import { TemplateSortingType } from "../../../models/TemplateSortingType";
-import { selectTemplateSorting } from "../../../store/slices/appConfig/selectors";
-import { getSortFunction } from "../../../services/templateSortingService";
-import { Typography } from "@mui/material";
+import {useSelector} from "react-redux";
+import {selectSearchValue, selectTemplates} from "../../../store/slices/template/selectors";
+import {Template} from "../../../models/Template";
+import React, {useEffect} from "react";
+import {Col, Container, Row} from "react-bootstrap";
+import {TemplateCard} from "./templateCard";
+import {TemplateSortingType} from "../../../models/TemplateSortingType";
+import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
+import {getSortFunction} from "../../../services/templateSortingService";
+import {Typography} from "@mui/material";
 import {TEMPLATE_SORTING} from "../../../enums/teplateSorting.enum";
 import "./style.css"
 
@@ -31,11 +31,11 @@ export const TemplateCards = () => {
             .map((template, index) => {
                 let groupValue: string | null = null;
 
-                if (templateSorting === TEMPLATE_SORTING.ALPHABETICALLY) {
+                if (templateSorting === TEMPLATE_SORTING.ALPHABETICALLY || templateSorting === TEMPLATE_SORTING.ALPHABETICALLY_REVERSE) {
                     groupValue = template.name.charAt(0).toUpperCase();
-                } else if (templateSorting === TEMPLATE_SORTING.BY_TYPE) {
+                } else if (templateSorting === TEMPLATE_SORTING.BY_TYPE || templateSorting === TEMPLATE_SORTING.BY_TYPE_REVERSE) {
                     groupValue = template.type;
-                } else if (templateSorting === TEMPLATE_SORTING.BY_DATE) {
+                } else if (templateSorting === TEMPLATE_SORTING.BY_DATE || templateSorting === TEMPLATE_SORTING.BY_DATE_REVERSE) {
                     const date = template.updated ? new Date(template.updated) : new Date(template.created);
                     groupValue = date.toLocaleDateString();
                 }

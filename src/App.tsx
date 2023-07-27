@@ -13,6 +13,10 @@ function App() {
     const isMobileOrLess = useMediaQuery('(max-width: 575px)', { defaultMatches: true }); // true if width is 575px or less
 
     useEffect(() => {
+        dispatch(setIsBottomBar(true));
+    }, [])
+
+    useEffect(() => {
         dispatch(setIsOpen(isTabletOrGreater));
         dispatch(setIsBottomBar(isMobileOrLess));
     }, [dispatch, isMobileOrLess, isTabletOrGreater]);
