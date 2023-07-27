@@ -23,8 +23,8 @@ enum TemplateSpeedDialActionNames {
 }
 
 const actions = [
-    {icon: <ShareIcon/>, name: TemplateSpeedDialActionNames.SHARE},
     {icon: <DeleteIcon color="warning"/>, name: TemplateSpeedDialActionNames.DELETE},
+    {icon: <ShareIcon/>, name: TemplateSpeedDialActionNames.SHARE},
     {icon: <AddIcon/>, name: TemplateSpeedDialActionNames.CREATE},
 ];
 

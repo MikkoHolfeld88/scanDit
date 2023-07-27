@@ -8,11 +8,22 @@ const initialTemplate: Template = {
     description: 'test',
     created: 'test',
     updated: 'test',
-    type: 'process'
+    type: 'process',
+    editable: false
+}
+
+const testTemplate: Template = {
+    id: '',
+    name: 'search',
+    description: 'test',
+    created: 'test',
+    updated: 'test',
+    type: 'process',
+    editable: false
 }
 
 const initialState: TemplateState = {
-    templates: [initialTemplate],
+    templates: [initialTemplate, initialTemplate, initialTemplate, initialTemplate, initialTemplate, initialTemplate, testTemplate],
     templateSearch: null,
 }
 

@@ -6,12 +6,13 @@ import {Target} from "./Target";
 export interface Template {
     id: string,
     name: string,
-    description?: string,
     created: string,
+    type: TemplateType,
+    editable: boolean,
+    description?: string,
     updated?: string,
     deleted?: string,
     author?: string,
-    type: TemplateType,
     sources?: Source[],
     targets?: Target[],
     operations?: Operation[]

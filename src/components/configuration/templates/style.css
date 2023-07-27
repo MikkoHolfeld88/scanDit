@@ -1,3 +1,8 @@
 .template-buttons-container {
     text-align: center;
 }
+
+.template-card-cols {
+    padding-right: 4px;
+    padding-left: 4px;
+}
