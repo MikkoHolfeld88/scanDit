@@ -8,7 +8,7 @@ import {TemplateSortingType} from "../../../models/TemplateSortingType";
 import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
 import {getSortFunction} from "../../../services/templateSortingService";
 import {Typography} from "@mui/material";
-import {TEMPLATE_SORTING} from "../../../enums/teplateSorting.enum";
+import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
 import "./style.css"
 
 export const TemplateCards = () => {

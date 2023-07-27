@@ -1,13 +1,12 @@
 import {TemplateSortingType} from "../models/TemplateSortingType";
 import {Template} from "../models/Template";
-import {TEMPLATE_SORTING} from "../enums/teplateSorting.enum";
+import {TEMPLATE_SORTING} from "../enums/templateSorting.enum";
 
 export const getSortFunction = (templateSorting: TemplateSortingType) => {
     switch (templateSorting) {
         case TEMPLATE_SORTING.ALPHABETICALLY:
             return sortAlphabetically;
         case TEMPLATE_SORTING.ALPHABETICALLY_REVERSE:
-            console.log("here");
             return (a: Template, b: Template) => sortAlphabetically(b, a);
         case TEMPLATE_SORTING.BY_DATE:
             return sortByDate;
@@ -60,6 +59,10 @@ const sortByDate = (a: Template, b: Template) => {
  * @return The order of the templates
  */
 const sortByType = (a: Template, b: Template) => {
+    if (!a || !b) return 0;
+
+    if (!a.type || !b.type) return 0;
+
     if (a.type < b.type) {
         return -1;
     }

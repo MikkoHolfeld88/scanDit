@@ -25,9 +25,9 @@ export const TemplateSearch = () => {
             value={searchValue}
             onChange={(event: any, newValue: string | null) => {dispatch(setTemplateSearch(newValue));}}
             options={templateSearchOptions}
+            fullWidth
             renderInput={(params) =>
                 <TextField {...params} label="Template name" variant="standard"/>}
-            fullWidth
         />
     );
 }

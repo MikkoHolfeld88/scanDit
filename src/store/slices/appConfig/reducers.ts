@@ -2,7 +2,7 @@ import {AppConfigState} from "./types";
 import {LIST_VIEW_STYLES} from "../../../enums/listViewStyles.enum";
 import {createSlice} from "@reduxjs/toolkit";
 import {APP_MODE} from "../../../enums/appMode.enum";
-import {TEMPLATE_SORTING} from "../../../enums/teplateSorting.enum";
+import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
 
 const initialState: AppConfigState = {
     listViewStyle: LIST_VIEW_STYLES.LIST,

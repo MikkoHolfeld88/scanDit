@@ -1,4 +1,4 @@
-import {TEMPLATE_SORTING} from "../enums/teplateSorting.enum";
+import {TEMPLATE_SORTING} from "../enums/templateSorting.enum";
 
 export type TemplateSortingType =
     TEMPLATE_SORTING.ALPHABETICALLY

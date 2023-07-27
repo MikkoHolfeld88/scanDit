@@ -1,13 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TemplateState} from "./types";
 import {Template} from "../../../models/Template";
+import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
 
 const initialTemplate: Template = {
     id: '',
     name: 'test',
     description: 'test',
     created: new Date().toISOString(),
-    type: 'process',
+    type: TEMPLATE_TYPE.INPUT,
     editable: false
 }
 
@@ -20,7 +21,7 @@ const testTemplate: Template = {
     description: 'test',
     created: yesterday.toISOString(),
     updated: yesterday.toISOString(),
-    type: 'process',
+    type: TEMPLATE_TYPE.PROCESS,
     editable: false
 }
 
