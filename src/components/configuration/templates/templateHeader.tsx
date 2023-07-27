@@ -7,7 +7,7 @@ import {primaryGrey} from "../../../style/theme";
 
 export const TemplateHeader = () => {
     return (
-        <Container style={{minHeight: "150px", backgroundColor: primaryGrey}}>
+        <Container style={{minHeight: "150px", backgroundColor: "white"}}>
             <Row style={{margin: "5px 0 5px 0"}}>
                 <TemplateSearch />
             </Row>

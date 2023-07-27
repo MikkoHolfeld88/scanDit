@@ -1,13 +1,15 @@
-import {useSelector} from "react-redux";
-import {selectSearchValue, selectTemplates} from "../../../store/slices/template/selectors";
-import {Template} from "../../../models/Template";
-import React, {useEffect} from "react";
-import {Col, Container, Row} from "react-bootstrap";
-import {TemplateCard} from "./templateCard";
-import "./style.css"
-import {TemplateSortingType} from "../../../models/TemplateSortingType";
-import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
+import { useSelector } from "react-redux";
+import { selectSearchValue, selectTemplates } from "../../../store/slices/template/selectors";
+import { Template } from "../../../models/Template";
+import React, { useEffect } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { TemplateCard } from "./templateCard";
+import { TemplateSortingType } from "../../../models/TemplateSortingType";
+import { selectTemplateSorting } from "../../../store/slices/appConfig/selectors";
+import { getSortFunction } from "../../../services/templateSortingService";
+import { Typography } from "@mui/material";
 import {TEMPLATE_SORTING} from "../../../enums/teplateSorting.enum";
+import "./style.css"
 
 export const TemplateCards = () => {
     const templates: Template[] = useSelector(selectTemplates)
@@ -22,32 +24,69 @@ export const TemplateCards = () => {
         setSortedTemplates(newSortedTemplates);
     }, [templateSorting, templates]);
 
+    const renderTemplates = (templates: Template[], templateSearch: string | null, templateSorting: TemplateSortingType): JSX.Element[] => {
+        let lastGroupValue: string | null = null;
+
+        return templates
+            .map((template, index) => {
+                let groupValue: string | null = null;
+
+                if (templateSorting === TEMPLATE_SORTING.ALPHABETICALLY) {
+                    groupValue = template.name.charAt(0).toUpperCase();
+                } else if (templateSorting === TEMPLATE_SORTING.BY_TYPE) {
+                    groupValue = template.type;
+                } else if (templateSorting === TEMPLATE_SORTING.BY_DATE) {
+                    const date = template.updated ? new Date(template.updated) : new Date(template.created);
+                    groupValue = date.toLocaleDateString();
+                }
+
+                let groupHeader = null;
+                if (groupValue !== lastGroupValue) {
+                    lastGroupValue = groupValue;
+                    groupHeader = (
+                        <Row className="group-header-template-cards">
+                            <Typography variant="body2">
+                                {
+                                    groupValue
+                                }
+                            </Typography>
+                        </Row>
+                    );
+                }
+
+                if (templateSearch) {
+                    if (templateSearch.toLowerCase() === template.name.toLowerCase()) {
+                        return (
+                            <React.Fragment key={index}>
+                                {groupHeader}
+                                <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
+                                    <TemplateCard template={template} />
+                                </Col>
+                            </React.Fragment>
+                        )
+                    } else {
+                        return null;
+                    }
+                }
+
+                return (
+                    <React.Fragment key={index}>
+                        {groupHeader}
+                        <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
+                            <TemplateCard template={template} />
+                        </Col>
+                    </React.Fragment>
+                )
+            })
+            .filter(templateElement => templateElement !== null) as JSX.Element[];
+    }
 
     return (
         <Container>
             <Row>
                 {
-                    sortedTemplates && sortedTemplates.map((template, index) => {
-                        if (templateSearch){
-                            if (templateSearch.toLowerCase() === template.name.toLowerCase()){
-                                return (
-                                    <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
-                                        <TemplateCard template={template} />
-                                    </Col>
-                                )
-                            } else {
-                                return null;
-                            }
-                        }
-
-                        return (
-                            <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
-                                <TemplateCard template={template} />
-                            </Col>
-                        )
-                    })
+                    sortedTemplates && renderTemplates(sortedTemplates, templateSearch, templateSorting)
                 }
-
             </Row>
         </Container>
     );

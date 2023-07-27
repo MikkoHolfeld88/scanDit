@@ -6,24 +6,26 @@ const initialTemplate: Template = {
     id: '',
     name: 'test',
     description: 'test',
-    created: 'test',
-    updated: 'test',
+    created: new Date().toISOString(),
     type: 'process',
     editable: false
 }
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1); // gestern
 
 const testTemplate: Template = {
     id: '',
     name: 'search',
     description: 'test',
-    created: 'test',
-    updated: 'test',
+    created: yesterday.toISOString(),
+    updated: yesterday.toISOString(),
     type: 'process',
     editable: false
 }
 
 const initialState: TemplateState = {
-    templates: [initialTemplate, initialTemplate, initialTemplate, initialTemplate, initialTemplate, initialTemplate, testTemplate],
+    templates: [initialTemplate, testTemplate],
     templateSearch: null,
 }
 
