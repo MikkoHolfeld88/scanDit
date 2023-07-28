@@ -22,6 +22,7 @@ import {FetchingStatus} from "../../../models/FetchingStatus";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
+import "./style.css"
 
 const PipelineListSkeleton = () => {
     return (
@@ -86,49 +87,49 @@ export const PipelineList = () => {
                     )
                 })
             )
+        } else {
+            return (
+                <React.Fragment>
+                    <List dense sx={{width: '100%', bgcolor: 'background.paper', borderRadius: "0px"}}>
+                        {pipelines.map((pipeline, index) => {
+                            return (
+                                <ListItem
+                                    onClick={() => handlePipelineBuilderOpen(pipeline.id)}
+                                    key={pipeline.id + "_" + index}
+                                    secondaryAction={
+                                        appMode !== APP_MODE.PIPELINE_DELETION
+                                            ? <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
+                                            : <DeleteIcon
+                                                id="pipeline-deletion-icon"
+                                                className="wiggle"
+                                                onClick={(event) => handlePipelineDeletion(event, pipeline.id)}
+                                                color="warning"/>
+                                    }
+                                    disablePadding>
+                                    <ListItemButton>
+                                        <ListItemAvatar>
+                                            <Avatar src={pipeline.icon}/>
+                                        </ListItemAvatar>
+                                        <ListItemText id={pipeline.id} primary={`${pipeline.name}`}/>
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                    <PipelineBuildingContainer
+                        open={openPipelineBuilder}
+                        setOpen={setOpenPipelineBuilder}
+                        pipelineId={pipelineId}
+                        name={pipelineName}
+                    />
+                    <PipelineEditDialog
+                        open={openPipelineEditDialog}
+                        setOpen={setOpenPipelineEditDialog}
+                        pipelineId={pipelineId}
+                    />
+                </React.Fragment>
+            )
         }
-
-        return (
-            <React.Fragment>
-                <List dense sx={{width: '100%', bgcolor: 'background.paper', borderRadius: "0px"}}>
-                    {pipelines.map((pipeline, index) => {
-                        return (
-                            <ListItem
-                                onClick={() => handlePipelineBuilderOpen(pipeline.id)}
-                                key={pipeline.id + "_" + index}
-                                secondaryAction={
-                                    appMode !== APP_MODE.PIPELINE_DELETION
-                                        ? <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
-                                        : <DeleteIcon
-                                            id="pipeline-deletion-icon"
-                                            className="wiggle"
-                                            onClick={(event) => handlePipelineDeletion(event, pipeline.id)}
-                                            color="warning"/>
-                                }
-                                disablePadding>
-                                <ListItemButton>
-                                    <ListItemAvatar>
-                                        <Avatar src={pipeline.icon}/>
-                                    </ListItemAvatar>
-                                    <ListItemText id={pipeline.id} primary={`${pipeline.name}`}/>
-                                </ListItemButton>
-                            </ListItem>
-                        );
-                    })}
-                </List>
-                <PipelineBuildingContainer
-                    open={openPipelineBuilder}
-                    setOpen={setOpenPipelineBuilder}
-                    pipelineId={pipelineId}
-                    name={pipelineName}
-                />
-                <PipelineEditDialog
-                    open={openPipelineEditDialog}
-                    setOpen={setOpenPipelineEditDialog}
-                    pipelineId={pipelineId}
-                />
-            </React.Fragment>
-        )
     }
 
     return (
