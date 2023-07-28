@@ -1,14 +1,18 @@
 import React, {useRef} from 'react';
-import {Button} from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
 import {storage} from "../../firebase/firebase";
 import {getDownloadURL, ref, uploadBytes, StorageReference} from 'firebase/storage';
 import {postFile} from "../../services/realtimeDatabaseService";
 import {createStorageName, mapDatatypeToDatabasePath} from "../../services/storageService";
 import {useAppDispatch} from "../../store/store";
 import {setIsUploading} from "../../store/slices/data/reducers";
+import UploadIcon from '@mui/icons-material/Upload';
+import {useSelector} from "react-redux";
+import {selectIsUploading} from "../../store/slices/data/selectors";
 
 export const Upload = () => {
     const dispatch = useAppDispatch();
+    const isUploading = useSelector(selectIsUploading);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const onFileChange = (e: any) => {
@@ -31,7 +35,7 @@ export const Upload = () => {
 
         uploadBytes(imageRef, file).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((filePathURL) => {
-                    postFile(filePathURL, filetype, file.name);
+                postFile(filePathURL, filetype, file.name)
             });
         });
     }
@@ -54,7 +58,11 @@ export const Upload = () => {
                 onChange={onFileChange}/>
             <Button
                 variant='contained'
-                onClick={handleClick}>
+                onClick={handleClick}
+                endIcon={isUploading ?
+                    <CircularProgress color="secondary" size={20}/> :
+                    <UploadIcon color="secondary"/>
+            }>
                 Upload
             </Button>
         </React.Fragment>

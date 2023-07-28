@@ -8,11 +8,13 @@ import {LIST_VIEW_STYLES} from "../../enums/listViewStyles.enum";
 import {useSelector} from "react-redux";
 import {setListViewStyle} from "../../store/slices/appConfig/reducers";
 import {useAppDispatch} from "../../store/store";
-import {ListViewStylesType} from "../../store/slices/appConfig/types";
+import {ListViewStylesType} from "../../models/ListViewStylesType";
+import {selectListViewStyle} from "../../store/slices/appConfig/selectors";
+
 
 export default function ListViewStyle() {
     const dispatch = useAppDispatch();
-    const viewStyle = useSelector((state: any) => state.appConfig.listViewStyle);
+    const viewStyle = useSelector(selectListViewStyle);
 
     const handleViewStyle = (event: React.MouseEvent<HTMLElement>, newViewStyle: ListViewStylesType) => {
         if (newViewStyle === null) return;

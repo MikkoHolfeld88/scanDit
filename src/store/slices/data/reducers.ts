@@ -11,7 +11,7 @@ export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setData: (state, action) => {
+        setFiles: (state, action) => {
             state.files = action.payload;
             state.isUploading = false;
         },
@@ -21,6 +21,6 @@ export const dataSlice = createSlice({
     }
 });
 
-export const {setData, setIsUploading } = dataSlice.actions;
+export const {setFiles, setIsUploading } = dataSlice.actions;
 
 export default dataSlice.reducer;

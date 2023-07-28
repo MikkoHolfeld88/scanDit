@@ -21,7 +21,6 @@ export const registerWithEmailAndPassword = async (name: any, email: string, pas
             name: name,
             authProvider: getAuthprovider(email),
             email: email,
-            password: password,
             created: new Date()
         });
     } catch (error: any) {

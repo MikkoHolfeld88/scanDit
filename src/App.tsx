@@ -10,12 +10,16 @@ import './App.css';
 function App() {
     const dispatch = useAppDispatch();
     const isTabletOrGreater = useMediaQuery('(min-width: 768px)'); // true if width is 768px or greater
-    const isMobileOrLess = useMediaQuery('(max-width: 575px)'); // true if width is 575px or less
+    const isMobileOrLess = useMediaQuery('(max-width: 575px)', { defaultMatches: true }); // true if width is 575px or less
+
+    useEffect(() => {
+        dispatch(setIsBottomBar(true));
+    }, [])
 
     useEffect(() => {
         dispatch(setIsOpen(isTabletOrGreater));
-        dispatch(setIsBottomBar(isMobileOrLess))
-    }, [dispatch, isTabletOrGreater, isMobileOrLess]);
+        dispatch(setIsBottomBar(isMobileOrLess));
+    }, [dispatch, isMobileOrLess, isTabletOrGreater]);
 
     return (
         <div className="App">

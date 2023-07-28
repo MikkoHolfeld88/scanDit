@@ -10,18 +10,19 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {ListDialog} from "./listDialog";
-import {truncateFilename} from "../../style/displayFunctions/truncateFilename";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Image} from "primereact/image";
+import {DeletionDialog} from "./deletionDialog";
 
 export const List = () => {
-    const [imageDialogOpen, setImageDialogOpen] = React.useState(false);
+    const [listDialogOpen, setListDialogOpen] = React.useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
     const files: File[] | null = useSelector(selectFilesAsArray);
 
     const onFileClick = (file: FileObject) => {
         setSelectedFile(file);
-        setImageDialogOpen(true)
+        setListDialogOpen(true)
     }
 
     const renderAvatar = (file: FileObject) => {
@@ -33,8 +34,9 @@ export const List = () => {
         }
     }
 
-    const deleteFile = (e: React.MouseEvent<HTMLButtonElement | MouseEvent>) => {
-        console.log("Delete file");
+    const deleteFile = (e: React.MouseEvent<HTMLButtonElement | MouseEvent>, file: FileObject) => {
+        setSelectedFile(file);
+        setDeleteDialogOpen(true);
     }
 
     return (
@@ -47,7 +49,7 @@ export const List = () => {
                             <ListItem
                                 key={file.id}
                                 secondaryAction={
-                                    <IconButton onClick={(e) => deleteFile(e)}>
+                                    <IconButton onClick={(e) => deleteFile(e, file)}>
                                         <DeleteIcon/>
                                     </IconButton>
                                 }
@@ -58,8 +60,10 @@ export const List = () => {
                                             renderAvatar(file)
                                         }
                                     </ListItemAvatar>
-                                    <ListItemText id={file.id} primary={truncateFilename(file.filename)}
-                                                  onClick={() => onFileClick(file)}/>
+                                    <ListItemText
+                                        id={file.id}
+                                        primary={file?.filenameToDisplay ? file?.filenameToDisplay : ''}
+                                        onClick={() => onFileClick(file)}/>
                                 </ListItemButton>
                             </ListItem>
                         );
@@ -67,7 +71,8 @@ export const List = () => {
                 }
 
             </MUIList>
-            <ListDialog file={selectedFile} open={imageDialogOpen} setOpen={setImageDialogOpen}/>
+            <ListDialog file={selectedFile} open={listDialogOpen} setOpen={setListDialogOpen}/>
+            <DeletionDialog file={selectedFile} open={deleteDialogOpen} setOpen={setDeleteDialogOpen}/>
         </React.Fragment>
     );
 }

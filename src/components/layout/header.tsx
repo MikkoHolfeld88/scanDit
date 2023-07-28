@@ -17,8 +17,16 @@ import {useNavigate} from "react-router-dom";
 import {menuItems} from "../../routing/menu-items";
 import {auth} from "../../firebase/firebase";
 import {brightMain, primaryMain} from "../../style/theme";
+import {useSelector} from "react-redux";
+import {selectAppMode} from "../../store/slices/appConfig/selectors";
+import {AppMode} from "../../models/AppMode";
+import {APP_MODE} from "../../enums/appMode.enum";
+import {setAppMode} from "../../store/slices/appConfig/reducers";
+import {useAppDispatch} from "../../store/store";
 
 function Header() {
+    const dispatch = useAppDispatch();
+    const appMode: AppMode = useSelector(selectAppMode);
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -37,7 +45,14 @@ function Header() {
         });
     }, []);
 
+    const handlePipelineDeletionMode = () => {
+        if (appMode === APP_MODE.PIPELINE_DELETION) {
+            dispatch(setAppMode(APP_MODE.DEFAULT));
+        }
+    }
+
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        handlePipelineDeletionMode();
         setAnchorElNav(event.currentTarget);
     };
     const handleCloseNavMenu = () => {
@@ -45,11 +60,13 @@ function Header() {
     };
 
     const handleRerouteNavMenu = (route: string) => {
+        handlePipelineDeletionMode();
         route !== ROUTE_PATHS.BACKDROP_CLICK && navigate(route);
         handleCloseNavMenu();
     }
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        handlePipelineDeletionMode();
         setAnchorElUser(event.currentTarget);
     };
 
@@ -58,6 +75,7 @@ function Header() {
     };
 
     const handleRerouteUserMenu = (route: string) => {
+        handlePipelineDeletionMode();
         route !== ROUTE_PATHS.BACKDROP_CLICK && navigate(route);
         handleCloseUserMenu();
     }
@@ -66,8 +84,9 @@ function Header() {
         <AppBar position="sticky" style={{backgroundColor: brightMain, width: '100vw'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1, color: primaryMain}}
-                             onClick={event => handleRerouteNavMenu(ROUTE_PATHS.HOME)}/>
+                    <AdbIcon
+                        sx={{display: {xs: 'none', md: 'flex'}, mr: 1, color: primaryMain}}
+                        onClick={event => handleRerouteNavMenu(ROUTE_PATHS.HOME)}/>
                     <Typography
                         variant="h6"
                         noWrap
@@ -112,8 +131,11 @@ function Header() {
                             sx={{display: {xs: 'block', md: 'none'},}}>
                             {menuItems.main.map((menuItem) => (
                                 <MenuItem key={menuItem.title} onClick={event => handleRerouteNavMenu(menuItem.path)}>
-                                    <Typography textAlign="center"
-                                                style={{color: primaryMain}}>{menuItem.title}</Typography>
+                                    <Typography
+                                        textAlign="center"
+                                        style={{color: primaryMain}}>
+                                        {menuItem.title}
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -172,10 +194,14 @@ function Header() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 {menuItems.settings.map((setting) => (
-                                    <MenuItem key={setting.title}
-                                              onClick={event => handleRerouteUserMenu(setting.path)}>
-                                        <Typography style={{color: primaryMain}}
-                                                    textAlign="center">{setting.title}</Typography>
+                                    <MenuItem
+                                        key={setting.title}
+                                        onClick={event => handleRerouteUserMenu(setting.path)}>
+                                        <Typography
+                                            style={{color: primaryMain}}
+                                            textAlign="center">
+                                            {setting.title}
+                                        </Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>

@@ -7,6 +7,7 @@ export interface Operation {
     description?: string,
     created: string,
     updated?: string,
+    deleted?: string,
     author?: string,
     operator: Operator
 }

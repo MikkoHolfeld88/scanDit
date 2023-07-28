@@ -40,3 +40,10 @@
 .data-table {
     margin-top: 10px;
 }
+
+.sign-in-box {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

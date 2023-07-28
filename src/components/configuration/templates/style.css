@@ -1,0 +1,14 @@
+.template-buttons-container {
+    text-align: center;
+}
+
+.template-card-cols {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+.group-header-template-cards {
+    color: gray;
+    margin-left: 10px;
+    width: 80%;
+}
