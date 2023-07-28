@@ -33,9 +33,14 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
 
     const createButtonStyle = "contained";
     const arrowStyle = "text";
+    const extraElementStyle = "outlined";
 
     const onNavigate = (direction: DIRECTIONS) => {
         props.onNavigate(direction);
+    }
+
+    const handleExtraElement = (elementType: string) => {
+
     }
 
     return (
@@ -43,11 +48,12 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
             <Container>
                 <Row>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('AND')}>AND</Button>*/}
                     </Col>
                     <Col className="d-flex justify-content-center">
-                        <Button variant={arrowStyle}
-                                onClick={() => onNavigate(DIRECTIONS.UP_LEFT)}><NorthWestIcon/></Button>
+                        <Button
+                            variant={arrowStyle}
+                            onClick={() => onNavigate(DIRECTIONS.UP_LEFT)}><NorthWestIcon/></Button>
                     </Col>
                     <Col className="d-flex justify-content-center">
                         <Button variant={arrowStyle} onClick={() => onNavigate(DIRECTIONS.UP)}><NorthIcon/></Button>
@@ -57,12 +63,12 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
                                 onClick={() => onNavigate(DIRECTIONS.UP_RIGHT)}><NorthEastIcon/></Button>
                     </Col>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('VAR')}>VAR</Button>*/}
                     </Col>
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('OR')}>OR</Button>*/}
                     </Col>
                     <Col className="d-flex justify-content-center">
                         <Button variant={arrowStyle} onClick={() => onNavigate(DIRECTIONS.LEFT)}><WestIcon/></Button>
@@ -74,12 +80,12 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
                         <Button variant={arrowStyle} onClick={() => onNavigate(DIRECTIONS.RIGHT)}><EastIcon/></Button>
                     </Col>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('IF')}>IF</Button>*/}
                     </Col>
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('XOR')}>XOR</Button>*/}
                     </Col>
                     <Col className="d-flex justify-content-center">
                         <Button variant={arrowStyle}
@@ -92,7 +98,7 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
                         <Button variant={arrowStyle} onClick={() => onNavigate(DIRECTIONS.DOWN_RIGHT)}><SouthEastIcon/></Button>
                     </Col>
                     <Col className="d-flex justify-content-center">
-
+                        {/*<Button variant={extraElementStyle} onClick={(e) => handleExtraElement('FOR')}>FOR</Button>*/}
                     </Col>
                 </Row>
             </Container>

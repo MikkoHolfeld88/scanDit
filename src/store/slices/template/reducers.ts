@@ -26,7 +26,7 @@ const testTemplate: Template = {
 }
 
 const initialState: TemplateState = {
-    templates: [initialTemplate, testTemplate],
+    templates: [],
     templateSearch: null,
 }
 
@@ -47,6 +47,7 @@ export const templateSlice = createSlice({
                 template.description = action.payload.description;
                 template.updated = new Date().toISOString();
                 template.type = action.payload.type;
+                template.editable = action.payload.editable;
                 template.author = action.payload.author;
                 template.sources = action.payload.sources;
                 template.targets = action.payload.targets;

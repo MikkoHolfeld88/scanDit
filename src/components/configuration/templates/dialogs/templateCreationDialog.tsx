@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -6,17 +7,14 @@ import DialogContent from '@mui/material/DialogContent';
 import {getAuth} from "firebase/auth";
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
+import {TransitionProps} from '@mui/material/transitions';
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
 import {FormControl, IconButton, InputLabel, Select, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useAppDispatch} from "../../../../store/store";
-import {addPipeline} from "../../../../store/slices/pipeline/reducers";
 import {v4} from "uuid";
-import {Pipeline} from "../../../../models/Pipeline";
-import {useEffect} from "react";
 import {Template} from "../../../../models/Template";
 import {addTemplate} from "../../../../store/slices/template/reducers";
 import {TemplateType} from "../../../../models/TemplateType";
@@ -41,7 +39,7 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
     const dispatch = useAppDispatch();
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
-    const [author, setAuthor] = React.useState<string>(    getAuth().currentUser?.displayName || "");
+    const [author, setAuthor] = React.useState<string>(getAuth().currentUser?.displayName || "");
     const [type, setType] = React.useState<TemplateType>(null);
 
     useEffect(() => {
@@ -105,13 +103,6 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     fullWidth/>
-                <TextField
-                    sx={{mb: 1, mt: 1}}
-                    variant="outlined"
-                    label="Author"
-                    onChange={(e) => setAuthor(e.target.value)}
-                    value={author}
-                    fullWidth/>
                 <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
                     <InputLabel id="template-type-label">Type</InputLabel>
                     <Select
@@ -121,11 +112,19 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                         onChange={(e) => setType(e.target.value as TemplateType)}>
                         {
                             Object.keys(TEMPLATE_TYPE).map((key) => {
-                                return <MenuItem key={key} value={TEMPLATE_TYPE[key as keyof typeof TEMPLATE_TYPE]}>{key}</MenuItem>
+                                return <MenuItem key={key}
+                                                 value={TEMPLATE_TYPE[key as keyof typeof TEMPLATE_TYPE]}>{key}</MenuItem>
                             })
                         }
                     </Select>
                 </FormControl>
+                <TextField
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Author"
+                    onChange={(e) => setAuthor(e.target.value)}
+                    value={author}
+                    fullWidth/>
 
                 <TextField
                     sx={{mb: 1, mt: 1}}
@@ -138,8 +137,8 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                     fullWidth/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} startIcon={<CancelIcon />} variant="outlined">Cancel</Button>
-                <Button onClick={handleCreate} startIcon={<AddIcon />} variant="outlined">Create</Button>
+                <Button onClick={handleClose} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
+                <Button onClick={handleCreate} startIcon={<AddIcon/>} variant="outlined">Create</Button>
             </DialogActions>
         </Dialog>
     );
