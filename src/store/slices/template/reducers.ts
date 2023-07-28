@@ -2,6 +2,9 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TemplateState} from "./types";
 import {Template} from "../../../models/Template";
 import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
+import {fetchPipelines} from "../pipeline/thunks";
+import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
+import {fetchTemplates} from "./thunks";
 
 const initialTemplate: Template = {
     id: '',
@@ -28,6 +31,8 @@ const testTemplate: Template = {
 const initialState: TemplateState = {
     templates: [],
     templateSearch: null,
+    status: FETCHING_STATE.IDLE,
+    error: undefined
 }
 
 export const templateSlice = createSlice({
@@ -73,6 +78,19 @@ export const templateSlice = createSlice({
             }
         }
     },
+    extraReducers: (builder) => {
+        builder.addCase(fetchTemplates.pending, (state) => {
+            state.status = FETCHING_STATE.LOADING;
+        });
+        builder.addCase(fetchTemplates.fulfilled, (state, action) => {
+            state.status = FETCHING_STATE.SUCCEEDED;
+            state.templates = action.payload;
+        });
+        builder.addCase(fetchTemplates.rejected, (state, action) => {
+            state.status = FETCHING_STATE.FAILED;
+            state.error = action.error.message;
+        });
+    }
 });
 
 export const {setTemplates, addTemplate, deleteTemplate, setTemplateSearch} = templateSlice.actions;

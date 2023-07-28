@@ -4,7 +4,7 @@ import {FetchingStatus} from "../../../models/FetchingStatus";
 
 export interface PipelineState {
     status: FetchingStatus;
-    pipelines: Pipeline[]
+    pipelines: Pipeline[];
     error: string | undefined;
 }
 
