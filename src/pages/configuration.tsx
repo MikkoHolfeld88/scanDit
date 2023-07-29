@@ -9,11 +9,10 @@ import SwipeableViews from 'react-swipeable-views';
 import Box from "@mui/material/Box";
 import {selectAppMode, selectConfigurationTab} from "../store/slices/appConfig/selectors";
 import {AppDispatch, useAppDispatch} from "../store/store";
-import {setAppMode, setConfigurationTab} from "../store/slices/appConfig/reducers";
+import {setConfigurationTab} from "../store/slices/appConfig/reducers";
 import {Pipelines} from "./pipelines";
 import {CONFIGURATION_TAB_NAMES} from "../enums/configurationTabNames.enum";
 import {AppMode} from "../models/AppMode";
-import {APP_MODE} from "../enums/appMode.enum";
 import {Templates} from "./templates";
 import {User} from "@firebase/auth";
 import {auth} from "../firebase/firebase";
@@ -28,7 +27,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -39,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ padding: 0, margin: 0 }}>
+                <Box sx={{padding: 0, margin: 0}}>
                     {children}
                 </Box>
             )}
@@ -55,7 +54,7 @@ export const Configuration = () => {
     const USER: User | null = auth.currentUser;
 
     useEffect(() => {
-        if (!USER?.uid){
+        if (!USER?.uid) {
             console.error("Could not access user id. Aborted fetching pipeline & template data.")
         }
 
@@ -67,28 +66,25 @@ export const Configuration = () => {
 
     const handleChange = (newValue: number) => {
         dispatch(setConfigurationTab(newValue));
-
-        if(appMode === APP_MODE.PIPELINE_DELETION) {
-            dispatch(setAppMode(APP_MODE.DEFAULT));
-        }
     };
 
     return (
         <div id="configuration-content">
-            <Tabs value={configurationTab} onChange={(event, newValue) => handleChange(newValue)} centered={isBottomBar}>
-                <Tab icon={<AccountTreeIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.PIPELINES} />
-                <Tab icon={<ExtensionIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.TEMPLATES} />
-                <Tab icon={<PrecisionManufacturingIcon fontSize="small" />} label={CONFIGURATION_TAB_NAMES.OPERATIONS} />
+            <Tabs value={configurationTab} onChange={(event, newValue) => handleChange(newValue)}
+                  centered={isBottomBar}>
+                <Tab icon={<AccountTreeIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.PIPELINES}/>
+                <Tab icon={<ExtensionIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.TEMPLATES}/>
+                <Tab icon={<PrecisionManufacturingIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.OPERATIONS}/>
             </Tabs>
 
             <Divider/>
 
             <SwipeableViews index={configurationTab} onChangeIndex={handleChange}>
                 <TabPanel value={configurationTab} index={0}>
-                    <Pipelines />
+                    <Pipelines/>
                 </TabPanel>
                 <TabPanel value={configurationTab} index={1}>
-                    <Templates />
+                    <Templates/>
                 </TabPanel>
                 <TabPanel value={configurationTab} index={2}>
                     <h1>Operations</h1>

@@ -18,7 +18,6 @@ interface BottomBarProps {
 
 export const BottomBar = (props: BottomBarProps) => {
     const location = useLocation();
-    const appMode: AppMode = useSelector(selectAppMode);
     const currentTab = useSelector(selectConfigurationTabNames);
 
     /**
@@ -33,10 +32,11 @@ export const BottomBar = (props: BottomBarProps) => {
     return (
         <div style={{position: 'fixed', bottom: 0, left: 0, right: 0}}>
             {
-                onConfigurationPipelinesPage() &&
-                <PipelineSpeedDial />
+                onConfigurationPipelinesPage() && <PipelineSpeedDial />
             }
+
             <br/>
+
             <Paper  elevation={3}>
                 <BottomNavigation
                     showLabels

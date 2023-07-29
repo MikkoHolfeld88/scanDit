@@ -25,14 +25,12 @@ export enum PipelineSpeedDialActionIds {
 
 const actions = [
     {
-        icon: <DeleteForeverIcon color="warning"/>,
+        icon: <DeleteForeverIcon color="warning" id="pipeline-deletion-speeddial-icon"/>,
         name: PipelineSpeedDialActionNames.DELETE,
-        id: PipelineSpeedDialActionIds.DELETE
     },
     {
         icon: <AddIcon color="primary"/>,
         name: PipelineSpeedDialActionNames.CREATE,
-        id: PipelineSpeedDialActionIds.CREATE
     },
 ];
 
@@ -50,9 +48,10 @@ export function PipelineSpeedDial() {
         }
     }, [appMode])
 
-    const onActionClick = (actionName: string) => {
+    const onActionClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, actionName: string) => {
         switch (actionName) {
             case PipelineSpeedDialActionNames.DELETE:
+                event.stopPropagation();
                 dispatch(setAppMode(APP_MODE.PIPELINE_DELETION));
                 break;
             case PipelineSpeedDialActionNames.CREATE:
@@ -76,14 +75,13 @@ export function PipelineSpeedDial() {
                     open={openActions}>
                     {actions.map((action) => (
                         <SpeedDialAction
-                            id={action.id}
                             sx={{height: openActions ? "auto" : 0}}
                             key={action.name}
                             icon={action.icon}
                             tooltipTitle={action.name}
                             tooltipPlacement='right'
                             tooltipOpen
-                            onClick={() => onActionClick(action.name)}
+                            onClick={(e) => onActionClick(e, action.name)}
                         />
                     ))}
                 </SpeedDial>

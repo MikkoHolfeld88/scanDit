@@ -53,8 +53,6 @@ export const PipelineList = () => {
     const [pipelineId, setPipelineId] = React.useState<string>("");
     const [pipelineName, setPipelineName] = React.useState<string>("");
 
-
-    //TODO: Handle several app_mode changes by button click to click listener that excludes only delete
     const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
         setPipelineId(pipelineId);
@@ -62,15 +60,9 @@ export const PipelineList = () => {
     }
 
     const handlePipelineBuilderOpen = (pipelineId: string) => {
-        if (appMode !== APP_MODE.PIPELINE_DELETION) {
-            setPipelineId(pipelineId);
-            setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
-            setOpenPipelineBuilder(true);
-        }
-
-        if (appMode === APP_MODE.PIPELINE_DELETION) {
-            dispatch(setAppMode(APP_MODE.DEFAULT));
-        }
+        setPipelineId(pipelineId);
+        setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
+        setOpenPipelineBuilder(true);
     };
 
     const handlePipelineDeletion = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {

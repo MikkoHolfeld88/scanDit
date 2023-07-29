@@ -15,7 +15,6 @@ export const Templates = () => {
 
     useEffect(() => {
         const handleClick = (event: Event) => {
-            console.log("here");
             const target = event.target as Element;
 
             if (target.closest("#template-delete-speeddial-icon")) {
