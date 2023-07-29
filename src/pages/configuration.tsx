@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Divider, Tab, Tabs} from "@mui/material";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ExtensionIcon from '@mui/icons-material/Extension';
@@ -8,13 +8,17 @@ import {selectIsBottomBar} from "../store/slices/sidebar/selectors";
 import SwipeableViews from 'react-swipeable-views';
 import Box from "@mui/material/Box";
 import {selectAppMode, selectConfigurationTab} from "../store/slices/appConfig/selectors";
-import {useAppDispatch} from "../store/store";
+import {AppDispatch, useAppDispatch} from "../store/store";
 import {setAppMode, setConfigurationTab} from "../store/slices/appConfig/reducers";
 import {Pipelines} from "./pipelines";
 import {CONFIGURATION_TAB_NAMES} from "../enums/configurationTabNames.enum";
 import {AppMode} from "../models/AppMode";
 import {APP_MODE} from "../enums/appMode.enum";
 import {Templates} from "./templates";
+import {User} from "@firebase/auth";
+import {auth} from "../firebase/firebase";
+import {fetchPipelines} from "../store/slices/pipeline/thunks";
+import {fetchTemplates} from "../store/slices/template/thunks";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,9 +49,21 @@ function TabPanel(props: TabPanelProps) {
 
 export const Configuration = () => {
     const appMode: AppMode = useSelector(selectAppMode);
-    const dispatch = useAppDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
     const isBottomBar = useSelector(selectIsBottomBar);
     const configurationTab = useSelector(selectConfigurationTab);
+    const USER: User | null = auth.currentUser;
+
+    useEffect(() => {
+        if (!USER?.uid){
+            console.error("Could not access user id. Aborted fetching pipeline & template data.")
+        }
+
+        if (USER?.uid) {
+            dispatch(fetchPipelines(USER?.uid));
+            dispatch(fetchTemplates(USER?.uid));
+        }
+    }, [])
 
     const handleChange = (newValue: number) => {
         dispatch(setConfigurationTab(newValue));
@@ -55,7 +71,6 @@ export const Configuration = () => {
         if(appMode === APP_MODE.PIPELINE_DELETION) {
             dispatch(setAppMode(APP_MODE.DEFAULT));
         }
-
     };
 
     return (
