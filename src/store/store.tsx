@@ -3,6 +3,7 @@ import appConfigSlice from "./slices/appConfig/reducers";
 import dataSlice from "./slices/data/reducers";
 import pipelineSlice from "./slices/pipeline/reducers";
 import sidebarSlice from "./slices/sidebar/reducers";
+import operationSlice from "./slices/operations/reducers";
 import {useDispatch} from "react-redux";
 import {saveState} from "./operations/saveState";
 import thunk from "redux-thunk";
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     data: dataSlice,
     pipeline: pipelineSlice,
     template: templateSlice,
+    operation: operationSlice,
     sidebar: sidebarSlice
 });
 

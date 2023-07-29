@@ -9,7 +9,7 @@ import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
-import {Divider, IconButton} from "@mui/material";
+import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useAppDispatch} from "../../../../store/store";
 import EditIcon from "@mui/icons-material/Edit";
@@ -27,6 +27,8 @@ import {Source} from "../../../../models/Source";
 import {Target} from "../../../../models/Target";
 import {TEMPLATE_TYPE} from "../../../../enums/templateType.enum";
 import "./style.css"
+import {Container, Row} from "react-bootstrap";
+import {OperationSequenceCreator} from "./operationSequenceCreator/operationSequenceCreator";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -50,11 +52,11 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     const [description, setDescription] = React.useState<string>("");
     const [author, setAuthor] = React.useState<string>("");
     const [type, setType] = React.useState<TemplateType>(null);
-    const [operations, setOperations] = React.useState<Operation[]>([]);
     const [sources, setSources] = React.useState<Source[]>([]);
     const [targets, setTargets] = React.useState<Target[]>([]);
     const [showTemplateDetails, setShowTemplateDetails] = React.useState<boolean>(false);
     const [openTemplateDeletionDialog, setOpenTemplateDeletionDialog] = React.useState<boolean>(false);
+    const [openOperationSequenceCreator, setOpenOperationSequenceCreator] = React.useState<boolean>(false);
 
     useEffect(() => {
         if (template) {
@@ -62,9 +64,6 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             setDescription(template.description || description);
             setAuthor(template.author || getAuth().currentUser?.displayName || author);
             setType(template.type);
-            setOperations(template.operations || []);
-            setSources(template.sources || []);
-            setTargets(template.targets || []);
         }
     }, [template]);
 
@@ -81,7 +80,6 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
         setDescription("");
         setAuthor("");
         setType(null);
-        setOperations([]);
         setSources([]);
         setTargets([]);
     }
@@ -92,7 +90,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     };
 
     const handleUpdate = () => {
-        if(name === "" || type === null){
+        if (name === "" || type === null) {
             return;
         }
 
@@ -100,36 +98,65 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             return;
         }
 
-       const editedTemplate: Template = {
+        const editedTemplate: Template = {
             id: template?.id,
             name: name,
             created: template.created,
             description: description,
             type: type,
             editable: template.editable,
-            sources: sources ? sources : undefined,
-            targets: targets ? targets : undefined,
-       }
+        }
 
         dispatch(editTemplate(editedTemplate));
+        handleClose();
     }
 
     const renderTypeSpecificFields = () => {
+        const handleSourcesClick = () => {
+
+        }
+
+        const handleTargetsClick = () => {
+
+        }
+
+        const handleOperationsClick = () => {
+            setOpenOperationSequenceCreator(true);
+            handleClose();
+        }
+
         if (template) {
             switch (template.type) {
                 case TEMPLATE_TYPE.INPUT:
                     return (
-                        <Button fullWidth variant="contained" className="specific-type-fields-button">Sources</Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            className="specific-type-fields-button">
+                            Sources
+                        </Button>
                     )
                 case TEMPLATE_TYPE.OUTPUT:
                     return (
-                        <Button fullWidth variant="contained" className="specific-type-fields-button">Targets</Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            className="specific-type-fields-button">
+                            Targets
+                        </Button>
                     )
                 case TEMPLATE_TYPE.PROCESS:
                     return (
-                        <Button fullWidth variant="contained" className="specific-type-fields-button">Operations</Button>
+                        <Button
+                            onClick={handleOperationsClick}
+                            fullWidth
+                            variant="contained"
+                            className="specific-type-fields-button">
+                            Operations
+                        </Button>
                     )
-                default: break;
+                default:
+                    break;
             }
         }
     }
@@ -143,8 +170,17 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Typography variant="h6">Edit template</Typography>
-                    <IconButton edge="end" color="inherit" onClick={() => {props.setOpen(false);}}>
+                    <Container>
+                        <Row>
+                            <Typography variant="h6">Edit template</Typography>
+                        </Row>
+                        <Row>
+                            <Typography variant="subtitle2">{template?.name}</Typography>
+                        </Row>
+                    </Container>
+                    <IconButton edge="end" color="inherit" onClick={() => {
+                        props.setOpen(false);
+                    }}>
                         <CloseIcon/>
                     </IconButton>
                 </div>
@@ -167,7 +203,8 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                     setType={setType}/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => props.setOpen(false)} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
+                <Button onClick={() => props.setOpen(false)} startIcon={<CancelIcon/>}
+                        variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
                 <IconButton onClick={() => setOpenTemplateDeletionDialog(true)} sx={{minHeight: "36.5px"}}>
                     <DeleteIcon color="warning"/>
@@ -179,6 +216,10 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 templateName={template?.name || ""}
                 open={openTemplateDeletionDialog}
                 setOpen={setOpenTemplateDeletionDialog}/>
+            <OperationSequenceCreator
+                open={openOperationSequenceCreator}
+                setOpen={setOpenOperationSequenceCreator}
+                template={template}/>
         </Dialog>
     );
 }

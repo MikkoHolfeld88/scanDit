@@ -4,6 +4,7 @@ import {RootState} from "../../store/store";
 import {pipelineMiddleware} from './handlers/pipelineMiddleware';
 import {templateMiddleware} from './handlers/templateMiddleware';
 import {auth} from '../firebase';
+import {operationMiddleware} from "./handlers/operationMiddleware";
 
 const firestoreMiddleware: Middleware<{}, RootState> = () => (next: Dispatch) => (action: AnyAction) => {
 
@@ -18,6 +19,8 @@ const firestoreMiddleware: Middleware<{}, RootState> = () => (next: Dispatch) =>
         pipelineMiddleware(action);
     } else if (action.type.startsWith('template/')) {
         templateMiddleware(action);
+    } else if (action.type.startsWith('operation/')) {
+        operationMiddleware(action);
     }
 
     return result;

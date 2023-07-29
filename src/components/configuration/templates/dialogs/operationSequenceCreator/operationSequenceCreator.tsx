@@ -6,37 +6,24 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import {TransitionProps} from '@mui/material/transitions';
-import {PipelineBuilder} from "./pipelineBuilder";
-import {Splitter, SplitterPanel} from "primereact/splitter";
-import {PipelineViewer} from "./pipelineViewer";
 import {Container, Row} from "react-bootstrap";
-import {DIRECTIONS} from "../../../../enums/directions.enum";
-import {DialogTransition} from "../../../layout/transitions/dialogTransition";
+import {DialogTransition} from "../../../../layout/transitions/dialogTransition";
+import {Template} from "../../../../../models/Template";
+import {Sequencer} from "./sequencer";
 
-interface PipelineBuildingContainerProps {
-    pipelineId: string;
-    name: string
+interface OperationSequenceCreatorProps {
     open: boolean;
     setOpen: (open: boolean) => void;
+    template: Template | undefined;
 }
 
-export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps) => {
-    const [direction, setDirection] = React.useState<DIRECTIONS>(DIRECTIONS.DOWN);
-
+export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) => {
     const handleClose = () => {
         props.setOpen(false);
     };
 
     const handleSave = () => {
-        console.log("Save pipeline - call to database");
         props.setOpen(false);
-    }
-
-    const onNavigateToNode = (direction: DIRECTIONS) => {
-        setDirection(direction);
-        console.log("Navigate to node", direction);
     }
 
     return (
@@ -57,12 +44,12 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                     <Container>
                         <Row>
                             <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                                {`Pipeline editor`}
+                                {`Operation composer`}
                             </Typography>
                         </Row>
                         <Row>
                             <Typography sx={{ml: 2, flex: 1}} variant="caption" component="div">
-                                {props.name || props.pipelineId}
+                                {props.template?.name}
                             </Typography>
                         </Row>
                     </Container>
@@ -71,16 +58,9 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Splitter style={{height: '100%'}} layout="vertical">
-                <SplitterPanel size={20}>
-                    <PipelineBuilder
-                        pipelineId={props.pipelineId}
-                        onNavigate={onNavigateToNode}/>
-                </SplitterPanel>
-                <SplitterPanel size={80} minSize={50}>
-                    <PipelineViewer pipelineId={props.pipelineId}/>
-                </SplitterPanel>
-            </Splitter>
+            <Sequencer/>
         </Dialog>
-    );
+    )
 }
+
+
