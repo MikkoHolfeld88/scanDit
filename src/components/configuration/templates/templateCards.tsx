@@ -59,7 +59,7 @@ export const TemplateCards = () => {
                         return (
                             <React.Fragment key={index}>
                                 {groupHeader}
-                                <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
+                                <Col xs="4" sm="4" md="3" lg="3" xl="2" className="template-card-cols">
                                     <TemplateCard template={template} />
                                 </Col>
                             </React.Fragment>
@@ -72,7 +72,7 @@ export const TemplateCards = () => {
                 return (
                     <React.Fragment key={index}>
                         {groupHeader}
-                        <Col xs="3" sm="3" md="3" lg="5" xl="6" className="template-card-cols">
+                        <Col xs="4" sm="4" md="3" lg="3" xl="2" className="template-card-cols">
                             <TemplateCard template={template} />
                         </Col>
                     </React.Fragment>

@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {TemplateType} from "../../../../models/TemplateType";
 import {TEMPLATE_TYPE} from "../../../../enums/templateType.enum";
 import MenuItem from "@mui/material/MenuItem";
-import {primaryGrey, primaryMain} from "../../../../style/theme";
+import {primaryGrey, primaryGreyStrong, primaryMain} from "../../../../style/theme";
 
 interface TemplateEditionAccordionProps {
     expanded: boolean,
@@ -36,10 +36,10 @@ export const TemplateEditAccordion = (props: TemplateEditionAccordionProps) => {
     return (
         <Accordion
             style={{
-                border: `1px solid ${primaryGrey}`,
+                marginTop: "5px",
+                border: `1px solid ${primaryGreyStrong}`,
                 color: primaryMain,
-                borderRadius: "4px",
-                marginBottom: "5px"
+                borderRadius: "4px"
             }}
             expanded={props.expanded}
             onChange={handleChange}
@@ -48,8 +48,8 @@ export const TemplateEditAccordion = (props: TemplateEditionAccordionProps) => {
                 style={{
                     margin: 0,
                     backgroundColor: primaryGrey,
-                    border: `1px solid ${primaryGrey}`,
-                    borderRadius: "4px"
+                    border: `1px solid ${primaryGreyStrong}`,
+                    borderRadius: "4px",
                 }}
                 expandIcon={<ExpandMoreIcon style={{color: primaryMain}}/>}
                 id={`template-accordtion-${props.name}`}>

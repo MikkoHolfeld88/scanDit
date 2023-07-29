@@ -8,7 +8,15 @@ import {AppMode} from "../../../models/AppMode";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Box from '@mui/material/Box';
 import {APP_MODE} from "../../../enums/appMode.enum";
-import {MUITheme, warnMain, warnSuperDark, warnSuperLight} from "../../../style/theme";
+import {
+    darkMain,
+    lightMain,
+    MUITheme,
+    primaryMain,
+    warnMain,
+    warnSuperDark,
+    warnSuperLight
+} from "../../../style/theme";
 import { keyframes } from '@emotion/react';
 import {deleteTemplate} from "../../../store/slices/template/reducers";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
@@ -43,14 +51,34 @@ export const TemplateCard = (props: TemplateCardProps) => {
         setOpenTemplateEditDialog(true);
     }
 
+    const handleCardBackgroundColor = () => {
+        if (appMode === APP_MODE.TEMPLATE_DELETION) {
+            return warnSuperLight;
+        }
+
+        if (openTemplateEditDialog) {
+            return primaryMain;
+        }
+
+        return undefined;
+    }
+
+    const handleCardTextColor = () => {
+        if (openTemplateEditDialog) {
+            return lightMain;
+        }
+
+        return primaryMain;
+    }
+
     return (
         <React.Fragment>
             <Card
                 sx={{
                     margin: "2px",
-                    height: "9vh",
+                    height: "12vh",
                     position: "relative",
-                    backgroundColor: appMode === APP_MODE.TEMPLATE_DELETION ? warnSuperLight : undefined,
+                    backgroundColor: handleCardBackgroundColor(),
                     animation: `${appMode === APP_MODE.TEMPLATE_DELETION ? blink : ''} 2s linear infinite`
                 }}
                 onClick={(event) => handleCardClick(event)}>
@@ -71,6 +99,7 @@ export const TemplateCard = (props: TemplateCardProps) => {
                 }
                     <CardContent sx={{padding: "2px", margin: "2px", marginTop: "25%"}}>
                         <Typography sx={{
+                            color: handleCardTextColor(),
                             textAlign: "center",
                             fontSize: 12,
                             overflow: 'hidden',

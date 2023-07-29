@@ -47,7 +47,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export const Configuration = () => {
-    const appMode: AppMode = useSelector(selectAppMode);
     const dispatch: AppDispatch = useAppDispatch();
     const isBottomBar = useSelector(selectIsBottomBar);
     const configurationTab = useSelector(selectConfigurationTab);
@@ -70,8 +69,7 @@ export const Configuration = () => {
 
     return (
         <div id="configuration-content">
-            <Tabs value={configurationTab} onChange={(event, newValue) => handleChange(newValue)}
-                  centered={isBottomBar}>
+            <Tabs value={configurationTab} onChange={(event, newValue) => handleChange(newValue)} centered={isBottomBar}>
                 <Tab icon={<AccountTreeIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.PIPELINES}/>
                 <Tab icon={<ExtensionIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.TEMPLATES}/>
                 <Tab icon={<PrecisionManufacturingIcon fontSize="small"/>} label={CONFIGURATION_TAB_NAMES.OPERATIONS}/>
