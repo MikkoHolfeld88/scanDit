@@ -11,12 +11,17 @@ interface TemplateCardProps {
 
 export const TemplateCard = (props: TemplateCardProps) => {
     return (
-        <Card sx={{margin: "2px"}}>
+        <Card sx={{margin: "2px", height: "9vh"}}>
             <CardContent sx={{padding: "2px", margin: "2px"}}>
-                <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
-                        {props.template.type}
+                <Typography sx={{fontSize: "10px"}}>
+                  {props.template.type}
                 </Typography>
-                <Typography sx={{fontSize: 14}}>
+                <Typography sx={{
+                    fontSize: 12,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                }}>
                     <b>{props.template.name.toUpperCase()}</b>
                 </Typography>
             </CardContent>

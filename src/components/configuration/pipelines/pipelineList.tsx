@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -23,6 +23,7 @@ import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
 import "./style.css"
+import {PipelineSpeedDialActionIds} from "./pipelineSpeedDial";
 
 const PipelineListSkeleton = () => {
     return (
@@ -52,6 +53,8 @@ export const PipelineList = () => {
     const [pipelineId, setPipelineId] = React.useState<string>("");
     const [pipelineName, setPipelineName] = React.useState<string>("");
 
+
+    //TODO: Handle several app_mode changes by button click to click listener that excludes only delete
     const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
         setPipelineId(pipelineId);
