@@ -3,7 +3,6 @@ import {TemplateSearch} from "./templateSearch";
 import {TemplateSorter} from "./templateSorter";
 import {TemplateButton} from "./templateButton";
 import React from "react";
-import {primaryGrey} from "../../../style/theme";
 
 export const TemplateHeader = () => {
     return (

@@ -16,7 +16,7 @@ import {ROUTE_PATHS} from "../../routing/routePaths";
 import {useNavigate} from "react-router-dom";
 import {menuItems} from "../../routing/menu-items";
 import {auth} from "../../firebase/firebase";
-import {brightMain, primaryMain} from "../../style/theme";
+import {secondaryContrastText, primaryMain} from "../../style/theme";
 import {useSelector} from "react-redux";
 import {selectAppMode} from "../../store/slices/appConfig/selectors";
 import {AppMode} from "../../models/AppMode";
@@ -81,7 +81,7 @@ function Header() {
     }
 
     return (
-        <AppBar position="sticky" style={{backgroundColor: brightMain, width: '100vw'}}>
+        <AppBar position="sticky" style={{backgroundColor: secondaryContrastText, width: '100vw'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon

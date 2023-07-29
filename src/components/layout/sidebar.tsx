@@ -1,4 +1,4 @@
-import {brightMain, primaryMain} from "../../style/theme";
+import {secondaryContrastText, primaryMain} from "../../style/theme";
 import {Menu, MenuItem, Sidebar as ReactProSidebar} from "react-pro-sidebar";
 import {setIsOpen} from "../../store/slices/sidebar/reducers";
 import {Divider} from "@mui/material";
@@ -14,7 +14,7 @@ export const Sidebar = () => {
     const sidebarIsOpen = useSelector(selectIsOpen);
 
     return (
-        <ReactProSidebar collapsed={!sidebarIsOpen} backgroundColor={brightMain} >
+        <ReactProSidebar collapsed={!sidebarIsOpen} backgroundColor={secondaryContrastText} >
             <Menu>
                 <MenuItem
                     onClick={() => dispatch(setIsOpen(!sidebarIsOpen))}

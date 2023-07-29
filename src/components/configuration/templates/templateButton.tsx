@@ -26,14 +26,16 @@ enum TemplateSpeedDialActionNames {
 
 const actions = [
     {icon: <AddIcon/>, name: TemplateSpeedDialActionNames.CREATE},
-    {icon: <DeleteForeverIcon color="warning"/>, name: TemplateSpeedDialActionNames.DELETE},
+    {icon: <DeleteForeverIcon color="warning" id="template-delete-speeddial-icon"/>, name: TemplateSpeedDialActionNames.DELETE},
 ];
 
 export const TemplateButton = () => {
     const dispatch: AppDispatch = useAppDispatch();
     const [openTemplateCreationDialog, setOpenTemplateCreationDialog] = useState(false);
 
-    const onActionClick = (actionName: string) => {
+    const onActionClick = (event: React.MouseEvent<HTMLDivElement>, actionName: string) => {
+        event.stopPropagation();
+
         switch (actionName) {
             case TemplateSpeedDialActionNames.CREATE: setOpenTemplateCreationDialog(true); break;
             case TemplateSpeedDialActionNames.DELETE: dispatch(setAppMode(APP_MODE.TEMPLATE_DELETION)); break;
@@ -51,7 +53,7 @@ export const TemplateButton = () => {
                     <SpeedDialAction
                         key={action.name}
                         icon={action.icon}
-                        onClick={() => onActionClick(action.name)}
+                        onClick={(event) => onActionClick(event, action.name)}
                     />
                 ))}
             </StyledSpeedDial>
