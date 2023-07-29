@@ -9,6 +9,9 @@ import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {APP_MODE} from "../../../enums/appMode.enum";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
 import {TemplateCreationDialog} from "./dialogs/templateCreationDialog";
+import {useSelector} from "react-redux";
+import {AppMode} from "../../../models/AppMode";
+import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 
 const StyledSpeedDial = styled(SpeedDial)(({theme}) => ({
     position: 'absolute',
@@ -31,6 +34,7 @@ const actions = [
 
 export const TemplateButton = () => {
     const dispatch: AppDispatch = useAppDispatch();
+    const appMode: AppMode = useSelector(selectAppMode);
     const [openTemplateCreationDialog, setOpenTemplateCreationDialog] = useState(false);
 
     const onActionClick = (event: React.MouseEvent<HTMLDivElement>, actionName: string) => {
@@ -38,7 +42,13 @@ export const TemplateButton = () => {
 
         switch (actionName) {
             case TemplateSpeedDialActionNames.CREATE: setOpenTemplateCreationDialog(true); break;
-            case TemplateSpeedDialActionNames.DELETE: dispatch(setAppMode(APP_MODE.TEMPLATE_DELETION)); break;
+            case TemplateSpeedDialActionNames.DELETE:
+                if (appMode === APP_MODE.TEMPLATE_DELETION) {
+                    dispatch(setAppMode(APP_MODE.DEFAULT));
+                } else {
+                    dispatch(setAppMode(APP_MODE.TEMPLATE_DELETION));
+                }
+                break;
             default: break;
         }
     }

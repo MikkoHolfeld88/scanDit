@@ -31,13 +31,13 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface PipelineCreationDialogProps {
+interface PipelineEditionDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     pipelineId: string;
 }
 
-export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
+export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
     const dispatch = useAppDispatch();
     const pipeline: Pipeline | undefined = useSelector((state: RootState) => selectPipelineById(state, props.pipelineId));
     const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
@@ -66,6 +66,7 @@ export const PipelineEditDialog = (props: PipelineCreationDialogProps) => {
             name: name,
             description: description ? description : undefined,
             created: pipeline.created,
+            updated: new Date().toISOString(),
             author: author ? author : undefined,
             icon: icon ? icon : undefined,
             templates: pipeline.templates,

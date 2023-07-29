@@ -112,8 +112,7 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                         onChange={(e) => setType(e.target.value as TemplateType)}>
                         {
                             Object.keys(TEMPLATE_TYPE).map((key) => {
-                                return <MenuItem key={key}
-                                                 value={TEMPLATE_TYPE[key as keyof typeof TEMPLATE_TYPE]}>{key}</MenuItem>
+                                return <MenuItem key={key} value={TEMPLATE_TYPE[key as keyof typeof TEMPLATE_TYPE]}>{key}</MenuItem>
                             })
                         }
                     </Select>
@@ -125,7 +124,6 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                     onChange={(e) => setAuthor(e.target.value)}
                     value={author}
                     fullWidth/>
-
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"

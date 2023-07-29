@@ -54,11 +54,11 @@ export const ListDialog = (props: IImageDialogProps) => {
                     fullWidth/>
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>
-                    {props.file?.filename === filename || filename === "" ? "Cancel" : "Update"}
-                </Button>
                 <Button variant="outlined" onClick={handleAnalyse}>
                     Start
+                </Button>
+                <Button variant="outlined" autoFocus onClick={() => { handleSubmit(); props.setOpen(false); }}>
+                    {props.file?.filenameToDisplay === filename || filename === "" ? "Cancel" : "Update"}
                 </Button>
             </DialogActions>
         </Dialog>

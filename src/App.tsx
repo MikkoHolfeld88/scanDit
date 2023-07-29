@@ -15,6 +15,11 @@ function App() {
     useEffect(() => {
         dispatch(setIsOpen(isTabletOrGreater));
         dispatch(setIsBottomBar(isMobileOrLess));
+    }, [])
+
+    useEffect(() => {
+        dispatch(setIsOpen(isTabletOrGreater));
+        dispatch(setIsBottomBar(isMobileOrLess));
     }, [dispatch, isMobileOrLess, isTabletOrGreater]);
 
     return (

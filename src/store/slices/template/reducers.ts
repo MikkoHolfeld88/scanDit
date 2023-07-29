@@ -1,32 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TemplateState} from "./types";
 import {Template} from "../../../models/Template";
-import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
-import {fetchPipelines} from "../pipeline/thunks";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {fetchTemplates} from "./thunks";
-
-const initialTemplate: Template = {
-    id: '',
-    name: 'test',
-    description: 'test',
-    created: new Date().toISOString(),
-    type: TEMPLATE_TYPE.INPUT,
-    editable: false
-}
-
-const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1); // gestern
-
-const testTemplate: Template = {
-    id: '',
-    name: 'search',
-    description: 'test',
-    created: yesterday.toISOString(),
-    updated: yesterday.toISOString(),
-    type: TEMPLATE_TYPE.PROCESS,
-    editable: false
-}
 
 const initialState: TemplateState = {
     templates: [],
@@ -48,15 +24,34 @@ export const templateSlice = createSlice({
         editTemplate: (state, action: PayloadAction<Template>) => {
             const template = state.templates.find(template => template.id === action.payload.id);
             if (template) {
-                template.name = action.payload.name;
-                template.description = action.payload.description;
+                if (action.payload.name !== undefined) {
+                    template.name = action.payload.name;
+                }
+                if (action.payload.type !== undefined) {
+                    template.type = action.payload.type;
+                }
+                if (action.payload.description !== undefined) {
+                    template.description = action.payload.description;
+                }
+                if (action.payload.editable !== undefined) {
+                    template.editable = action.payload.editable;
+                }
+                if (action.payload.operations !== undefined) {
+                    template.operations = action.payload.operations;
+                }
+                if (action.payload.sources !== undefined) {
+                    template.sources = action.payload.sources;
+                }
+                if (action.payload.targets !== undefined) {
+                    template.targets = action.payload.targets;
+                }
+                if (action.payload.deleted !== undefined) {
+                    template.deleted = action.payload.deleted;
+                }
+                if (action.payload.author !== undefined) {
+                    template.author = action.payload.author;
+                }
                 template.updated = new Date().toISOString();
-                template.type = action.payload.type;
-                template.editable = action.payload.editable;
-                template.author = action.payload.author;
-                template.sources = action.payload.sources;
-                template.targets = action.payload.targets;
-                template.operations = action.payload.operations;
             }
         },
         deleteTemplate: (state, action: PayloadAction<string>) => {
@@ -93,6 +88,6 @@ export const templateSlice = createSlice({
     }
 });
 
-export const {setTemplates, addTemplate, deleteTemplate, setTemplateSearch} = templateSlice.actions;
+export const {setTemplates, addTemplate, editTemplate, deleteTemplate, setTemplateSearch} = templateSlice.actions;
 
 export default templateSlice.reducer;
