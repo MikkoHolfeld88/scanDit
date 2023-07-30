@@ -58,7 +58,7 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Sequencer/>
+            <Sequencer template={props.template}/>
         </Dialog>
     )
 }

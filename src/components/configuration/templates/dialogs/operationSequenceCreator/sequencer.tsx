@@ -1,79 +1,198 @@
-import React, {useState} from "react";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, {useCallback, useEffect, useReducer} from "react";
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {produce} from "immer";
+import "./style.css"
+import {Col, Container, Row} from "react-bootstrap";
+import Typography from "@mui/material/Typography";
+import {useSelector} from "react-redux";
+import {selectOperations} from "../../../../../store/slices/operations/selectors";
+import {Operation} from "../../../../../models/Operation";
+import {Template} from "../../../../../models/Template";
 
-export const Sequencer = () => {
-    const [pool, setPool] = useState(['Operation1', 'Operation2', 'Operation3', 'Operation4', 'Operation5']);
-    const [list, setList] = useState<string[]>([]);
+interface SequencerProps {
+    template: Template | undefined;
+}
 
-    const handleDragEnd = (result: { destination: any; source: any; draggableId: string; }) => {
-        const { destination, source, draggableId } = result;
+export const Sequencer = (props: SequencerProps) => {
+    const operations: Operation[] = useSelector(selectOperations);
 
-        if (!destination) return; // Wenn das Element nirgendwo hingelegt wurde, machen wir nichts.
-
-        if (destination.droppableId === 'list') {
-            setList(old => [...old, draggableId]); // Fügen Sie das Element zur Liste hinzu.
+    const itemsFromInitialState = [
+        {
+            id: '1',
+            name: {
+                first: 'John',
+                last: 'Maverick'
+            },
+            icon: ""
+        },
+        {
+            id: '2',
+            name: {
+                first: 'Mikko',
+                last: 'Holyfield'
+            },
+            icon: ""
+        },
+        {
+            id: '3',
+            name: {
+                first: 'Jeff',
+                last: 'Los'
+            },
+            icon: ""
         }
-    };
+    ]
+
+    const items2FromInitialState: any = []
+
+    const dragReducer = produce((draft, action) => {
+        switch (action.type) {
+            case "MOVE": {
+                draft[action.to] = draft[action.to] || [];
+                if (action.from === "poolOperations" && action.to === "templateOperations") {
+                    const original = draft[action.from][action.fromIndex];
+                    draft.cloneCounter++; // Increase the counter for every clone
+                    const clone = {...original, id: original.id + "-clone" + draft.cloneCounter}; // Append the counter to the id
+                    draft[action.to].splice(action.toIndex, 0, clone);
+                } else if (action.from === "poolOperations" && action.to === "poolOperations") {
+                    return;
+                } else if (action.from === "templateOperations" && action.to === "poolOperations") {
+                    draft[action.from].splice(action.fromIndex, 1);
+                } else if (action.from === "templateOperations" && action.to === "templateOperations") {
+                    const [moved] = draft[action.from].splice(action.fromIndex, 1);
+                    draft[action.to].splice(action.toIndex, 0, moved);
+                }
+            }
+        }
+    });
+
+    const [state, dispatch] = useReducer(dragReducer, {
+        poolOperations: itemsFromInitialState, // operations
+        templateOperations: items2FromInitialState, //props.template.operations
+        cloneCounter: 0,
+    });
+
+    const handleDragEnd = useCallback((result: any) => {
+        if (result.reason === "DROP") {
+            if (!result.destination) {
+                return;
+            }
+            dispatch({
+                type: "MOVE",
+                from: result.source.droppableId,
+                to: result.destination.droppableId,
+                fromIndex: result.source.index,
+                toIndex: result.destination.index,
+            });
+        }
+    }, []);
+
+    const handlerDragStart = () => {
+        console.log("drag start");
+    }
 
     return (
-        <DragDropContext  onDragEnd={handleDragEnd}>
-            <Droppable droppableId="pool">
-                {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps} style={{margin: "1rem", padding: "1rem", backgroundColor: "#f0f0f0"}}>
-                        <h2>Pool</h2>
-                        {pool.map((item, index) => (
-                            <Draggable key={item} draggableId={item} index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={{
-                                            ...provided.draggableProps.style,
-                                            margin: "0.5rem",
-                                            padding: "0.5rem",
-                                            backgroundColor: snapshot.isDragging ? "#a0a0a0" : "#d0d0d0",
-                                            transform: snapshot.isDragging ? provided.draggableProps.style?.transform : "none"
-                                        }}
-                                    >
-                                        {item}
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
+        <React.Fragment>
+            <Container>
+                <Row style={{textAlign: "center", justifyContent: "center", alignItems: "center"}}>
+                    <Col>
+                        <Typography variant="button">Operation-Pool</Typography>
+                    </Col>
+                    <Col>
+                        <Typography variant="button">Template-Operations</Typography>
+                    </Col>
+                </Row>
+            </Container>
 
-            <Droppable droppableId="list">
-                {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps} style={{margin: "1rem", padding: "1rem", backgroundColor: "#f0f0f0"}}>
-                        <h2>List</h2>
-                        {list.map((item, index) => (
-                            <Draggable key={item} draggableId={item} index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={{
-                                            ...provided.draggableProps.style,
-                                            margin: "0.5rem",
-                                            padding: "0.5rem",
-                                            backgroundColor: snapshot.isDragging ? "#a0a0a0" : "#d0d0d0",
-                                            transform: snapshot.isDragging ? provided.draggableProps?.style?.transform : "none"
-                                        }}
-                                    >
-                                        {item}
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+            <div id="sequence-container" className="sequence-container">
+                <DragDropContext onDragEnd={handleDragEnd} onDragStart={handlerDragStart}>
+                    <Droppable droppableId="poolOperations" type="OPERATION">
+                        {(provided, snapshot) => {
+                            return (
+                                <div
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className={"dropper" + (snapshot.isDraggingOver ? " dropOver" : "")}>
+                                    {state.poolOperations?.map((person: any, index: any) => {
+                                        return (
+                                            <Draggable key={person.id + "_" + index} draggableId={person.id} index={index}>
+                                                {(provided, snapshot) => (
+                                                    <div>
+                                                        {/* Deine normale Dragger-Komponente, die immer angezeigt wird */}
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className={"dragger" + (snapshot.isDragging ? " dragging" : "")}>
+                                                            <div className="draggerContent">
+                                                                <img src={person.icon} className="draggerIconPool" />
+                                                                <span>
+                                                            {person.name.first} {person.name.last}
+                                                          </span>
+                                                            </div>
+                                                        </div>
+                                                        {/* Die Klon-Komponente, die nur angezeigt wird, wenn das Element gezogen wird */}
+                                                        {snapshot.isDragging && (
+                                                            <div className="dragger dragging">
+                                                                <div className="draggerContent">
+                                                                    <img src={person.icon} className="draggerIconPool" />
+                                                                    <span>
+                                                                  {person.name.first} {person.name.last}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        }}
+                    </Droppable>
+                    <Droppable droppableId="templateOperations" type="OPERATION">
+                        {(provided, snapshot) => {
+                            return (
+                                <div
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className={"dropper" + (snapshot.isDraggingOver ? " dropOver" : "")}>
+                                    {state.templateOperations?.map((person: any, index: number) => {
+                                        console.log(`id: ${person.id}, index: ${index}`);
+                                        return (
+                                            <Draggable key={person.id + "_" + index} draggableId={person.id} index={index}>
+
+                                                {(provided, snapshot) => {
+                                                    return (
+                                                        <div
+                                                            className={"dragger" + (snapshot.isDragging ? " dragging" : "")}
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}>
+                                                            <div className="draggerContent">
+                                                                <img
+                                                                    src={person.icon}
+                                                                    className="draggerIconList"/>
+                                                                <span>
+                                                                {person.name.first} {person.name.last}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }}
+                                            </Draggable>
+                                        );
+                                    })}
+                                    {provided.placeholder}
+                                </div>
+                            );
+                        }}
+                    </Droppable>
+                </DragDropContext>
+            </div>
+        </React.Fragment>
+
+
     )
 }
