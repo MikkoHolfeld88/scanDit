@@ -1,0 +1,22 @@
+import {TEMPLATE_TYPE} from "../enums/templateType.enum";
+import {OPERATION_TYPE} from "../enums/operationsTypes/operationType.enum";
+
+export const TemplateOperationsMap = {
+    [TEMPLATE_TYPE.INPUT]: [
+        OPERATION_TYPE.IMPORT,
+    ],
+    [TEMPLATE_TYPE.PROCESS]: [
+        OPERATION_TYPE.CALCULATION,
+        OPERATION_TYPE.CLASSIFICATION,
+        OPERATION_TYPE.COMPARISON,
+        OPERATION_TYPE.EXTRACTION,
+        OPERATION_TYPE.GENERATION,
+        OPERATION_TYPE.SENTIMENT,
+        OPERATION_TYPE.SUMMARIZATION,
+        OPERATION_TYPE.TRANSFORMATION,
+        OPERATION_TYPE.TRANSLATION,
+    ],
+    [TEMPLATE_TYPE.OUTPUT]: [
+        OPERATION_TYPE.EXPORT,
+    ],
+}

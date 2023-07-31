@@ -18,6 +18,7 @@ import {User} from "@firebase/auth";
 import {auth} from "../firebase/firebase";
 import {fetchPipelines} from "../store/slices/pipeline/thunks";
 import {fetchTemplates} from "../store/slices/template/thunks";
+import {Operations} from "./operations";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -85,7 +86,7 @@ export const Configuration = () => {
                     <Templates/>
                 </TabPanel>
                 <TabPanel value={configurationTab} index={2}>
-                    <h1>Operations</h1>
+                    <Operations />
                 </TabPanel>
             </SwipeableViews>
         </div>

@@ -111,6 +111,14 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
         handleClose();
     }
 
+    const handleCancel = () => {
+        props.setOpen(false);
+        setName(template?.name || "");
+        setDescription(template?.description || "");
+        setAuthor(template?.author || "");
+        setType(template?.type || null);
+    }
+
     const renderTypeSpecificFields = () => {
         const handleSourcesClick = () => {
 
@@ -122,7 +130,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
 
         const handleOperationsClick = () => {
             setOpenOperationSequenceCreator(true);
-            handleClose();
+            props.setOpen(false);
         }
 
         if (template) {
@@ -178,9 +186,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                             <Typography variant="subtitle2">{template?.name}</Typography>
                         </Row>
                     </Container>
-                    <IconButton edge="end" color="inherit" onClick={() => {
-                        props.setOpen(false);
-                    }}>
+                    <IconButton edge="end" color="inherit" onClick={handleCancel}>
                         <CloseIcon/>
                     </IconButton>
                 </div>
@@ -203,7 +209,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                     setType={setType}/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => props.setOpen(false)} startIcon={<CancelIcon/>}
+                <Button onClick={handleCancel} startIcon={<CancelIcon/>}
                         variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
                 <IconButton onClick={() => setOpenTemplateDeletionDialog(true)} sx={{minHeight: "36.5px"}}>

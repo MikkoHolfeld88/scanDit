@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -7,8 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import EditIcon from "@mui/icons-material/Edit";
 import {useSelector} from "react-redux";
-import {selectPipelines, selectPipelinesStatus} from "../../../store/slices/pipeline/selectors";
-import {PipelineBuildingContainer} from "./builder/pipelineBuildingContainer";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {AppMode} from "../../../models/AppMode";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,16 +14,16 @@ import {APP_MODE} from "../../../enums/appMode.enum";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {deletePipeline} from "../../../store/slices/pipeline/reducers";
-import {PipelineEditDialog} from "./dialogs/pipelineEditDialog";
-import {Pipeline} from "../../../models/Pipeline";
+import {OperationEditDialog} from "./dialogs/operationEditDialog";
 import {FetchingStatus} from "../../../models/FetchingStatus";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
 import "./style.css"
-import {PipelineSpeedDialActionIds} from "./pipelineSpeedDial";
+import {selectOperations, selectOperationsStatus} from "../../../store/slices/operations/selectors";
+import {Operation} from "../../../models/Operation";
 
-const PipelineListSkeleton = () => {
+const OperationListSkeleton = () => {
     return (
         <Container style={{marginTop: "5px"}}>
             <Row>
@@ -43,42 +41,35 @@ const PipelineListSkeleton = () => {
     )
 }
 
-export const PipelineList = () => {
+export const OperationsList = () => {
     const dispatch: AppDispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
-    const pipelines: Pipeline[] = useSelector(selectPipelines);
-    const pipelinesStatus: FetchingStatus = useSelector(selectPipelinesStatus);
-    const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
-    const [openPipelineEditDialog, setOpenPipelineEditDialog] = React.useState<boolean>(false);
-    const [pipelineId, setPipelineId] = React.useState<string>("");
-    const [pipelineName, setPipelineName] = React.useState<string>("");
+    const operations: Operation[] = useSelector(selectOperations);
+    const operationsStatus: FetchingStatus = useSelector(selectOperationsStatus);
+    const [openOperationEditDialog, setOpenOperationEditDialog] = React.useState<boolean>(false);
+    const [operationId, setOperationId] = React.useState<string>("");
+    const [operationName, setOperationName] = React.useState<string>("");
 
-    const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
+    const handleOperationEditOpen = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
         event.stopPropagation();
-        setPipelineId(pipelineId);
-        setOpenPipelineEditDialog(true);
+        setOperationId(operationId);
+        setOpenOperationEditDialog(true);
     }
 
-    const handlePipelineBuilderOpen = (pipelineId: string) => {
-        setPipelineId(pipelineId);
-        setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
-        setOpenPipelineBuilder(true);
-    };
-
-    const handlePipelineDeletion = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
+    const handleOperationDeletion = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
         event.stopPropagation();
-        dispatch(deletePipeline(pipelineId));
+        dispatch(deletePipeline(operationId));
         dispatch(setAppMode(APP_MODE.DEFAULT));
     };
 
     const renderPageContent = () => {
-        if (pipelinesStatus === FETCHING_STATE.LOADING) {
+        if (operationsStatus === FETCHING_STATE.LOADING) {
             const skeletonPreview = Array.from({length: 10}, (_, index) => index);
 
             return (
                 skeletonPreview.map((skeleton) => {
                     return (
-                        PipelineListSkeleton()
+                        OperationListSkeleton()
                     )
                 })
             )
@@ -86,41 +77,37 @@ export const PipelineList = () => {
             return (
                 <React.Fragment>
                     <List dense sx={{width: '100%', bgcolor: 'background.paper', borderRadius: "0px"}}>
-                        {pipelines.map((pipeline, index) => {
+                        {operations.map((operation, index) => {
                             return (
                                 <ListItem
                                     onClick={() => console.log("clicked")}
-                                    key={pipeline.id + "_" + index}
+                                    key={operation.id + "_" + index}
                                     secondaryAction={
-                                        appMode !== APP_MODE.PIPELINE_DELETION
-                                            ? <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
+                                        appMode !== APP_MODE.OPERATIONS_DELETION
+                                            ?
+                                            <EditIcon
+                                                onClick={(event) => handleOperationEditOpen(event, operation.id)}/>
                                             : <DeleteIcon
-                                                id="pipeline-deletion-icon"
+                                                id="operation-deletion-icon"
                                                 className="wiggle"
-                                                onClick={(event) => handlePipelineDeletion(event, pipeline.id)}
+                                                onClick={(event) => handleOperationDeletion(event, operation.id)}
                                                 color="warning"/>
                                     }
                                     disablePadding>
                                     <ListItemButton>
                                         <ListItemAvatar>
-                                            <Avatar src={pipeline.icon}/>
+                                            <Avatar src={operation.icon}/>
                                         </ListItemAvatar>
-                                        <ListItemText id={pipeline.id} primary={`${pipeline.name}`}/>
+                                        <ListItemText id={operation.id} primary={`${operation.name}`}/>
                                     </ListItemButton>
                                 </ListItem>
                             );
                         })}
                     </List>
-                    <PipelineBuildingContainer
-                        open={openPipelineBuilder}
-                        setOpen={setOpenPipelineBuilder}
-                        pipelineId={pipelineId}
-                        name={pipelineName}
-                    />
-                    <PipelineEditDialog
-                        open={openPipelineEditDialog}
-                        setOpen={setOpenPipelineEditDialog}
-                        pipelineId={pipelineId}
+                    <OperationEditDialog
+                        open={openOperationEditDialog}
+                        setOpen={setOpenOperationEditDialog}
+                        operationId={operationId}
                     />
                 </React.Fragment>
             )

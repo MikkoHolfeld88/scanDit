@@ -1,13 +1,17 @@
-import React, {useCallback, useEffect, useReducer} from "react";
+import React, {useCallback, useReducer} from "react";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import {produce} from "immer";
 import "./style.css"
-import {Col, Container, Row} from "react-bootstrap";
-import Typography from "@mui/material/Typography";
 import {useSelector} from "react-redux";
 import {selectOperations} from "../../../../../store/slices/operations/selectors";
 import {Operation} from "../../../../../models/Operation";
 import {Template} from "../../../../../models/Template";
+import {SequencerHead} from "./sequencerHead";
+
+enum OPERATION_SEQUENCE_FIELD {
+    POOL_OPERATIONS = "poolOperations",
+    TEMPLATE_OPERATIONS = "templateOperations"
+}
 
 interface SequencerProps {
     template: Template | undefined;
@@ -49,16 +53,16 @@ export const Sequencer = (props: SequencerProps) => {
         switch (action.type) {
             case "MOVE": {
                 draft[action.to] = draft[action.to] || [];
-                if (action.from === "poolOperations" && action.to === "templateOperations") {
+                if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
                     const original = draft[action.from][action.fromIndex];
-                    draft.cloneCounter++; // Increase the counter for every clone
-                    const clone = {...original, id: original.id + "-clone" + draft.cloneCounter}; // Append the counter to the id
+                    draft.cloneCounter++;
+                    const clone = {...original, id: original.id + "_clone_" + draft.cloneCounter}; // Append the counter to the id
                     draft[action.to].splice(action.toIndex, 0, clone);
-                } else if (action.from === "poolOperations" && action.to === "poolOperations") {
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
                     return;
-                } else if (action.from === "templateOperations" && action.to === "poolOperations") {
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
                     draft[action.from].splice(action.fromIndex, 1);
-                } else if (action.from === "templateOperations" && action.to === "templateOperations") {
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
                     const [moved] = draft[action.from].splice(action.fromIndex, 1);
                     draft[action.to].splice(action.toIndex, 0, moved);
                 }
@@ -67,8 +71,8 @@ export const Sequencer = (props: SequencerProps) => {
     });
 
     const [state, dispatch] = useReducer(dragReducer, {
-        poolOperations: itemsFromInitialState, // operations
-        templateOperations: items2FromInitialState, //props.template.operations
+        [OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS]: itemsFromInitialState, // operations
+        [OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]: items2FromInitialState, //props.template.operations
         cloneCounter: 0,
     });
 
@@ -87,35 +91,22 @@ export const Sequencer = (props: SequencerProps) => {
         }
     }, []);
 
-    const handlerDragStart = () => {
-        console.log("drag start");
-    }
-
     return (
         <React.Fragment>
-            <Container>
-                <Row style={{textAlign: "center", justifyContent: "center", alignItems: "center"}}>
-                    <Col>
-                        <Typography variant="button">Operation-Pool</Typography>
-                    </Col>
-                    <Col>
-                        <Typography variant="button">Template-Operations</Typography>
-                    </Col>
-                </Row>
-            </Container>
+            <SequencerHead />
 
             <div id="sequence-container" className="sequence-container">
-                <DragDropContext onDragEnd={handleDragEnd} onDragStart={handlerDragStart}>
-                    <Droppable droppableId="poolOperations" type="OPERATION">
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId={OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS} type="OPERATION">
                         {(provided, snapshot) => {
                             return (
                                 <div
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                     className={"dropper" + (snapshot.isDraggingOver ? " dropOver" : "")}>
-                                    {state.poolOperations?.map((person: any, index: any) => {
+                                    {state.poolOperations?.map((operation: any, index: any) => {
                                         return (
-                                            <Draggable key={person.id + "_" + index} draggableId={person.id} index={index}>
+                                            <Draggable key={operation.id + "_pool_" + index} draggableId={operation.id} index={index}>
                                                 {(provided, snapshot) => (
                                                     <div>
                                                         {/* Deine normale Dragger-Komponente, die immer angezeigt wird */}
@@ -125,9 +116,9 @@ export const Sequencer = (props: SequencerProps) => {
                                                             {...provided.dragHandleProps}
                                                             className={"dragger" + (snapshot.isDragging ? " dragging" : "")}>
                                                             <div className="draggerContent">
-                                                                <img src={person.icon} className="draggerIconPool" />
+                                                                <img src={operation.icon} className="draggerIconPool"/>
                                                                 <span>
-                                                            {person.name.first} {person.name.last}
+                                                            {operation.name.first} {operation.name.last}
                                                           </span>
                                                             </div>
                                                         </div>
@@ -135,9 +126,9 @@ export const Sequencer = (props: SequencerProps) => {
                                                         {snapshot.isDragging && (
                                                             <div className="dragger dragging">
                                                                 <div className="draggerContent">
-                                                                    <img src={person.icon} className="draggerIconPool" />
+                                                                    <img src={operation.icon} className="draggerIconPool"/>
                                                                     <span>
-                                                                  {person.name.first} {person.name.last}
+                                                                  {operation.name.first} {operation.name.last}
                                                                 </span>
                                                                 </div>
                                                             </div>
@@ -151,18 +142,17 @@ export const Sequencer = (props: SequencerProps) => {
                             );
                         }}
                     </Droppable>
-                    <Droppable droppableId="templateOperations" type="OPERATION">
+                    <Droppable droppableId={OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS} type="OPERATION">
                         {(provided, snapshot) => {
                             return (
                                 <div
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                     className={"dropper" + (snapshot.isDraggingOver ? " dropOver" : "")}>
-                                    {state.templateOperations?.map((person: any, index: number) => {
-                                        console.log(`id: ${person.id}, index: ${index}`);
+                                    {state.templateOperations?.map((operation: any, index: number) => {
+                                        console.log(`id: ${operation.id}, index: ${index}`);
                                         return (
-                                            <Draggable key={person.id + "_" + index} draggableId={person.id} index={index}>
-
+                                            <Draggable key={operation.id + "_list_" + index} draggableId={operation.id} index={index}>
                                                 {(provided, snapshot) => {
                                                     return (
                                                         <div
@@ -172,11 +162,11 @@ export const Sequencer = (props: SequencerProps) => {
                                                             {...provided.dragHandleProps}>
                                                             <div className="draggerContent">
                                                                 <img
-                                                                    src={person.icon}
+                                                                    src={operation.icon}
                                                                     className="draggerIconList"/>
                                                                 <span>
-                                                                {person.name.first} {person.name.last}
-                                                            </span>
+                                                                    {operation.name.first} {operation.name.last}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     );
@@ -192,7 +182,5 @@ export const Sequencer = (props: SequencerProps) => {
                 </DragDropContext>
             </div>
         </React.Fragment>
-
-
     )
 }

@@ -1,4 +1,5 @@
 import {FileTransformation} from "./FileTransformation";
+import {OPERATION_TYPE} from "../../../enums/operationsTypes/operationType.enum";
 
 export type Transformation =
     FileTransformation

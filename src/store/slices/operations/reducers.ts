@@ -56,6 +56,6 @@ export const operationSlice = createSlice({
     }
 });
 
-export const {} = operationSlice.actions;
+export const {addOperation, editOperation, deleteOperation} = operationSlice.actions;
 
 export default operationSlice.reducer;

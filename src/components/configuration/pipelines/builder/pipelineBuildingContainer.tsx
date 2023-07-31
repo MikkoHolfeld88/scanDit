@@ -57,7 +57,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                     <Container>
                         <Row>
                             <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                                {`Pipeline editor`}
+                                {`Pipeline Builder`}
                             </Typography>
                         </Row>
                         <Row>

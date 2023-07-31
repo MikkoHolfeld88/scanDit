@@ -10,6 +10,7 @@ import {CONFIGURATION_TAB_NAMES} from "../../enums/configurationTabNames.enum";
 import {PipelineSpeedDial} from "../configuration/pipelines/pipelineSpeedDial";
 import {AppMode} from "../../models/AppMode";
 import {APP_MODE} from "../../enums/appMode.enum";
+import {OperationsSpeedDial} from "../configuration/operations/operationsSpeedDial";
 
 interface BottomBarProps {
     value: string;
@@ -29,10 +30,19 @@ export const BottomBar = (props: BottomBarProps) => {
             && currentTab === CONFIGURATION_TAB_NAMES.PIPELINES;
     }
 
+    const onConfigurationOperationsPage = () => {
+        return location.pathname === ROUTE_PATHS.DASHBOARD + "/" + ROUTE_PATHS.CONFIGURATION
+            && currentTab === CONFIGURATION_TAB_NAMES.OPERATIONS;
+    }
+
     return (
         <div style={{position: 'fixed', bottom: 0, left: 0, right: 0}}>
             {
                 onConfigurationPipelinesPage() && <PipelineSpeedDial />
+            }
+
+            {
+                onConfigurationOperationsPage() && <OperationsSpeedDial />
             }
 
             <br/>

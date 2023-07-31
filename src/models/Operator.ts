@@ -1,7 +1,7 @@
-import {Export} from "./Export";
+import {Export} from "./operationTypes/exports/Export";
 
 export interface Operator {
-    type: 'prompt' | Export,
-    text?: string,
+    type: 'import' | 'prompt' | 'transform' | Export,
+    prompt?: string,
     transformer?: any,
 }

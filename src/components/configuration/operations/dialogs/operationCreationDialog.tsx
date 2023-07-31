@@ -10,34 +10,36 @@ import { TransitionProps } from '@mui/material/transitions';
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
-import {IconButton, TextField} from "@mui/material";
+import {FormControl, IconButton, InputLabel, Select, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useAppDispatch} from "../../../../store/store";
 import {addPipeline} from "../../../../store/slices/pipeline/reducers";
 import {v4} from "uuid";
 import {Pipeline} from "../../../../models/Pipeline";
 import {useEffect} from "react";
+import {Transition} from "../../pipelines/dialogs/pipelineCreationDialog";
+import {Operation} from "../../../../models/Operation";
+import {OperationType} from "../../../../models/operationTypes/OperationType";
+import {Operator} from "../../../../models/Operator";
+import {addOperation} from "../../../../store/slices/operations/reducers";
+import {TemplateType} from "../../../../models/TemplateType";
+import {TEMPLATE_TYPE} from "../../../../enums/templateType.enum";
+import MenuItem from "@mui/material/MenuItem";
+import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
 
-export const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-interface PipelineCreationDialogProps {
+interface OperationCreationDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
 }
 
-export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
+export const OperationCreationDialog = (props: OperationCreationDialogProps) => {
     const dispatch = useAppDispatch();
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
     const [author, setAuthor] = React.useState<string>(    getAuth().currentUser?.displayName || "");
     const [icon, setIcon] = React.useState<string>("");
+    const [type, setType] = React.useState<OperationType>(null);
+    const [operator, setOperator] = React.useState<Operator | null>(null);
 
     useEffect(() => {
         return () => {
@@ -45,21 +47,26 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("render type specific fields based on operator")
+    }, [type]);
+
     const handleCreate = () => {
-        if (name === "") {
+        if (name === "" || type === null || operator === null) {
             return;
         }
 
-        const newPipeline: Pipeline = {
+        const newOperation: Operation = {
             id: v4().toString(),
             name: name,
             description: description,
             created: new Date().toISOString(),
             author: author,
             icon: icon,
-            templates: [],
+            type: type,
+            operator: operator
         }
-        dispatch(addPipeline(newPipeline));
+        dispatch(addOperation(newOperation));
         handleClose();
     };
 
@@ -68,6 +75,8 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
         setDescription("");
         setAuthor("");
         setIcon("");
+        setType(null);
+        setOperator(null);
     }
 
     const handleClose = () => {
@@ -84,7 +93,7 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Typography variant="h6">Create pipeline</Typography>
+                    <Typography variant="h6">Create operation</Typography>
                     <IconButton edge="end" color="inherit" onClick={handleClose}>
                         <CloseIcon/>
                     </IconButton>
@@ -99,6 +108,20 @@ export const PipelineCreationDialog = (props: PipelineCreationDialogProps) => {
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     fullWidth/>
+                <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
+                    <InputLabel id="operation-type-label">Type</InputLabel>
+                    <Select
+                        label="Type"
+                        labelId="operation-type-label"
+                        value={type}
+                        onChange={(e) => setType(e.target.value as OperationType)}>
+                        {
+                            Object.keys(OPERATION_TYPE).map((key) => {
+                                return <MenuItem key={key} value={OPERATION_TYPE[key as keyof typeof OPERATION_TYPE]}>{key}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl>
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"
