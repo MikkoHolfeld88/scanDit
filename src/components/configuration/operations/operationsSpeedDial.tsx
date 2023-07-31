@@ -11,6 +11,7 @@ import {AppMode} from "../../../models/AppMode";
 import {useSelector} from "react-redux";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
+import {OperationCreationDialog} from "./dialogs/operationCreationDialog";
 
 enum OperationSpeedDialActionNames {
     DELETE = 'Delete',
@@ -37,7 +38,7 @@ export function OperationsSpeedDial() {
     const dispatch: AppDispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
     const [openActions, setOpenActions] = React.useState(false);
-    const [openPipelineCreationDialog, setOpenPipelineCreationDialog] = React.useState(false);
+    const [openOperationCreationDialog, setOpenOperationCreationDialog] = React.useState(false);
     const handleOpen = () => setOpenActions(true);
     const handleClose = () => setOpenActions(false);
 
@@ -54,7 +55,7 @@ export function OperationsSpeedDial() {
                 dispatch(setAppMode(APP_MODE.OPERATIONS_DELETION));
                 break;
             case OperationSpeedDialActionNames.CREATE:
-                setOpenPipelineCreationDialog(true);
+                setOpenOperationCreationDialog(true);
                 break;
             default:
                 break;
@@ -86,7 +87,7 @@ export function OperationsSpeedDial() {
                 </SpeedDial>
 
             }
-            {/*<PipelineCreationDialog open={openPipelineCreationDialog} setOpen={setOpenPipelineCreationDialog}/>*/}
+            <OperationCreationDialog open={openOperationCreationDialog} setOpen={setOpenOperationCreationDialog}/>
         </React.Fragment>
     );
 }

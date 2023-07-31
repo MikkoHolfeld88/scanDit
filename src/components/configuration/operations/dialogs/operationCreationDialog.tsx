@@ -1,31 +1,25 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {getAuth} from "firebase/auth";
 import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
 import {FormControl, IconButton, InputLabel, Select, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {useAppDispatch} from "../../../../store/store";
-import {addPipeline} from "../../../../store/slices/pipeline/reducers";
 import {v4} from "uuid";
-import {Pipeline} from "../../../../models/Pipeline";
-import {useEffect} from "react";
 import {Transition} from "../../pipelines/dialogs/pipelineCreationDialog";
 import {Operation} from "../../../../models/Operation";
 import {OperationType} from "../../../../models/operationTypes/OperationType";
-import {Operator} from "../../../../models/Operator";
 import {addOperation} from "../../../../store/slices/operations/reducers";
-import {TemplateType} from "../../../../models/TemplateType";
-import {TEMPLATE_TYPE} from "../../../../enums/templateType.enum";
 import MenuItem from "@mui/material/MenuItem";
 import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
+import {PromptWindow} from "./specificFields/promptWindow";
 
 interface OperationCreationDialogProps {
     open: boolean;
@@ -36,10 +30,10 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
     const dispatch = useAppDispatch();
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
-    const [author, setAuthor] = React.useState<string>(    getAuth().currentUser?.displayName || "");
+    const [author, setAuthor] = React.useState<string>(getAuth().currentUser?.displayName || "");
     const [icon, setIcon] = React.useState<string>("");
     const [type, setType] = React.useState<OperationType>(null);
-    const [operator, setOperator] = React.useState<Operator | null>(null);
+    const [prompt, setPrompt] = React.useState<string>("");
 
     useEffect(() => {
         return () => {
@@ -52,7 +46,7 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
     }, [type]);
 
     const handleCreate = () => {
-        if (name === "" || type === null || operator === null) {
+        if (name === "" || type === null || prompt === "") {
             return;
         }
 
@@ -64,7 +58,6 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
             author: author,
             icon: icon,
             type: type,
-            operator: operator
         }
         dispatch(addOperation(newOperation));
         handleClose();
@@ -76,13 +69,35 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
         setAuthor("");
         setIcon("");
         setType(null);
-        setOperator(null);
     }
 
     const handleClose = () => {
         clearLocalStates();
         props.setOpen(false);
     };
+
+    const renderTypeSpecificFields = () => {
+        if (type === null || type === undefined) {
+            return null;
+        }
+
+        switch (type) {
+            case OPERATION_TYPE.CALCULATION:
+            case OPERATION_TYPE.CLASSIFICATION:
+            case OPERATION_TYPE.COMPARISON:
+            case OPERATION_TYPE.EXPORT:
+            case OPERATION_TYPE.EXTRACTION:
+            case OPERATION_TYPE.GENERATION:
+            case OPERATION_TYPE.IMPORT:
+            case OPERATION_TYPE.SENTIMENT:
+            case OPERATION_TYPE.SUMMARIZATION:
+            case OPERATION_TYPE.TRANSFORMATION:
+            case OPERATION_TYPE.TRANSLATION:
+                return <PromptWindow prompt={prompt} setPrompt={setPrompt}/>;
+            default:
+                return null;
+        }
+    }
 
     return (
         <Dialog
@@ -122,6 +137,9 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
                         }
                     </Select>
                 </FormControl>
+                {
+                    renderTypeSpecificFields()
+                }
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"
@@ -140,8 +158,8 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
                     fullWidth/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} startIcon={<CancelIcon />} variant="outlined">Cancel</Button>
-                <Button onClick={handleCreate} startIcon={<AddIcon />} variant="outlined">Create</Button>
+                <Button onClick={handleClose} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
+                <Button onClick={handleCreate} startIcon={<AddIcon/>} variant="outlined">Create</Button>
             </DialogActions>
         </Dialog>
     );

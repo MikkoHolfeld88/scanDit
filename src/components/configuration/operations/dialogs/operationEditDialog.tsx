@@ -6,8 +6,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import {getAuth} from "firebase/auth";
 import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import {TransitionProps} from '@mui/material/transitions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
 import {IconButton, TextField} from "@mui/material";
@@ -52,7 +50,6 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
         }
 
         const editedOperation: Operation = {
-            operator: operation.operator,
             type: operation.type,
             id: operation.id,
             name: name,

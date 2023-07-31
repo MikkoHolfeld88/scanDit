@@ -1,11 +1,10 @@
 import {OperationType} from "./operationTypes/OperationType";
-import {Operator} from "./Operator";
 
 export interface Operation {
     id: string,
     name: string,
     type: OperationType,
-    operator: Operator | null,
+    prompt?: string,
     icon?: any,
     description?: string,
     created: string,
