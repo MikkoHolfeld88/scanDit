@@ -11,4 +11,5 @@ export interface Operation {
     updated?: string,
     deleted?: string,
     author?: string,
+    result?: any
 }
