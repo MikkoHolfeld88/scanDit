@@ -19,6 +19,7 @@ import {auth} from "../firebase/firebase";
 import {fetchPipelines} from "../store/slices/pipeline/thunks";
 import {fetchTemplates} from "../store/slices/template/thunks";
 import {Operations} from "./operations";
+import {fetchOperations} from "../store/slices/operations/thunks";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -61,6 +62,7 @@ export const Configuration = () => {
         if (USER?.uid) {
             dispatch(fetchPipelines(USER?.uid));
             dispatch(fetchTemplates(USER?.uid));
+            dispatch(fetchOperations(USER?.uid));
         }
     }, [])
 

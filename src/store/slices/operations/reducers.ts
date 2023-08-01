@@ -22,6 +22,9 @@ export const operationSlice = createSlice({
         editOperation: (state, action) => {
             const operation = state.operations.find(operation => operation.id === action.payload.id);
             if (operation) {
+                if (action.payload.name !== undefined) {
+                    operation.name = action.payload.name;
+                }
                 if (action.payload.type !== undefined) {
                     operation.type = action.payload.type;
                 }
@@ -33,6 +36,12 @@ export const operationSlice = createSlice({
                 }
                 if (action.payload.author !== undefined) {
                     operation.author = action.payload.author;
+                }
+                if (action.payload.prompt !== undefined) {
+                    operation.prompt = action.payload.prompt;
+                }
+                if (action.payload.icon !== undefined) {
+                    operation.icon = action.payload.icon;
                 }
                 operation.updated = new Date().toISOString();
             }

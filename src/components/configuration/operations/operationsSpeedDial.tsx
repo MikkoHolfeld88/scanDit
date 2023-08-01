@@ -87,7 +87,9 @@ export function OperationsSpeedDial() {
                 </SpeedDial>
 
             }
-            <OperationCreationDialog open={openOperationCreationDialog} setOpen={setOpenOperationCreationDialog}/>
+            <OperationCreationDialog
+                open={openOperationCreationDialog}
+                setOpen={setOpenOperationCreationDialog}/>
         </React.Fragment>
     );
 }

@@ -1,8 +1,12 @@
 import {auth, firestore} from '../../firebase';
 import {COLLECTIONS_FIRESTORE} from "../../enums/collections.firestore";
 import {doc, updateDoc, deleteDoc, setDoc} from "firebase/firestore";
+import {Dispatch, MiddlewareAPI} from "@reduxjs/toolkit";
+import {RootState} from "../../../store/store";
+import {AnyAction} from "redux";
+import {selectTemplateById} from "../../../store/slices/template/selectors";
 
-export const templateMiddleware = (action: any) => {
+export const templateMiddleware = (store: MiddlewareAPI<Dispatch, RootState>) => (next: Dispatch<AnyAction>) => (action: AnyAction) => {
     const uid = auth.currentUser?.uid;
 
     if (action.type === 'template/addTemplate') {
@@ -33,10 +37,10 @@ export const templateMiddleware = (action: any) => {
             userId: uid
         };
 
-        const cleanedUpdatedTemplates = JSON.parse(JSON.stringify(updatedTemplate)); // removes undefined fields
+        const cleanedUpdatedTemplate = JSON.parse(JSON.stringify(updatedTemplate)); // removes undefined fields
 
-        const docRef = doc(firestore, COLLECTIONS_FIRESTORE.TEMPLATES, cleanedUpdatedTemplates.id);
-        updateDoc(docRef, cleanedUpdatedTemplates)
+        const docRef = doc(firestore, COLLECTIONS_FIRESTORE.TEMPLATES, cleanedUpdatedTemplate.id);
+        updateDoc(docRef, cleanedUpdatedTemplate)
             .then(() => {
                 console.log('Template successfully updated in Firestore!');
             })
@@ -55,6 +59,26 @@ export const templateMiddleware = (action: any) => {
             })
             .catch((error) => {
                 console.error('Error deleting template: ', error);
+            });
+    }
+
+    if (action.type === 'template/saveTemplateOperations') {
+        const template = selectTemplateById(action.payload.id)(store.getState());
+
+        const updatedTemplate = {
+            ...template,
+            operations: action.payload.operations
+        }
+
+        const cleanedUpdatedTemplate = JSON.parse(JSON.stringify(updatedTemplate)); // removes undefined fields
+
+        const docRef = doc(firestore, COLLECTIONS_FIRESTORE.TEMPLATES, action.payload.id);
+        updateDoc(docRef, cleanedUpdatedTemplate)
+            .then(() => {
+                console.log('Template operations successfully updated in Firestore!');
+            })
+            .catch((error) => {
+                console.error('Error updating template operations: ', error);
             });
     }
 

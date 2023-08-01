@@ -3,6 +3,7 @@ import {TemplateState} from "./types";
 import {Template} from "../../../models/Template";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {fetchTemplates} from "./thunks";
+import {Operation} from "../../../models/Operation";
 
 const initialState: TemplateState = {
     templates: [],
@@ -54,6 +55,12 @@ export const templateSlice = createSlice({
                 template.updated = new Date().toISOString();
             }
         },
+        saveTemplateOperations: (state, action: PayloadAction<{ id: string, operations: Operation[] }>) => {
+            const template = state.templates.find(template => template.id === action.payload.id);
+            if (template) {
+                template.operations = action.payload.operations;
+            }
+        },
         deleteTemplate: (state, action: PayloadAction<string>) => {
             state.templates = state.templates.filter(template => template.id !== action.payload);
         },
@@ -88,6 +95,6 @@ export const templateSlice = createSlice({
     }
 });
 
-export const {setTemplates, addTemplate, editTemplate, deleteTemplate, setTemplateSearch} = templateSlice.actions;
+export const {setTemplates, addTemplate, editTemplate, saveTemplateOperations, deleteTemplate, setTemplateSearch} = templateSlice.actions;
 
 export default templateSlice.reducer;

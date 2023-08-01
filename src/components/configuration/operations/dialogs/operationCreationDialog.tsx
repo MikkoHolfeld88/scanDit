@@ -21,6 +21,33 @@ import MenuItem from "@mui/material/MenuItem";
 import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
 import {PromptWindow} from "./specificFields/promptWindow";
 
+export const getRenderComponentForType = (
+    type: OperationType,
+    prompt: string,
+    setPrompt: (prompt: string) => void
+) => {
+    if (type === null || type === undefined) {
+        return null;
+    }
+
+    switch (type) {
+        case OPERATION_TYPE.CALCULATION:
+        case OPERATION_TYPE.CLASSIFICATION:
+        case OPERATION_TYPE.COMPARISON:
+        case OPERATION_TYPE.EXPORT:
+        case OPERATION_TYPE.EXTRACTION:
+        case OPERATION_TYPE.GENERATION:
+        case OPERATION_TYPE.IMPORT:
+        case OPERATION_TYPE.SENTIMENT:
+        case OPERATION_TYPE.SUMMARIZATION:
+        case OPERATION_TYPE.TRANSFORMATION:
+        case OPERATION_TYPE.TRANSLATION:
+            return <PromptWindow prompt={prompt} setPrompt={setPrompt}/>;
+        default:
+            return null;
+    }
+}
+
 interface OperationCreationDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
@@ -41,10 +68,6 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
         }
     }, []);
 
-    useEffect(() => {
-        console.log("render type specific fields based on operator")
-    }, [type]);
-
     const handleCreate = () => {
         if (name === "" || type === null || prompt === "") {
             return;
@@ -58,6 +81,7 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
             author: author,
             icon: icon,
             type: type,
+            prompt: prompt
         }
         dispatch(addOperation(newOperation));
         handleClose();
@@ -69,6 +93,7 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
         setAuthor("");
         setIcon("");
         setType(null);
+        setPrompt("");
     }
 
     const handleClose = () => {
@@ -77,26 +102,7 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
     };
 
     const renderTypeSpecificFields = () => {
-        if (type === null || type === undefined) {
-            return null;
-        }
-
-        switch (type) {
-            case OPERATION_TYPE.CALCULATION:
-            case OPERATION_TYPE.CLASSIFICATION:
-            case OPERATION_TYPE.COMPARISON:
-            case OPERATION_TYPE.EXPORT:
-            case OPERATION_TYPE.EXTRACTION:
-            case OPERATION_TYPE.GENERATION:
-            case OPERATION_TYPE.IMPORT:
-            case OPERATION_TYPE.SENTIMENT:
-            case OPERATION_TYPE.SUMMARIZATION:
-            case OPERATION_TYPE.TRANSFORMATION:
-            case OPERATION_TYPE.TRANSLATION:
-                return <PromptWindow prompt={prompt} setPrompt={setPrompt}/>;
-            default:
-                return null;
-        }
+        return getRenderComponentForType(type, prompt, setPrompt);
     }
 
     return (

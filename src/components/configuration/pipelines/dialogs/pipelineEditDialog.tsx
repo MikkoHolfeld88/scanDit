@@ -94,12 +94,20 @@ export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
         props.setOpen(false);
     };
 
+    const handleCancel = () => {
+        props.setOpen(false);
+        setName(pipeline?.name || "");
+        setDescription(pipeline?.description || "");
+        setAuthor(pipeline?.author || "");
+        setIcon(pipeline?.icon || "")
+    }
+
     return (
         <Dialog
             open={props.open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={handleCancel}
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -139,7 +147,7 @@ export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
                 <Button fullWidth variant="contained" onClick={handlePipelineBuilderClick}>Pipeline builder</Button>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
+                <Button onClick={handleCancel} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
                 <IconButton onClick={() => setOpenPipelineDeletionDialog(true)} sx={{minHeight: "36.5px"}} ><DeleteIcon color="warning" /></IconButton>
             </DialogActions>

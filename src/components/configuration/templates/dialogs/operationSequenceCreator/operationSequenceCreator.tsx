@@ -9,7 +9,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import {Container, Row} from "react-bootstrap";
 import {DialogTransition} from "../../../../layout/transitions/dialogTransition";
 import {Template} from "../../../../../models/Template";
-import {Sequencer} from "./sequencer";
+import {OPERATION_SEQUENCE_FIELD, Sequencer} from "./sequencer";
+import {useCallback, useReducer} from "react";
+import {Operation} from "../../../../../models/Operation";
+import {useSelector} from "react-redux";
+import {selectOperations} from "../../../../../store/slices/operations/selectors";
+import {produce} from "immer";
+import {AppDispatch, useAppDispatch} from "../../../../../store/store";
+import {saveTemplateOperations} from "../../../../../store/slices/template/reducers";
 
 interface OperationSequenceCreatorProps {
     open: boolean;
@@ -18,11 +25,63 @@ interface OperationSequenceCreatorProps {
 }
 
 export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) => {
+    const dispatchToRedux: AppDispatch = useAppDispatch();
+    const operations: Operation[] = useSelector(selectOperations);
+
+    const dragReducer = produce((draft, action) => {
+        switch (action.type) {
+            case "MOVE": {
+                draft[action.to] = draft[action.to] || [];
+                if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
+                    const original = draft[action.from][action.fromIndex];
+                    draft.cloneCounter++;
+                    const clone = {...original, id: original.id + "_clone_" + draft.cloneCounter}; // Append the counter to the id
+                    draft[action.to].splice(action.toIndex, 0, clone);
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
+                    return;
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
+                    draft[action.from].splice(action.fromIndex, 1);
+                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
+                    const [moved] = draft[action.from].splice(action.fromIndex, 1);
+                    draft[action.to].splice(action.toIndex, 0, moved);
+                }
+            }
+        }
+    });
+
+    const [state, dispatch] = useReducer(dragReducer, {
+        [OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS]: operations.map((operation: Operation) => {
+            return operation;
+        }),
+        [OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]: props.template?.operations || [],
+        cloneCounter: 0,
+    });
+
+    const handleDragEnd = useCallback((result: any) => {
+        if (result.reason === "DROP") {
+            if (!result.destination) {
+                return;
+            }
+            dispatch({
+                type: "MOVE",
+                from: result.source.droppableId,
+                to: result.destination.droppableId,
+                fromIndex: result.source.index,
+                toIndex: result.destination.index,
+            });
+        }
+    }, []);
+
     const handleClose = () => {
         props.setOpen(false);
     };
 
     const handleSave = () => {
+        if (!props.template?.id) {
+            console.error("Template id is not defined. Aborting save operations to template.");
+            return;
+        }
+        dispatchToRedux(saveTemplateOperations({id: props.template.id, operations: state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]}));
         props.setOpen(false);
     }
 
@@ -58,7 +117,7 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Sequencer template={props.template}/>
+            <Sequencer template={props.template} state={state} dispatch={dispatch} handleDragEnd={handleDragEnd}/>
         </Dialog>
     )
 }

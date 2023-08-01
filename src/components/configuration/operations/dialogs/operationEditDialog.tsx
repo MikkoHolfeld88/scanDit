@@ -8,7 +8,7 @@ import {getAuth} from "firebase/auth";
 import DialogTitle from '@mui/material/DialogTitle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
-import {IconButton, TextField} from "@mui/material";
+import {FormControl, IconButton, InputLabel, Select, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {RootState, useAppDispatch} from "../../../../store/store";
 import EditIcon from "@mui/icons-material/Edit";
@@ -19,6 +19,10 @@ import {selectOperationById} from "../../../../store/slices/operations/selectors
 import {Operation} from "../../../../models/Operation";
 import {deleteOperation, editOperation} from "../../../../store/slices/operations/reducers";
 import {Transition} from "../../pipelines/dialogs/pipelineCreationDialog";
+import {OperationType} from "../../../../models/operationTypes/OperationType";
+import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
+import MenuItem from "@mui/material/MenuItem";
+import {getRenderComponentForType} from "./operationCreationDialog";
 
 interface OperationEditionDialogProps {
     open: boolean;
@@ -34,30 +38,34 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
     const [description, setDescription] = React.useState<string>("");
     const [author, setAuthor] = React.useState<string>("");
     const [icon, setIcon] = React.useState<string>("");
+    const [type, setType] = React.useState<OperationType>(null);
+    const [prompt, setPrompt] = React.useState<string>("");
 
     useEffect(() => {
         if (operation) {
             setName(operation.name);
+            setType(operation.type);
             setDescription(operation.description || description);
             setAuthor(operation.author || getAuth().currentUser?.displayName || author);
             setIcon(operation.icon || icon);
+            setPrompt(operation.prompt || prompt)
         }
     }, [operation]);
 
     const handleUpdate = () => {
-        if (name === "" || name === null || !operation?.id || !operation.created) {
+        if (name === "" || name === null || !operation?.id || !operation.created || operation.prompt === "") {
             return;
         }
 
         const editedOperation: Operation = {
-            type: operation.type,
+            type: type,
             id: operation.id,
             name: name,
             description: description ? description : undefined,
             created: operation.created,
-            updated: new Date().toISOString(),
             author: author ? author : undefined,
-            icon: icon ? icon : undefined
+            icon: icon ? icon : undefined,
+            prompt: prompt
         }
 
         dispatch(editOperation(editedOperation));
@@ -84,12 +92,24 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
         props.setOpen(false);
     };
 
+    const renderTypeSpecificFields = () => {
+        return getRenderComponentForType(type, prompt, setPrompt);
+    };
+
+    const handleCancel = () => {
+        props.setOpen(false);
+        setName(operation?.name || "");
+        setDescription(operation?.description || "");
+        setAuthor(operation?.author || "");
+        setIcon(operation?.icon || "");
+    }
+
     return (
         <Dialog
             open={props.open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={handleCancel}
             aria-describedby="alert-dialog-slide-description">
             <DialogTitle>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -110,6 +130,23 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     fullWidth/>
+                <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
+                    <InputLabel id="operation-type-label">Type</InputLabel>
+                    <Select
+                        label="Type"
+                        labelId="operation-type-label"
+                        value={type ?? ""}
+                        onChange={(e) => setType(e.target.value as OperationType)}>
+                        {
+                            Object.keys(OPERATION_TYPE).map((key) => {
+                                return <MenuItem key={key} value={OPERATION_TYPE[key as keyof typeof OPERATION_TYPE]}>{key}</MenuItem>
+                            })
+                        }
+                    </Select>
+                </FormControl>
+                {
+                    renderTypeSpecificFields()
+                }
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"
@@ -126,10 +163,9 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
                     multiline
                     rows={4}
                     fullWidth/>
-                <Button fullWidth variant="contained" onClick={() => console.log("open prompt window")}>Prompt</Button>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
+                <Button onClick={handleCancel} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
                 <IconButton onClick={() => setOpenOperationDeletionDialog(true)} sx={{minHeight: "36.5px"}}><DeleteIcon
                     color="warning"/></IconButton>

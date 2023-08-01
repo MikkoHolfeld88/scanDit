@@ -6,7 +6,7 @@ import {templateMiddleware} from './handlers/templateMiddleware';
 import {auth} from '../firebase';
 import {operationMiddleware} from "./handlers/operationMiddleware";
 
-const firestoreMiddleware: Middleware<{}, RootState> = () => (next: Dispatch) => (action: AnyAction) => {
+const firestoreMiddleware: Middleware<{}, RootState> = (store) => (next: Dispatch) => (action: AnyAction) => {
 
     if (!auth.currentUser?.uid) {
         console.error('Could not verify user id. Aborting firestore middleware.')
@@ -18,7 +18,7 @@ const firestoreMiddleware: Middleware<{}, RootState> = () => (next: Dispatch) =>
     if (action.type.startsWith('pipeline/')) {
         pipelineMiddleware(action);
     } else if (action.type.startsWith('template/')) {
-        templateMiddleware(action);
+        templateMiddleware(store)(next)(action);
     } else if (action.type.startsWith('operation/')) {
         operationMiddleware(action);
     }

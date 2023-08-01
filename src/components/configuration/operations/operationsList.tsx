@@ -22,6 +22,7 @@ import {Skeleton} from "@mui/material";
 import "./style.css"
 import {selectOperations, selectOperationsStatus} from "../../../store/slices/operations/selectors";
 import {Operation} from "../../../models/Operation";
+import {deleteOperation} from "../../../store/slices/operations/reducers";
 
 const OperationListSkeleton = () => {
     return (
@@ -48,7 +49,6 @@ export const OperationsList = () => {
     const operationsStatus: FetchingStatus = useSelector(selectOperationsStatus);
     const [openOperationEditDialog, setOpenOperationEditDialog] = React.useState<boolean>(false);
     const [operationId, setOperationId] = React.useState<string>("");
-    const [operationName, setOperationName] = React.useState<string>("");
 
     const handleOperationEditOpen = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
         event.stopPropagation();
@@ -58,7 +58,7 @@ export const OperationsList = () => {
 
     const handleOperationDeletion = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
         event.stopPropagation();
-        dispatch(deletePipeline(operationId));
+        dispatch(deleteOperation(operationId));
         dispatch(setAppMode(APP_MODE.DEFAULT));
     };
 
