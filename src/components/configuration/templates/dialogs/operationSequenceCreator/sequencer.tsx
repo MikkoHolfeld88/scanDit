@@ -14,6 +14,7 @@ interface SequencerProps {
     state: any;
     dispatch: React.Dispatch<any>;
     handleDragEnd: (result: any) => void;
+    handlePoolOperationClick: (operationId: string) => void;
 }
 
 export const Sequencer = (props: SequencerProps) => {
@@ -32,12 +33,12 @@ export const Sequencer = (props: SequencerProps) => {
                                     className={"dropper" + (snapshot.isDraggingOver ? " dropOver" : "")}>
                                     {props.state.poolOperations?.map((operation: any, index: any) => {
                                         return (
-                                            <Draggable key={operation.id + "_pool_" + index} draggableId={operation.id}
-                                                       index={index}>
+                                            <Draggable key={operation.id + "_pool_" + index} draggableId={operation.id} index={index}>
                                                 {(provided, snapshot) => (
                                                     <div>
                                                         {/* Deine normale Dragger-Komponente, die immer angezeigt wird */}
                                                         <div
+                                                            onClick={() => props.handlePoolOperationClick(operation.id)}
                                                             ref={provided.innerRef}
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
@@ -80,8 +81,7 @@ export const Sequencer = (props: SequencerProps) => {
                                     {props.state.templateOperations?.map((operation: any, index: number) => {
                                         console.log(`id: ${operation.id}, index: ${index}`);
                                         return (
-                                            <Draggable key={operation.id + "_list_" + index} draggableId={operation.id}
-                                                       index={index}>
+                                            <Draggable key={operation.id + "_list_" + index} draggableId={operation.id} index={index}>
                                                 {(provided, snapshot) => {
                                                     return (
                                                         <div

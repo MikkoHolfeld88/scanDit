@@ -10,13 +10,28 @@ import {Container, Row} from "react-bootstrap";
 import {DialogTransition} from "../../../../layout/transitions/dialogTransition";
 import {Template} from "../../../../../models/Template";
 import {OPERATION_SEQUENCE_FIELD, Sequencer} from "./sequencer";
-import {useCallback, useReducer} from "react";
+import {useCallback, useEffect, useReducer, useState} from "react";
 import {Operation} from "../../../../../models/Operation";
 import {useSelector} from "react-redux";
 import {selectOperations} from "../../../../../store/slices/operations/selectors";
 import {produce} from "immer";
 import {AppDispatch, useAppDispatch} from "../../../../../store/store";
 import {saveTemplateOperations} from "../../../../../store/slices/template/reducers";
+import {OperationEditDialog} from "../../../operations/dialogs/operationEditDialog";
+
+/**
+ * Remove all characters after the first underscore in a string.
+ *
+ * @param {string} str - The original string.
+ * @return {string} The modified string without characters after the first underscore.
+ */
+function removeAfterFirstUnderscore(str: string) {
+    let pos = str.indexOf('_');
+    if (pos !== -1) {
+        str = str.substring(0, pos);
+    }
+    return str;
+}
 
 interface OperationSequenceCreatorProps {
     open: boolean;
@@ -27,9 +42,21 @@ interface OperationSequenceCreatorProps {
 export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) => {
     const dispatchToRedux: AppDispatch = useAppDispatch();
     const operations: Operation[] = useSelector(selectOperations);
+    const [operationId, setOperationId] = useState<string>("");
+    const [openOperationEditDialog, setOpenOperationEditDialog] = useState<boolean>(false);
 
     const dragReducer = produce((draft, action) => {
         switch (action.type) {
+            case "UPDATE_POOL_OPERATIONS": {
+                draft[OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS] = action.payload;
+                break;
+            }
+            case "UPDATE_TEMPLATE_OPERATIONS": {
+                console.log(action.payload);
+                draft[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS] = action.payload;
+                break;
+            }
+
             case "MOVE": {
                 draft[action.to] = draft[action.to] || [];
                 if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
@@ -57,6 +84,15 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
         cloneCounter: 0,
     });
 
+    useEffect(() => {
+        dispatch({
+            type: "UPDATE_POOL_OPERATIONS",
+            payload: operations.map((operation: Operation) => {
+                return operation;
+            })
+        });
+    }, [operations]);
+
     const handleDragEnd = useCallback((result: any) => {
         if (result.reason === "DROP") {
             if (!result.destination) {
@@ -71,6 +107,11 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
             });
         }
     }, []);
+
+    const handlePoolOperationClick = (operationId: string) => {
+        setOperationId(removeAfterFirstUnderscore(operationId));
+        setOpenOperationEditDialog(true);
+    }
 
     const handleClose = () => {
         props.setOpen(false);
@@ -117,7 +158,17 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Sequencer template={props.template} state={state} dispatch={dispatch} handleDragEnd={handleDragEnd}/>
+            <Sequencer
+                template={props.template}
+                state={state}
+                dispatch={dispatch}
+                handleDragEnd={handleDragEnd}
+                handlePoolOperationClick={handlePoolOperationClick}
+            />
+            <OperationEditDialog
+                open={openOperationEditDialog}
+                setOpen={setOpenOperationEditDialog}
+                operationId={operationId} />
         </Dialog>
     )
 }
