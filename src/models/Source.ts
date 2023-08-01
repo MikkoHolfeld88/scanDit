@@ -1,7 +1,8 @@
-import {SourceType} from "./SourceType";
+import {SourceTypePickerSetting} from "./SourceTypePickerSetting";
 
 export interface Source {
     data?: any;
     dataUrl?: string;
-    type: SourceType;
+    filetype?: string;
+    type: SourceTypePickerSetting;
 }

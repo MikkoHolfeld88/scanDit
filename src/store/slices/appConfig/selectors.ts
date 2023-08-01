@@ -2,6 +2,7 @@ import {RootState} from "../../store";
 import {CONFIGURATION_TAB_NAMES} from "../../../enums/configurationTabNames.enum";
 
 export const selectListViewStyle = (state: RootState) => state.appConfig.listViewStyle;
+export const selectSourceTypePicker = (state: RootState) => state.appConfig.sourceTypePicker;
 export const selectConfigurationTab = (state: RootState) => state.appConfig.configurationTab;
 export const selectConfigurationTabNames = (state: RootState) => {
     switch (state.appConfig.configurationTab) {
@@ -13,3 +14,4 @@ export const selectConfigurationTabNames = (state: RootState) => {
 };
 export const selectTemplateSorting = (state: RootState) => state.appConfig.templateSorting;
 export const selectAppMode = (state: RootState) => state.appConfig.mode;
+

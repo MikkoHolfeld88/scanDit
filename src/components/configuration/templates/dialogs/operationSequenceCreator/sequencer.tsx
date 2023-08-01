@@ -42,6 +42,7 @@ export const Sequencer = (props: SequencerProps) => {
                                                             ref={provided.innerRef}
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
+
                                                             className={"dragger" + (snapshot.isDragging ? " dragging" : "")}>
                                                             <div className="draggerContent">
                                                                 <img src={operation.icon} className="draggerIconPool"/>

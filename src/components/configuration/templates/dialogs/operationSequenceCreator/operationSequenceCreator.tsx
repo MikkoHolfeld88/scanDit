@@ -52,7 +52,6 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                 break;
             }
             case "UPDATE_TEMPLATE_OPERATIONS": {
-                console.log(action.payload);
                 draft[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS] = action.payload;
                 break;
             }
@@ -84,6 +83,29 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
         cloneCounter: 0,
     });
 
+    /**
+     * Dieser `useEffect` Hook wird ausgeführt, wenn sich das `operations` Array ändert.
+     *
+     * Zuerst wird ein Dispatch zum Aktualisieren der `poolOperations` im Redux Store ausgeführt.
+     * Die `poolOperations` werden dabei auf den aktuellen Stand des `operations` Arrays gesetzt.
+     *
+     * Anschließend wird geprüft, ob es Template-Operationen im aktuellen Zustand gibt. Falls ja,
+     * wird für jede Template-Operation versucht, eine übereinstimmende Operation im `operations`
+     * Array zu finden. Diese Übereinstimmung erfolgt anhand der `id` Eigenschaft, wobei davon
+     * ausgegangen wird, dass die `id` einer Template-Operation möglicherweise mit `_clone_n`
+     * modifiziert wurde. Daher wird die `removeAfterFirstUnderscore` Funktion verwendet, um
+     * den Originaloperation-Id zu extrahieren.
+     *
+     * Wenn eine übereinstimmende Operation gefunden wird, werden die Eigenschaften der
+     * Template-Operation und der übereinstimmenden Operation kombiniert und das resultierende
+     * Objekt in die Liste der aktualisierten Template-Operationen eingefügt. Falls keine
+     * übereinstimmende Operation gefunden wird, wird die ursprüngliche Template-Operation
+     * unverändert in die Liste eingefügt.
+     *
+     * Schließlich wird ein Dispatch zum Aktualisieren der `templateOperations` im Redux Store
+     * ausgeführt, wobei die `templateOperations` auf die Liste der aktualisierten Template-
+     * Operationen gesetzt werden.
+     */
     useEffect(() => {
         dispatch({
             type: "UPDATE_POOL_OPERATIONS",
@@ -91,6 +113,17 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                 return operation;
             })
         });
+
+        if (state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]) {
+            const updatedTemplateOperations = state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS].map((templateOperation: Operation) => {
+                const matchingOperation = operations.find(operation => operation.id === removeAfterFirstUnderscore(templateOperation.id));
+                return matchingOperation ? {...templateOperation, ...matchingOperation} : templateOperation;
+            });
+            dispatch({
+                type: "UPDATE_TEMPLATE_OPERATIONS",
+                payload: updatedTemplateOperations
+            });
+        }
     }, [operations]);
 
     const handleDragEnd = useCallback((result: any) => {

@@ -14,7 +14,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {Image} from "primereact/image";
 import {DeletionDialog} from "./deletionDialog";
 
-export const List = () => {
+export const renderFileListAvatar = (file: FileObject, preview: boolean = true) => {
+    switch (file.filetype) {
+        case 'images':
+            return <Avatar><Image src={file.url} preview={preview}/></Avatar>;
+        default:
+            return <QuestionMarkIcon style={{width: "40px", height: "40px"}}/>;
+    }
+}
+
+export const FileList = () => {
     const [listDialogOpen, setListDialogOpen] = React.useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -23,15 +32,6 @@ export const List = () => {
     const onFileClick = (file: FileObject) => {
         setSelectedFile(file);
         setListDialogOpen(true)
-    }
-
-    const renderAvatar = (file: FileObject) => {
-        switch (file.filetype) {
-            case 'images':
-                return <Avatar><Image src={file.url} preview/></Avatar>;
-            default:
-                return <QuestionMarkIcon style={{width: "40px", height: "40px"}}/>;
-        }
     }
 
     const deleteFile = (e: React.MouseEvent<HTMLButtonElement | MouseEvent>, file: FileObject) => {
@@ -57,7 +57,7 @@ export const List = () => {
                                 <ListItemButton>
                                     <ListItemAvatar>
                                         {
-                                            renderAvatar(file)
+                                            renderFileListAvatar(file)
                                         }
                                     </ListItemAvatar>
                                     <ListItemText

@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {LIST_VIEW_STYLES} from "../enums/listViewStyles.enum";
 import {useAppDispatch} from "../store/store";
 import {setFiles} from "../store/slices/data/reducers";
-import {List} from "../components/data/list";
+import {FileList} from "../components/data/fileList";
 import {selectListViewStyle} from "../store/slices/appConfig/selectors";
 
 export const Data = () => {
@@ -33,7 +33,7 @@ export const Data = () => {
             {
                 viewStyle === LIST_VIEW_STYLES.LIST &&
                 <div id="data-page-list" className="data-list">
-                    <List/>
+                    <FileList/>
                 </div>
             }
             {

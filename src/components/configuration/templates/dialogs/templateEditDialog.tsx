@@ -29,6 +29,7 @@ import {TEMPLATE_TYPE} from "../../../../enums/templateType.enum";
 import "./style.css"
 import {Container, Row} from "react-bootstrap";
 import {OperationSequenceCreator} from "./operationSequenceCreator/operationSequenceCreator";
+import {SourceMapper} from "./sourceMapper/sourceMapper";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -57,6 +58,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     const [showTemplateDetails, setShowTemplateDetails] = React.useState<boolean>(false);
     const [openTemplateDeletionDialog, setOpenTemplateDeletionDialog] = React.useState<boolean>(false);
     const [openOperationSequenceCreator, setOpenOperationSequenceCreator] = React.useState<boolean>(false);
+    const [openSourceMapper, setOpenSourceMapper] = React.useState<boolean>(false);
 
     useEffect(() => {
         if (template) {
@@ -121,7 +123,8 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
 
     const renderTypeSpecificFields = () => {
         const handleSourcesClick = () => {
-
+            setOpenSourceMapper(true);
+            props.setOpen(false);
         }
 
         const handleTargetsClick = () => {
@@ -138,6 +141,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 case TEMPLATE_TYPE.INPUT:
                     return (
                         <Button
+                            onClick={handleSourcesClick}
                             fullWidth
                             variant="contained"
                             className="specific-type-fields-button">
@@ -226,6 +230,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 open={openOperationSequenceCreator}
                 setOpen={setOpenOperationSequenceCreator}
                 template={template}/>
+            <SourceMapper open={openSourceMapper} setOpen={setOpenSourceMapper} template={template} />
         </Dialog>
     );
 }

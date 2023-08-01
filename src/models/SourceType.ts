@@ -1,1 +1,1 @@
-export type SourceType = 'file' | 'database' | 'api' | 'stream';
+export type SourceType = 'file' | 'database' | 'api' | 'stream' | 'web';
