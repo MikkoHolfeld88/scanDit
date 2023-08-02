@@ -24,17 +24,14 @@ export const TargetTypePicker = () => {
 
     return (
         <ToggleButtonGroup value={targetPickerType} exclusive onChange={handleSourceTypePicker} size="large">
-            <ToggleButton value={TARGET_TYPE.DOWNLOAD}>
-                <DownloadIcon/>
-            </ToggleButton>
             <ToggleButton value={TARGET_TYPE.DISPLAY}>
                 <PreviewIcon/>
             </ToggleButton>
+            <ToggleButton value={TARGET_TYPE.DOWNLOAD}>
+                <DownloadIcon/>
+            </ToggleButton>
             <ToggleButton value={TARGET_TYPE.TRANSFER}>
                 <SendIcon/>
-            </ToggleButton>
-            <ToggleButton value={TARGET_TYPE.MESSAGING}>
-                <MessageIcon/>
             </ToggleButton>
             <ToggleButton value={TARGET_TYPE.STREAM}>
                 <PlayCircleIcon/>

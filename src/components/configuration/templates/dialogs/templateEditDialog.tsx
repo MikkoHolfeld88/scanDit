@@ -56,7 +56,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     const [type, setType] = React.useState<TemplateType>(null);
     const [sources, setSources] = React.useState<Source[]>([]);
     const [targets, setTargets] = React.useState<Target[]>([]);
-    const [showTemplateDetails, setShowTemplateDetails] = React.useState<boolean>(false);
+    const [showTemplateDetails, setShowTemplateDetails] = React.useState<boolean>(true);
     const [openTemplateDeletionDialog, setOpenTemplateDeletionDialog] = React.useState<boolean>(false);
     const [openOperationSequenceCreator, setOpenOperationSequenceCreator] = React.useState<boolean>(false);
     const [openSourceMapper, setOpenSourceMapper] = React.useState<boolean>(false);

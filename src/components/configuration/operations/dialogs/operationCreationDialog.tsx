@@ -121,14 +121,6 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
                 </div>
             </DialogTitle>
             <DialogContent>
-                <TextField
-                    required
-                    sx={{mb: 1, mt: 1}}
-                    variant="outlined"
-                    label="Name"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                    fullWidth/>
                 <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
                     <InputLabel id="operation-type-label">Type</InputLabel>
                     <Select
@@ -143,6 +135,14 @@ export const OperationCreationDialog = (props: OperationCreationDialogProps) => 
                         }
                     </Select>
                 </FormControl>
+                <TextField
+                    required
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Name"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    fullWidth/>
                 {
                     renderTypeSpecificFields()
                 }

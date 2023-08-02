@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -23,7 +23,6 @@ import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
 import "./style.css"
-import {PipelineSpeedDialActionIds} from "./pipelineSpeedDial";
 
 const PipelineListSkeleton = () => {
     return (
@@ -48,10 +47,8 @@ export const PipelineList = () => {
     const appMode: AppMode = useSelector(selectAppMode);
     const pipelines: Pipeline[] = useSelector(selectPipelines);
     const pipelinesStatus: FetchingStatus = useSelector(selectPipelinesStatus);
-    const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
     const [openPipelineEditDialog, setOpenPipelineEditDialog] = React.useState<boolean>(false);
     const [pipelineId, setPipelineId] = React.useState<string>("");
-    const [pipelineName, setPipelineName] = React.useState<string>("");
 
     const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
@@ -59,16 +56,9 @@ export const PipelineList = () => {
         setOpenPipelineEditDialog(true);
     }
 
-    const handlePipelineBuilderOpen = (pipelineId: string) => {
-        setPipelineId(pipelineId);
-        setPipelineName(pipelines.find(pipeline => pipeline.id === pipelineId)?.name || "");
-        setOpenPipelineBuilder(true);
-    };
-
     const handlePipelineDeletion = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
         dispatch(deletePipeline(pipelineId));
-        dispatch(setAppMode(APP_MODE.DEFAULT));
     };
 
     const renderPageContent = () => {
@@ -93,7 +83,8 @@ export const PipelineList = () => {
                                     key={pipeline.id + "_" + index}
                                     secondaryAction={
                                         appMode !== APP_MODE.PIPELINE_DELETION
-                                            ? <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
+                                            ?
+                                            <EditIcon onClick={(event) => handlePipelineEditOpen(event, pipeline.id)}/>
                                             : <DeleteIcon
                                                 id="pipeline-deletion-icon"
                                                 className="wiggle"
@@ -111,12 +102,6 @@ export const PipelineList = () => {
                             );
                         })}
                     </List>
-                    <PipelineBuildingContainer
-                        open={openPipelineBuilder}
-                        setOpen={setOpenPipelineBuilder}
-                        pipelineId={pipelineId}
-                        name={pipelineName}
-                    />
                     <PipelineEditDialog
                         open={openPipelineEditDialog}
                         setOpen={setOpenPipelineEditDialog}

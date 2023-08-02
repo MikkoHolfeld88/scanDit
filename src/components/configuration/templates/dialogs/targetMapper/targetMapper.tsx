@@ -29,7 +29,7 @@ export const TargetMapper = (props: TargetMapperProps) => {
     const targetPickerType: TargetType = useSelector(selectTargetTypePicker);
 
     const handleSave = () => {
-
+        props.setOpen(false);
     };
 
     const handleClose = () => {
@@ -48,8 +48,6 @@ export const TargetMapper = (props: TargetMapperProps) => {
                 return <div>Display</div>;
             case TARGET_TYPE.TRANSFER:
                 return <div>Transfer</div>;
-            case TARGET_TYPE.MESSAGING:
-                return <div>Messaging</div>;
             case TARGET_TYPE.STREAM:
                 return <div>Stream</div>;
             default:

@@ -9,6 +9,7 @@ import {Container, Row} from "react-bootstrap";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import * as React from "react";
+import {useEffect} from "react";
 import {SourceTypePicker} from "./sourceTypePicker";
 import {SourceTypePickerSetting} from "../../../../../models/SourceTypePickerSetting";
 import {useSelector} from "react-redux";
@@ -19,6 +20,11 @@ import {AppDispatch, useAppDispatch} from "../../../../../store/store";
 import {editTemplate} from "../../../../../store/slices/template/reducers";
 import {File} from "../../../../../models/File";
 import {selectFilesAsArray} from "../../../../../store/slices/data/selectors";
+import {Upload} from "../../../../data/upload";
+import {getUserFiles} from "../../../../../firebase/realtimeDatabase";
+import {setFiles} from "../../../../../store/slices/data/reducers";
+import {setAppMode} from "../../../../../store/slices/appConfig/reducers";
+import {APP_MODE} from "../../../../../enums/appMode.enum";
 
 interface SourceMapperProps {
     open: boolean;
@@ -32,11 +38,22 @@ export const SourceMapper = (props: SourceMapperProps) => {
     const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
     const sourcePickerType: SourceTypePickerSetting = useSelector(selectSourceTypePicker);
 
+    useEffect(() => {
+        const unsubscribe = getUserFiles((data: File[] | null) => {
+            dispatch(setFiles(data));
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
     const handleSave = () => {
         dispatch(editTemplate({
             id: props.template?.id,
             sources: convertSelectedFilesToSources(files, selectedFiles)
         } as Template));
+        props.setOpen(false);
     };
 
     const handleClose = () => {
@@ -99,14 +116,23 @@ export const SourceMapper = (props: SourceMapperProps) => {
                 </Toolbar>
             </AppBar>
 
-            <Container>
+            <Container style={{position: 'relative', marginBottom: '64px'}}> {/* Margin hinzugefügt */}
                 <Row className="justify-content-center mt-2">
                     <SourceTypePicker/>
                 </Row>
+
                 {
                     renderTypeBasedSources()
                 }
+
             </Container>
+
+            {
+                SOURCE_TYPE_PICKER_TYPES.FILE === sourcePickerType &&
+                <div style={{position: 'fixed', bottom: 0, width: '100%', backgroundColor: '#f5f5f5'}}>
+                    <Upload fullWidth={true} noBorderRadius={true}/>
+                </div>
+            }
 
         </Dialog>
     )

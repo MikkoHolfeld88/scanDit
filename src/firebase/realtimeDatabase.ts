@@ -13,9 +13,7 @@ export const getUserFiles = (setUserFiles: (data: File[] | null) => void) => {
         const dbFileRef: DatabaseReference = ref(realtimeDatabase, `/${UID}/${COLLECTIONS_REALTIME_DATABASE.FILES}`);
 
         const unsubscribe: Unsubscribe = onValue(dbFileRef, (snapshot) => {
-
             const data: File[] | null = snapshot.val();
-
             setUserFiles(data);
         });
 

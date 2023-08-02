@@ -12,8 +12,6 @@ import {AppMode} from "../../../models/AppMode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {APP_MODE} from "../../../enums/appMode.enum";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {setAppMode} from "../../../store/slices/appConfig/reducers";
-import {deletePipeline} from "../../../store/slices/pipeline/reducers";
 import {OperationEditDialog} from "./dialogs/operationEditDialog";
 import {FetchingStatus} from "../../../models/FetchingStatus";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
@@ -59,7 +57,6 @@ export const OperationsList = () => {
     const handleOperationDeletion = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
         event.stopPropagation();
         dispatch(deleteOperation(operationId));
-        dispatch(setAppMode(APP_MODE.DEFAULT));
     };
 
     const renderPageContent = () => {

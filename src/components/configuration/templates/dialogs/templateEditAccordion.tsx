@@ -56,14 +56,6 @@ export const TemplateEditAccordion = (props: TemplateEditionAccordionProps) => {
                 <Typography variant="subtitle2">DETAILS</Typography>
             </AccordionSummary>
             <AccordionDetails style={{margin: 4, padding: 4}}>
-                <TextField
-                    required
-                    sx={{mb: 1, mt: 1}}
-                    variant="outlined"
-                    label="Name"
-                    onChange={(e) => props.setName(e.target.value)}
-                    value={props.name}
-                    fullWidth/>
                 <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
                     <InputLabel id="template-type-label-edit">Type</InputLabel>
                     <Select
@@ -78,6 +70,14 @@ export const TemplateEditAccordion = (props: TemplateEditionAccordionProps) => {
                         }
                     </Select>
                 </FormControl>
+                <TextField
+                    required
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Name"
+                    onChange={(e) => props.setName(e.target.value)}
+                    value={props.name}
+                    fullWidth/>
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"

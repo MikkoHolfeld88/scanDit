@@ -7,6 +7,8 @@ import {Template} from "../../../models/Template";
 import {useEffect} from "react";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
 import {setTemplateSearch} from "../../../store/slices/template/reducers";
+import {InputAdornment} from "@mui/material";
+import {SearchIcon} from "primereact/icons/search";
 
 export const TemplateSearch = () => {
     const dispatch: AppDispatch = useAppDispatch();
@@ -27,7 +29,13 @@ export const TemplateSearch = () => {
             options={templateSearchOptions}
             fullWidth
             renderInput={(params) =>
-                <TextField {...params} label="Template name" variant="standard"/>}
+                <TextField {...params} label="Template name" variant="standard" InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                    ),
+                }} />}
         />
     );
 }

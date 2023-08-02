@@ -10,7 +10,12 @@ import UploadIcon from '@mui/icons-material/Upload';
 import {useSelector} from "react-redux";
 import {selectIsUploading} from "../../store/slices/data/selectors";
 
-export const Upload = () => {
+interface UploadProps {
+    fullWidth?: boolean;
+    noBorderRadius?: boolean;
+}
+
+export const Upload = (props: UploadProps) => {
     const dispatch = useAppDispatch();
     const isUploading = useSelector(selectIsUploading);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,6 +62,8 @@ export const Upload = () => {
                 type="file"
                 onChange={onFileChange}/>
             <Button
+                style={{borderRadius: props.noBorderRadius ? 0 : undefined}}
+                fullWidth={props.fullWidth}
                 variant='contained'
                 onClick={handleClick}
                 endIcon={isUploading ?

@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {selectSearchValue, selectTemplates} from "../../../store/slices/template/selectors";
+import {selectSearchValue, selectTemplates, selectTemplateStatus} from "../../../store/slices/template/selectors";
 import {Template} from "../../../models/Template";
 import React, {useEffect} from "react";
 import {Col, Container, Row} from "react-bootstrap";
@@ -7,14 +7,16 @@ import {TemplateCard} from "./templateCard";
 import {TemplateSortingType} from "../../../models/TemplateSortingType";
 import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
 import {getSortFunction} from "../../../services/templateSortingService";
-import {Typography} from "@mui/material";
+import {Skeleton, Typography} from "@mui/material";
 import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
 import "./style.css"
+import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 
 export const TemplateCards = () => {
     const templates: Template[] = useSelector(selectTemplates)
     const templateSorting: TemplateSortingType = useSelector(selectTemplateSorting);
     const templateSearch: string | null = useSelector(selectSearchValue);
+    const templateStatus: string = useSelector(selectTemplateStatus);
 
     const [sortedTemplates, setSortedTemplates] = React.useState<Template[]>([]);
 
@@ -23,6 +25,36 @@ export const TemplateCards = () => {
         const newSortedTemplates = [...templates].sort(sortFunction);
         setSortedTemplates(newSortedTemplates);
     }, [templateSorting, templates]);
+
+    const renderSkeleton = () => {
+        return (
+            <React.Fragment>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                        <Col>
+                            <Skeleton variant="rectangular" width={110} height={80} style={{margin: "10px", borderRadius: "5px", padding: "10px"}} />
+                        </Col>
+                    </Row>
+                </Container>
+
+            </React.Fragment>
+        )
+    }
 
     const renderTemplates = (templates: Template[], templateSearch: string | null, templateSorting: TemplateSortingType): JSX.Element[] => {
         let lastGroupValue: string | null = null;
@@ -85,7 +117,9 @@ export const TemplateCards = () => {
         <Container>
             <Row>
                 {
-                    sortedTemplates && renderTemplates(sortedTemplates, templateSearch, templateSorting)
+                    templateStatus === FETCHING_STATE.SUCCEEDED
+                        ? sortedTemplates && renderTemplates(sortedTemplates, templateSearch, templateSorting)
+                        : renderSkeleton()
                 }
             </Row>
         </Container>

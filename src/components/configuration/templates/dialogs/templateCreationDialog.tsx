@@ -95,14 +95,6 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                 </div>
             </DialogTitle>
             <DialogContent>
-                <TextField
-                    required
-                    sx={{mb: 1, mt: 1}}
-                    variant="outlined"
-                    label="Name"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                    fullWidth/>
                 <FormControl fullWidth required sx={{mt: 1, mb: 1}}>
                     <InputLabel id="template-type-label">Type</InputLabel>
                     <Select
@@ -117,6 +109,14 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
                         }
                     </Select>
                 </FormControl>
+                <TextField
+                    required
+                    sx={{mb: 1, mt: 1}}
+                    variant="outlined"
+                    label="Name"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    fullWidth/>
                 <TextField
                     sx={{mb: 1, mt: 1}}
                     variant="outlined"
