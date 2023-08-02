@@ -3,12 +3,13 @@ import {LIST_VIEW_STYLES} from "../../../enums/listViewStyles.enum";
 import {createSlice} from "@reduxjs/toolkit";
 import {APP_MODE} from "../../../enums/appMode.enum";
 import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
-import {SourceTypePickerSetting} from "../../../models/SourceTypePickerSetting";
 import {SOURCE_TYPE_PICKER_TYPES} from "../../../enums/sourceTypePickerTypes.enum";
+import {TARGET_TYPE} from "../../../enums/targetType.enum";
 
 const initialState: AppConfigState = {
     listViewStyle: LIST_VIEW_STYLES.LIST,
     sourceTypePicker: SOURCE_TYPE_PICKER_TYPES.FILE,
+    targetTypePicker: TARGET_TYPE.DOWNLOAD,
     configurationTab: 0,
     templateSorting: TEMPLATE_SORTING.ALPHABETICALLY,
     mode: APP_MODE.DEFAULT
@@ -23,6 +24,9 @@ export const appConfigSlice = createSlice({
         },
         setSourceTypePicker: (state, action) => {
             state.sourceTypePicker = action.payload;
+        },
+        setTargetTypePicker: (state, action) => {
+            state.targetTypePicker = action.payload;
         },
         setConfigurationTab: (state, action) => {
             state.configurationTab = action.payload;
@@ -39,6 +43,6 @@ export const appConfigSlice = createSlice({
     }
 });
 
-export const {setListViewStyle, setSourceTypePicker, setConfigurationTab, setTemplateSorting, setAppMode, resetAppMode} = appConfigSlice.actions;
+export const {setListViewStyle, setSourceTypePicker, setTargetTypePicker, setConfigurationTab, setTemplateSorting, setAppMode, resetAppMode} = appConfigSlice.actions;
 
 export default appConfigSlice.reducer;

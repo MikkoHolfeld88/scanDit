@@ -30,6 +30,7 @@ import "./style.css"
 import {Container, Row} from "react-bootstrap";
 import {OperationSequenceCreator} from "./operationSequenceCreator/operationSequenceCreator";
 import {SourceMapper} from "./sourceMapper/sourceMapper";
+import {TargetMapper} from "./targetMapper/targetMapper";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -59,6 +60,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     const [openTemplateDeletionDialog, setOpenTemplateDeletionDialog] = React.useState<boolean>(false);
     const [openOperationSequenceCreator, setOpenOperationSequenceCreator] = React.useState<boolean>(false);
     const [openSourceMapper, setOpenSourceMapper] = React.useState<boolean>(false);
+    const [openTargetMapper, setOpenTargetMapper] = React.useState<boolean>(false);
 
     useEffect(() => {
         if (template) {
@@ -66,6 +68,8 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             setDescription(template.description || description);
             setAuthor(template.author || getAuth().currentUser?.displayName || author);
             setType(template.type);
+            setTargets(template.targets || []);
+            setSources(template.sources || []);
         }
     }, [template]);
 
@@ -128,7 +132,8 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
         }
 
         const handleTargetsClick = () => {
-
+            setOpenTargetMapper(true);
+            props.setOpen(false);
         }
 
         const handleOperationsClick = () => {
@@ -151,6 +156,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 case TEMPLATE_TYPE.OUTPUT:
                     return (
                         <Button
+                            onClick={handleTargetsClick}
                             fullWidth
                             variant="contained"
                             className="specific-type-fields-button">
@@ -231,6 +237,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 setOpen={setOpenOperationSequenceCreator}
                 template={template}/>
             <SourceMapper open={openSourceMapper} setOpen={setOpenSourceMapper} template={template} />
+            <TargetMapper open={openTargetMapper} setOpen={setOpenTargetMapper} template={template} />
         </Dialog>
     );
 }

@@ -9,60 +9,51 @@ import {Container, Row} from "react-bootstrap";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import {SourceTypePicker} from "./sourceTypePicker";
-import {SourceTypePickerSetting} from "../../../../../models/SourceTypePickerSetting";
 import {useSelector} from "react-redux";
-import {selectSourceTypePicker} from "../../../../../store/slices/appConfig/selectors";
-import {SOURCE_TYPE_PICKER_TYPES} from "../../../../../enums/sourceTypePickerTypes.enum";
-import {convertSelectedFilesToSources, FilePicker} from "./pickers/filePicker";
+import {selectTargetTypePicker} from "../../../../../store/slices/appConfig/selectors";
 import {AppDispatch, useAppDispatch} from "../../../../../store/store";
 import {editTemplate} from "../../../../../store/slices/template/reducers";
-import {File} from "../../../../../models/File";
-import {selectFilesAsArray} from "../../../../../store/slices/data/selectors";
+import {TargetType} from "../../../../../models/TargetType";
+import {TARGET_TYPE} from "../../../../../enums/targetType.enum";
+import {TargetTypePicker} from "./targetTypePicker";
+import {DownloadPicker} from "./pickers/downloadPicker";
 
-interface SourceMapperProps {
+interface TargetMapperProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     template: Template | undefined;
 }
 
-export const SourceMapper = (props: SourceMapperProps) => {
+export const TargetMapper = (props: TargetMapperProps) => {
     const dispatch: AppDispatch = useAppDispatch();
-    const files: File[] | null = useSelector(selectFilesAsArray);
-    const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
-    const sourcePickerType: SourceTypePickerSetting = useSelector(selectSourceTypePicker);
+    const targetPickerType: TargetType = useSelector(selectTargetTypePicker);
 
     const handleSave = () => {
-        dispatch(editTemplate({
-            id: props.template?.id,
-            sources: convertSelectedFilesToSources(files, selectedFiles)
-        } as Template));
+
     };
 
     const handleClose = () => {
+        if (props?.template) {
+            dispatch(editTemplate(props.template));
+        }
+
         props.setOpen(false);
     };
 
     const renderTypeBasedSources = () => {
-        switch (sourcePickerType) {
-            case SOURCE_TYPE_PICKER_TYPES.FILE:
-                return <FilePicker
-                    templateId={props?.template?.id}
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles}/>;
-            case SOURCE_TYPE_PICKER_TYPES.API:
-                return <div>API</div>;
-            case SOURCE_TYPE_PICKER_TYPES.DATABASE:
-                return <div>Database</div>;
-            case SOURCE_TYPE_PICKER_TYPES.STREAM:
+        switch (targetPickerType) {
+            case TARGET_TYPE.DOWNLOAD:
+                return <DownloadPicker />
+            case TARGET_TYPE.DISPLAY:
+                return <div>Display</div>;
+            case TARGET_TYPE.TRANSFER:
+                return <div>Transfer</div>;
+            case TARGET_TYPE.MESSAGING:
+                return <div>Messaging</div>;
+            case TARGET_TYPE.STREAM:
                 return <div>Stream</div>;
-            case SOURCE_TYPE_PICKER_TYPES.WEB:
-                return <div>Web</div>;
             default:
-                return <FilePicker
-                    templateId={props?.template?.id}
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles}/>;
+                return <h1>Download</h1>;
         }
     }
 
@@ -84,7 +75,7 @@ export const SourceMapper = (props: SourceMapperProps) => {
                     <Container>
                         <Row>
                             <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                                {`Source picker`}
+                                {`Target picker`}
                             </Typography>
                         </Row>
                         <Row>
@@ -101,7 +92,7 @@ export const SourceMapper = (props: SourceMapperProps) => {
 
             <Container>
                 <Row className="justify-content-center mt-2">
-                    <SourceTypePicker/>
+                    <TargetTypePicker/>
                 </Row>
                 {
                     renderTypeBasedSources()
