@@ -11,6 +11,7 @@ import {PipelineSpeedDial} from "../configuration/pipelines/pipelineSpeedDial";
 import {AppMode} from "../../models/AppMode";
 import {APP_MODE} from "../../enums/appMode.enum";
 import {OperationsSpeedDial} from "../configuration/operations/operationsSpeedDial";
+import {TemplateSpeedDial} from "../configuration/templates/templateSpeedDial";
 
 interface BottomBarProps {
     value: string;
@@ -30,6 +31,11 @@ export const BottomBar = (props: BottomBarProps) => {
             && currentTab === CONFIGURATION_TAB_NAMES.PIPELINES;
     }
 
+    const onConfigurationTemplatesPage = () => {
+        return location.pathname === ROUTE_PATHS.DASHBOARD + "/" + ROUTE_PATHS.CONFIGURATION
+            && currentTab === CONFIGURATION_TAB_NAMES.TEMPLATES;
+    }
+
     const onConfigurationOperationsPage = () => {
         return location.pathname === ROUTE_PATHS.DASHBOARD + "/" + ROUTE_PATHS.CONFIGURATION
             && currentTab === CONFIGURATION_TAB_NAMES.OPERATIONS;
@@ -43,6 +49,10 @@ export const BottomBar = (props: BottomBarProps) => {
 
             {
                 onConfigurationOperationsPage() && <OperationsSpeedDial />
+            }
+
+            {
+                onConfigurationTemplatesPage() && <TemplateSpeedDial />
             }
 
             <br/>

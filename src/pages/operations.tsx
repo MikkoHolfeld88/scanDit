@@ -36,7 +36,7 @@ export const Operations = () => {
 
     return (
         <div id="operations-management-container">
-            <OperationsList/>
+            <OperationsList />
         </div>
     );
 }

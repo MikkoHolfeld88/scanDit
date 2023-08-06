@@ -12,7 +12,7 @@ const initialState: AppConfigState = {
     targetTypePicker: TARGET_TYPE.DOWNLOAD,
     configurationTab: 0,
     templateSorting: TEMPLATE_SORTING.ALPHABETICALLY,
-    mode: APP_MODE.DEFAULT
+    mode: APP_MODE.DEFAULT,
 }
 
 export const appConfigSlice = createSlice({

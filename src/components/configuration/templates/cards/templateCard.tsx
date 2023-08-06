@@ -1,13 +1,13 @@
-import {Template} from "../../../models/Template";
+import {Template} from "../../../../models/Template";
 import {Card, CardContent} from "@mui/material";
 import React, {useState} from "react";
 import Typography from "@mui/material/Typography";
-import {selectAppMode} from "../../../store/slices/appConfig/selectors";
+import {selectAppMode} from "../../../../store/slices/appConfig/selectors";
 import {useSelector} from "react-redux";
-import {AppMode} from "../../../models/AppMode";
+import {AppMode} from "../../../../models/AppMode";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Box from '@mui/material/Box';
-import {APP_MODE} from "../../../enums/appMode.enum";
+import {APP_MODE} from "../../../../enums/appMode.enum";
 import {
     darkMain,
     lightMain,
@@ -16,11 +16,11 @@ import {
     warnMain,
     warnSuperDark,
     warnSuperLight
-} from "../../../style/theme";
+} from "../../../../style/theme";
 import { keyframes } from '@emotion/react';
-import {deleteTemplate} from "../../../store/slices/template/reducers";
-import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {TemplateEditDialog} from "./dialogs/templateEditDialog";
+import {deleteTemplate} from "../../../../store/slices/template/reducers";
+import {AppDispatch, useAppDispatch} from "../../../../store/store";
+import {TemplateEditDialog} from "../dialogs/templateEditDialog";
 
 const blink = keyframes`
   0%, 100% {

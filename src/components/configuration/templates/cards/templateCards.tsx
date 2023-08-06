@@ -1,16 +1,16 @@
 import {useSelector} from "react-redux";
-import {selectSearchValue, selectTemplates, selectTemplateStatus} from "../../../store/slices/template/selectors";
-import {Template} from "../../../models/Template";
+import {selectSearchValue, selectTemplates, selectTemplateStatus} from "../../../../store/slices/template/selectors";
+import {Template} from "../../../../models/Template";
 import React, {useEffect} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {TemplateCard} from "./templateCard";
-import {TemplateSortingType} from "../../../models/TemplateSortingType";
-import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
-import {getSortFunction} from "../../../services/templateSortingService";
+import {TemplateSortingType} from "../../../../models/TemplateSortingType";
+import {selectTemplateSorting} from "../../../../store/slices/appConfig/selectors";
+import {getSortFunction} from "../../../../services/templateSortingService";
 import {Skeleton, Typography} from "@mui/material";
-import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
-import "./style.css"
-import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
+import {TEMPLATE_SORTING} from "../../../../enums/templateSorting.enum";
+import "../style.css"
+import {FETCHING_STATE} from "../../../../enums/fetchingState.enum";
 
 export const TemplateCards = () => {
     const templates: Template[] = useSelector(selectTemplates)

@@ -58,7 +58,7 @@ const sortByDate = (a: Template, b: Template) => {
  * @param b - The second template
  * @return The order of the templates
  */
-const sortByType = (a: Template, b: Template) => {
+export const sortByType = (a: Template, b: Template) => {
     if (!a || !b) return 0;
 
     if (!a.type || !b.type) return 0;

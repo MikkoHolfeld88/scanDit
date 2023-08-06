@@ -13,6 +13,10 @@ export const Pipelines = () => {
     const appMode: AppMode = useSelector(selectAppMode);
 
     useEffect(() => {
+        if (appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER){
+            return;
+        }
+
         const handleClick = (event: Event) => {
             const target = event.target as Element;
 

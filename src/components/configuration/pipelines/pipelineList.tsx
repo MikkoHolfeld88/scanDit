@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -7,14 +7,16 @@ import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import EditIcon from "@mui/icons-material/Edit";
 import {useSelector} from "react-redux";
-import {selectPipelines, selectPipelinesStatus} from "../../../store/slices/pipeline/selectors";
-import {PipelineBuildingContainer} from "./builder/pipelineBuildingContainer";
+import {
+    selectLatestCreatedPipeline,
+    selectPipelines,
+    selectPipelinesStatus
+} from "../../../store/slices/pipeline/selectors";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {AppMode} from "../../../models/AppMode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {APP_MODE} from "../../../enums/appMode.enum";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {deletePipeline} from "../../../store/slices/pipeline/reducers";
 import {PipelineEditDialog} from "./dialogs/pipelineEditDialog";
 import {Pipeline} from "../../../models/Pipeline";
@@ -23,6 +25,9 @@ import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
 import "./style.css"
+import {PipelineBuilder} from "./builder/pipelineBuilder";
+import {PipelineBuildingContainer} from "./builder/pipelineBuildingContainer";
+import {resetAppMode, setAppMode} from "../../../store/slices/appConfig/reducers";
 
 const PipelineListSkeleton = () => {
     return (
@@ -48,7 +53,17 @@ export const PipelineList = () => {
     const pipelines: Pipeline[] = useSelector(selectPipelines);
     const pipelinesStatus: FetchingStatus = useSelector(selectPipelinesStatus);
     const [openPipelineEditDialog, setOpenPipelineEditDialog] = React.useState<boolean>(false);
+    const [openPipelineBuilder, setOpenPipelineBuilder] = React.useState<boolean>(false);
     const [pipelineId, setPipelineId] = React.useState<string>("");
+    const latestCreatedPipeline: Pipeline = useSelector(selectLatestCreatedPipeline);
+
+    useEffect(() => {
+        if (appMode === APP_MODE.TEMPLATE_ADDITION_TO_PIPELINE){
+            setPipelineId(latestCreatedPipeline.id);
+            setOpenPipelineBuilder(true);
+            dispatch(resetAppMode());
+        }
+    }, [appMode])
 
     const handlePipelineEditOpen = (event: React.MouseEvent<SVGSVGElement>, pipelineId: string) => {
         event.stopPropagation();
@@ -107,6 +122,11 @@ export const PipelineList = () => {
                         setOpen={setOpenPipelineEditDialog}
                         pipelineId={pipelineId}
                     />
+                    <PipelineBuildingContainer
+                        pipelineId={pipelineId}
+                        name={latestCreatedPipeline && latestCreatedPipeline?.name || ""}
+                        open={openPipelineBuilder}
+                        setOpen={setOpenPipelineBuilder}/>
                 </React.Fragment>
             )
         }

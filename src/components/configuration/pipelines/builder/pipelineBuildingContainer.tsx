@@ -6,8 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import {TransitionProps} from '@mui/material/transitions';
 import {PipelineBuilder} from "./pipelineBuilder";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import {PipelineViewer} from "./pipelineViewer";
@@ -74,6 +72,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
             <Splitter style={{height: '100%'}} layout="vertical">
                 <SplitterPanel size={20}>
                     <PipelineBuilder
+                        setOpenPipelineBuilder={props.setOpen}
                         pipelineId={props.pipelineId}
                         onNavigate={onNavigateToNode}/>
                 </SplitterPanel>

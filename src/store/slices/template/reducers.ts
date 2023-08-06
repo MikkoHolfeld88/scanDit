@@ -4,6 +4,7 @@ import {Template} from "../../../models/Template";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {fetchTemplates} from "./thunks";
 import {Operation} from "../../../models/Operation";
+import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
 
 const initialState: TemplateState = {
     templates: [],
@@ -64,20 +65,14 @@ export const templateSlice = createSlice({
         deleteTemplate: (state, action: PayloadAction<string>) => {
             state.templates = state.templates.filter(template => template.id !== action.payload);
         },
+        setTemplateType: (state, action: PayloadAction<{ id: string, type: TEMPLATE_TYPE }>) => {
+            const template = state.templates.find(template => template.id === action.payload.id);
+            if (template) {
+                template.type = action.payload.type;
+            }
+        },
         setTemplateSearch: (state, action: PayloadAction<string | null>) => {
             state.templateSearch = action.payload;
-        },
-        editTemplateName: (state, action: PayloadAction<{ id: string, name: string }>) => {
-            const template = state.templates.find(template => template.id === action.payload.id);
-            if (template) {
-                template.name = action.payload.name;
-            }
-        },
-        editTemplateAuthor: (state, action: PayloadAction<{ id: string, author: string }>) => {
-            const template = state.templates.find(template => template.id === action.payload.id);
-            if (template) {
-                template.author = action.payload.author;
-            }
         }
     },
     extraReducers: (builder) => {
@@ -95,6 +90,6 @@ export const templateSlice = createSlice({
     }
 });
 
-export const {setTemplates, addTemplate, editTemplate, saveTemplateOperations, deleteTemplate, setTemplateSearch} = templateSlice.actions;
+export const {setTemplates, addTemplate, editTemplate, saveTemplateOperations, deleteTemplate, setTemplateType, setTemplateSearch} = templateSlice.actions;
 
 export default templateSlice.reducer;

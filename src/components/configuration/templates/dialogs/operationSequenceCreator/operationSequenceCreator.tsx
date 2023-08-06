@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useCallback, useEffect, useReducer, useState} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -10,7 +11,6 @@ import {Container, Row} from "react-bootstrap";
 import {DialogTransition} from "../../../../layout/transitions/dialogTransition";
 import {Template} from "../../../../../models/Template";
 import {OPERATION_SEQUENCE_FIELD, Sequencer} from "./sequencer";
-import {useCallback, useEffect, useReducer, useState} from "react";
 import {Operation} from "../../../../../models/Operation";
 import {useSelector} from "react-redux";
 import {selectOperations} from "../../../../../store/slices/operations/selectors";
@@ -18,6 +18,11 @@ import {produce} from "immer";
 import {AppDispatch, useAppDispatch} from "../../../../../store/store";
 import {saveTemplateOperations} from "../../../../../store/slices/template/reducers";
 import {OperationEditDialog} from "../../../operations/dialogs/operationEditDialog";
+import {setAppMode, setConfigurationTab} from "../../../../../store/slices/appConfig/reducers";
+import {APP_MODE} from "../../../../../enums/appMode.enum";
+import {v4} from "uuid";
+import {addOperation} from "../../../../../store/slices/operations/reducers";
+import {OPERATION_TYPE} from "../../../../../enums/operationsTypes/operationType.enum";
 
 /**
  * Remove all characters after the first underscore in a string.
@@ -148,7 +153,20 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
 
     const handleClose = () => {
         props.setOpen(false);
+        clearLocalStates();
     };
+
+    const clearLocalStates = () => {
+        dispatch({
+            type: "UPDATE_TEMPLATE_OPERATIONS",
+            payload: []
+        });
+
+        dispatch({
+            type: "UPDATE_POOL_OPERATIONS",
+            payload: []
+        });
+    }
 
     const handleSave = () => {
         if (!props.template?.id) {
@@ -157,6 +175,28 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
         }
         dispatchToRedux(saveTemplateOperations({id: props.template.id, operations: state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]}));
         props.setOpen(false);
+    }
+
+    const handleOperationCreation = () => {
+        console.log("here");
+        dispatchToRedux(setAppMode(APP_MODE.OPERATION_CREATION_FROM_TEMPLATE));
+
+        const newId = v4().toString();
+
+        const newOperation: Operation = {
+            id: newId,
+            name: newId,
+            description: '',
+            created: new Date().toISOString(),
+            author: '',
+            icon: '',
+            type: OPERATION_TYPE.EXTRACTION,
+            prompt: ''
+        }
+        dispatchToRedux(addOperation(newOperation));
+
+        props.setOpen(false);
+        dispatchToRedux(setConfigurationTab(2));
     }
 
     return (
@@ -202,6 +242,12 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                 open={openOperationEditDialog}
                 setOpen={setOpenOperationEditDialog}
                 operationId={operationId} />
+            <Button
+                variant="contained"
+                style={{borderRadius: 0, marginTop: "10px"}}
+                onClick={handleOperationCreation}>
+                Create Operation
+            </Button>
         </Dialog>
     )
 }

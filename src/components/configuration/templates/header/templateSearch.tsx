@@ -2,11 +2,11 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import {useSelector} from "react-redux";
-import {selectSearchValue, selectTemplates} from "../../../store/slices/template/selectors";
-import {Template} from "../../../models/Template";
+import {selectSearchValue, selectTemplates} from "../../../../store/slices/template/selectors";
+import {Template} from "../../../../models/Template";
 import {useEffect} from "react";
-import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {setTemplateSearch} from "../../../store/slices/template/reducers";
+import {AppDispatch, useAppDispatch} from "../../../../store/store";
+import {setTemplateSearch} from "../../../../store/slices/template/reducers";
 import {InputAdornment} from "@mui/material";
 import {SearchIcon} from "primereact/icons/search";
 
@@ -29,13 +29,7 @@ export const TemplateSearch = () => {
             options={templateSearchOptions}
             fullWidth
             renderInput={(params) =>
-                <TextField {...params} label="Template name" variant="standard" InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                    ),
-                }} />}
+                <TextField {...params} label="Template name" variant="standard"/>}
         />
     );
 }

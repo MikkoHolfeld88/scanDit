@@ -18,9 +18,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {TemplateDeletionDialog} from "./templateDeletionDialog";
 import {selectTemplateById} from "../../../../store/slices/template/selectors";
 import {Template} from "../../../../models/Template";
-import {deleteTemplate, editTemplate} from "../../../../store/slices/template/reducers";
+import {deleteTemplate, editTemplate, setTemplateType} from "../../../../store/slices/template/reducers";
 import {TemplateEditAccordion} from "./templateEditAccordion";
-import {Operation} from "../../../../models/Operation";
 import {TemplateType} from "../../../../models/TemplateType";
 import {getAuth} from "firebase/auth";
 import {Source} from "../../../../models/Source";
@@ -31,6 +30,10 @@ import {Container, Row} from "react-bootstrap";
 import {OperationSequenceCreator} from "./operationSequenceCreator/operationSequenceCreator";
 import {SourceMapper} from "./sourceMapper/sourceMapper";
 import {TargetMapper} from "./targetMapper/targetMapper";
+import {APP_MODE} from "../../../../enums/appMode.enum";
+import {AppMode} from "../../../../models/AppMode";
+import {selectAppMode} from "../../../../store/slices/appConfig/selectors";
+import {resetAppMode, setAppMode, setConfigurationTab} from "../../../../store/slices/appConfig/reducers";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -49,6 +52,7 @@ interface TemplateEditionDialogProps {
 
 export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     const dispatch = useAppDispatch();
+    const appMode: AppMode = useSelector(selectAppMode);
     const template: Template | undefined = useSelector(selectTemplateById(props.templateId));
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
@@ -72,6 +76,12 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             setSources(template.sources || []);
         }
     }, [template]);
+
+    useEffect(() => {
+        if (type === null) return;
+        if (!(template && template.id)) return;
+        dispatch(setTemplateType({id: template?.id, type: type}));
+    }, [type])
 
     const handleDeletion = () => {
         if (template && template.id) {
@@ -114,6 +124,12 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
         }
 
         dispatch(editTemplate(editedTemplate));
+
+        if (appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER) {
+            dispatch(setAppMode(APP_MODE.TEMPLATE_ADDITION_TO_PIPELINE));
+            dispatch(setConfigurationTab(0));
+        }
+
         handleClose();
     }
 
@@ -150,7 +166,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                             fullWidth
                             variant="contained"
                             className="specific-type-fields-button">
-                            Sources
+                            Source Mapper
                         </Button>
                     )
                 case TEMPLATE_TYPE.OUTPUT:
@@ -160,7 +176,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                             fullWidth
                             variant="contained"
                             className="specific-type-fields-button">
-                            Targets
+                            Target Picker
                         </Button>
                     )
                 case TEMPLATE_TYPE.PROCESS:
@@ -170,7 +186,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                             fullWidth
                             variant="contained"
                             className="specific-type-fields-button">
-                            Operations
+                            Operation Composer
                         </Button>
                     )
                 default:
@@ -205,7 +221,6 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 {
                     renderTypeSpecificFields()
                 }
-
                 <TemplateEditAccordion
                     expanded={showTemplateDetails}
                     setExpanded={setShowTemplateDetails}
@@ -232,12 +247,10 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 templateName={template?.name || ""}
                 open={openTemplateDeletionDialog}
                 setOpen={setOpenTemplateDeletionDialog}/>
-            <OperationSequenceCreator
-                open={openOperationSequenceCreator}
-                setOpen={setOpenOperationSequenceCreator}
-                template={template}/>
-            <SourceMapper open={openSourceMapper} setOpen={setOpenSourceMapper} template={template} />
-            <TargetMapper open={openTargetMapper} setOpen={setOpenTargetMapper} template={template} />
+            <OperationSequenceCreator open={openOperationSequenceCreator} setOpen={setOpenOperationSequenceCreator}
+                                      template={template}/>
+            <SourceMapper open={openSourceMapper} setOpen={setOpenSourceMapper} template={template}/>
+            <TargetMapper open={openTargetMapper} setOpen={setOpenTargetMapper} template={template}/>
         </Dialog>
     );
 }

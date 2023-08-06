@@ -120,6 +120,7 @@ export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
                 </div>
             </DialogTitle>
             <DialogContent>
+                <Button fullWidth variant="contained" onClick={handlePipelineBuilderClick}>Pipeline builder</Button>
                 <TextField
                     required
                     sx={{mb: 1, mt: 1}}
@@ -144,7 +145,6 @@ export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
                     multiline
                     rows={4}
                     fullWidth/>
-                <Button fullWidth variant="contained" onClick={handlePipelineBuilderClick}>Pipeline builder</Button>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>

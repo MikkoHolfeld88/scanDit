@@ -12,26 +12,27 @@ import {AppMode} from "../../../models/AppMode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {APP_MODE} from "../../../enums/appMode.enum";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {OperationEditDialog} from "./dialogs/operationEditDialog";
 import {FetchingStatus} from "../../../models/FetchingStatus";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
 import {Col, Container, Row} from "react-bootstrap";
 import {Skeleton} from "@mui/material";
 import "./style.css"
+import {TemplateEditDialog} from "./dialogs/templateEditDialog";
 import {
-    selectLatestCreatedOperation,
-    selectOperations,
-    selectOperationsStatus
-} from "../../../store/slices/operations/selectors";
-import {Operation} from "../../../models/Operation";
-import {deleteOperation} from "../../../store/slices/operations/reducers";
-import {OPERATION_TYPE} from "../../../enums/operationsTypes/operationType.enum";
-import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
-import UnarchiveIcon from '@mui/icons-material/Unarchive';
-import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import TransformIcon from '@mui/icons-material/Transform';
+    selectLatestCreatedTemplate,
+    selectTemplates,
+    selectTemplateStatus
+} from "../../../store/slices/template/selectors";
+import {Template} from "../../../models/Template";
+import {deleteTemplate} from "../../../store/slices/template/reducers";
+import StartIcon from '@mui/icons-material/Start';
+import OutputIcon from '@mui/icons-material/Output';
+import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
+import MemoryIcon from '@mui/icons-material/Memory';
+import ExtensionIcon from "@mui/icons-material/Extension";
+import {sortByType} from "../../../services/templateSortingService";
 
-const OperationListSkeleton = () => {
+const TemplateSkeleton = () => {
     return (
         <Container style={{marginTop: "5px"}}>
             <Row>
@@ -49,55 +50,55 @@ const OperationListSkeleton = () => {
     )
 }
 
-export const OperationsList = () => {
+export const TemplateList = () => {
     const dispatch: AppDispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
-    const operations: Operation[] = useSelector(selectOperations);
-    const operationsStatus: FetchingStatus = useSelector(selectOperationsStatus);
-    const latestCreatedOperation: Operation = useSelector(selectLatestCreatedOperation);
-    const [openOperationEditDialog, setOpenOperationEditDialog] = React.useState<boolean>(false);
-    const [operationId, setOperationId] = React.useState<string>("");
+    const latestCreatedTemplate: Template = useSelector(selectLatestCreatedTemplate);
+    const templates: Template[] = useSelector(selectTemplates);
+    const templatesStatus: FetchingStatus = useSelector(selectTemplateStatus);
+    const [openTemplateEditDialog, setOpenTemplateEditDialog] = React.useState<boolean>(false);
+    const [templateId, setTemplateId] = React.useState<string>("");
 
     useEffect(() => {
-        if (appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE){
-            setOperationId(latestCreatedOperation.id);
-            setOpenOperationEditDialog(true);
+        if (appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER) {
+            setTemplateId(latestCreatedTemplate.id);
+            setOpenTemplateEditDialog(true);
         }
-    }, [latestCreatedOperation])
+    }, [latestCreatedTemplate]);
 
-    const handleOperationEditOpen = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
+    const handleTemplateEditOpen = (event: React.MouseEvent<SVGSVGElement>, templateId: string) => {
         event.stopPropagation();
-        setOperationId(operationId);
-        setOpenOperationEditDialog(true);
+        setTemplateId(templateId);
+        setOpenTemplateEditDialog(true);
     }
 
-    const handleOperationDeletion = (event: React.MouseEvent<SVGSVGElement>, operationId: string) => {
+    const handleTemplateDeletion = (event: React.MouseEvent<SVGSVGElement>, templateId: string) => {
         event.stopPropagation();
-        dispatch(deleteOperation(operationId));
+        dispatch(deleteTemplate(templateId));
     };
 
     // only temporary funciton untel icons are freely choosable
-    const renderOperationIcon = (templateType: OPERATION_TYPE | null) => {
+    const renderTempalteIcon = (templateType: TEMPLATE_TYPE | null) => {
         switch (templateType) {
-            case OPERATION_TYPE.EXTRACTION:
-                return <UnarchiveIcon/>;
-            case OPERATION_TYPE.GENERATION:
-                return <BuildCircleIcon/>;
-            case OPERATION_TYPE.TRANSFORMATION:
-                return <TransformIcon/>
+            case TEMPLATE_TYPE.INPUT:
+                return <StartIcon/>;
+            case TEMPLATE_TYPE.PROCESS:
+                return <MemoryIcon/>;
+            case TEMPLATE_TYPE.OUTPUT:
+                return <OutputIcon/>;
             default:
-                return <PrecisionManufacturingIcon/>;
+                return <ExtensionIcon/>;
         }
-    };
+    }
 
     const renderPageContent = () => {
-        if (operationsStatus === FETCHING_STATE.LOADING) {
+        if (templatesStatus === FETCHING_STATE.LOADING) {
             const skeletonPreview = Array.from({length: 10}, (_, index) => index);
 
             return (
                 skeletonPreview.map((skeleton) => {
                     return (
-                        OperationListSkeleton()
+                        TemplateSkeleton()
                     )
                 })
             )
@@ -105,20 +106,18 @@ export const OperationsList = () => {
             return (
                 <React.Fragment>
                     <List dense sx={{width: '100%', bgcolor: 'background.paper', borderRadius: "0px"}}>
-                        {operations.map((operation, index) => {
+                        {[...templates].sort(sortByType).map((template, index) => {
                             return (
                                 <ListItem
                                     onClick={() => console.log("clicked")}
-                                    key={operation.id + "_" + index}
+                                    key={template.id + "_" + index}
                                     secondaryAction={
-                                        appMode !== APP_MODE.OPERATIONS_DELETION
-                                            ?
-                                            <EditIcon
-                                                onClick={(event) => handleOperationEditOpen(event, operation.id)}/>
+                                        appMode !== APP_MODE.TEMPLATE_DELETION
+                                            ? <EditIcon onClick={(event) => handleTemplateEditOpen(event, template.id)}/>
                                             : <DeleteIcon
-                                                id="operation-deletion-icon"
+                                                id="template-deletion-icon"
                                                 className="wiggle"
-                                                onClick={(event) => handleOperationDeletion(event, operation.id)}
+                                                onClick={(event) => handleTemplateDeletion(event, template.id)}
                                                 color="warning"/>
                                     }
                                     disablePadding>
@@ -126,20 +125,20 @@ export const OperationsList = () => {
                                         <ListItemAvatar>
                                             <Avatar>
                                                 {
-                                                    renderOperationIcon(operation.type)
+                                                    renderTempalteIcon(template.type)
                                                 }
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText id={operation.id} primary={`${operation.name}`}/>
+                                        <ListItemText id={template.id} primary={`${template.name}`}/>
                                     </ListItemButton>
                                 </ListItem>
                             );
                         })}
                     </List>
-                    <OperationEditDialog
-                        open={openOperationEditDialog}
-                        setOpen={setOpenOperationEditDialog}
-                        operationId={operationId}
+                    <TemplateEditDialog
+                        open={openTemplateEditDialog}
+                        setOpen={setOpenTemplateEditDialog}
+                        templateId={templateId}
                     />
                 </React.Fragment>
             )
@@ -153,4 +152,4 @@ export const OperationsList = () => {
             }
         </React.Fragment>
     );
-};
+}

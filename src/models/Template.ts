@@ -34,4 +34,5 @@ export interface Template {
     updated?: string,
     deleted?: string,
     author?: string,
+    icon?: any,
 }

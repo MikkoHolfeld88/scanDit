@@ -2,14 +2,14 @@ import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {useSelector} from "react-redux";
-import {AppDispatch, useAppDispatch} from "../../../store/store";
-import {TemplateSortingType} from "../../../models/TemplateSortingType";
-import {setTemplateSorting} from "../../../store/slices/appConfig/reducers";
-import {TEMPLATE_SORTING} from "../../../enums/templateSorting.enum";
+import {AppDispatch, useAppDispatch} from "../../../../store/store";
+import {TemplateSortingType} from "../../../../models/TemplateSortingType";
+import {setTemplateSorting} from "../../../../store/slices/appConfig/reducers";
+import {TEMPLATE_SORTING} from "../../../../enums/templateSorting.enum";
 import AbcIcon from '@mui/icons-material/Abc';
 import CategoryIcon from '@mui/icons-material/Category';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import {selectTemplateSorting} from "../../../store/slices/appConfig/selectors";
+import {selectTemplateSorting} from "../../../../store/slices/appConfig/selectors";
 
 export const TemplateSorter = () => {
     const dispatch: AppDispatch = useAppDispatch();

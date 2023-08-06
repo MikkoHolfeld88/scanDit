@@ -12,11 +12,12 @@ import EastIcon from '@mui/icons-material/East';
 import SouthEastIcon from '@mui/icons-material/SouthEast';
 import AddIcon from '@mui/icons-material/Add';
 import {DIRECTIONS} from "../../../../enums/directions.enum";
-import {CreateTemplateMenu} from "../createTemplateMenu";
+import {CreateTemplateMenu} from "./createTemplateMenu";
 
 interface PipelineBuilderProps {
     pipelineId: string;
     onNavigate: (direction: DIRECTIONS) => void;
+    setOpenPipelineBuilder: (open: boolean) => void;
 }
 
 export const PipelineBuilder = (props: PipelineBuilderProps) => {
@@ -102,8 +103,14 @@ export const PipelineBuilder = (props: PipelineBuilderProps) => {
                     </Col>
                 </Row>
             </Container>
-            <CreateTemplateMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} open={open} handleClick={handleClick}
-                                handleClose={handleClose}/>
+            <CreateTemplateMenu
+                pipelineId={props.pipelineId}
+                setOpenPipelineBuilder={props.setOpenPipelineBuilder}
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+                openMenu={open}
+                handleClick={handleClick}
+                handleClose={handleClose}/>
         </React.Fragment>
 
     )

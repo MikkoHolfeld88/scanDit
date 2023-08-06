@@ -12,6 +12,7 @@ import {useSelector} from "react-redux";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {PipelineCreationDialog} from "./dialogs/pipelineCreationDialog";
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 enum PipelineSpeedDialActionNames {
     DELETE = 'Delete',
@@ -25,13 +26,13 @@ export enum PipelineSpeedDialActionIds {
 
 const actions = [
     {
-        icon: <DeleteForeverIcon color="warning" id="pipeline-deletion-speeddial-icon"/>,
-        name: PipelineSpeedDialActionNames.DELETE,
-    },
-    {
         icon: <AddIcon color="primary"/>,
         name: PipelineSpeedDialActionNames.CREATE,
     },
+    {
+        icon: <DeleteForeverIcon color="warning" id="pipeline-deletion-speeddial-icon"/>,
+        name: PipelineSpeedDialActionNames.DELETE,
+    }
 ];
 
 export function PipelineSpeedDial() {
@@ -69,7 +70,7 @@ export function PipelineSpeedDial() {
 
                 <SpeedDial
                     ariaLabel="Pipeline creation Speed dial"
-                    icon={<SpeedDialIcon/>}
+                    icon={<SpeedDialIcon openIcon={<AccountTreeIcon/>}/>}
                     onClose={handleClose}
                     onOpen={handleOpen}
                     open={openActions}>

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
-import {TemplateHeader} from "../components/configuration/templates/templateHeader";
-import {TemplateCards} from "../components/configuration/templates/templateCards";
+import {TemplateHeader} from "../components/configuration/templates/header/templateHeader";
+import {TemplateCards} from "../components/configuration/templates/cards/templateCards";
 import {Divider} from "@mui/material";
 import {AppDispatch, useAppDispatch} from "../store/store";
 import {useSelector} from "react-redux";
@@ -8,12 +8,17 @@ import {selectAppMode} from "../store/slices/appConfig/selectors";
 import {AppMode} from "../models/AppMode";
 import {APP_MODE} from "../enums/appMode.enum";
 import {setAppMode} from "../store/slices/appConfig/reducers";
+import {TemplateList} from "../components/configuration/templates/templateList";
 
 export const Templates = () => {
     const dispatch: AppDispatch = useAppDispatch();
     const appMode: AppMode = useSelector(selectAppMode);
 
     useEffect(() => {
+        if (appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER){
+            return;
+        }
+
         const handleClick = (event: Event) => {
             const target = event.target as Element;
 
@@ -38,12 +43,7 @@ export const Templates = () => {
 
     return (
         <React.Fragment>
-            <TemplateHeader/>
-
-            <Divider/>
-
-            <TemplateCards/>
-
+            <TemplateList />
         </React.Fragment>
     );
 }

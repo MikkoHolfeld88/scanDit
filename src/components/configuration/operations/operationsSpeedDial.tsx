@@ -12,6 +12,7 @@ import {useSelector} from "react-redux";
 import {selectAppMode} from "../../../store/slices/appConfig/selectors";
 import {setAppMode} from "../../../store/slices/appConfig/reducers";
 import {OperationCreationDialog} from "./dialogs/operationCreationDialog";
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 
 enum OperationSpeedDialActionNames {
     DELETE = 'Delete',
@@ -25,13 +26,13 @@ export enum OperationSpeedDialActionIds {
 
 const actions = [
     {
-        icon: <DeleteForeverIcon color="warning" id="operations-deletion-speeddial-icon"/>,
-        name: OperationSpeedDialActionNames.DELETE,
-    },
-    {
         icon: <AddIcon color="primary"/>,
         name: OperationSpeedDialActionNames.CREATE,
     },
+    {
+        icon: <DeleteForeverIcon color="warning" id="operations-deletion-speeddial-icon"/>,
+        name: OperationSpeedDialActionNames.DELETE,
+    }
 ];
 
 export function OperationsSpeedDial() {
@@ -69,7 +70,7 @@ export function OperationsSpeedDial() {
 
                 <SpeedDial
                     ariaLabel="Operations creation Speed dial"
-                    icon={<SpeedDialIcon/>}
+                    icon={<SpeedDialIcon openIcon={<PrecisionManufacturingIcon />}/>}
                     onClose={handleClose}
                     onOpen={handleOpen}
                     open={openActions}>

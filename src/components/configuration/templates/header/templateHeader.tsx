@@ -1,7 +1,7 @@
 import {Col, Container, Row} from "react-bootstrap";
 import {TemplateSearch} from "./templateSearch";
 import {TemplateSorter} from "./templateSorter";
-import {TemplateButton} from "./templateButton";
+import {TemplateSpeedDial} from "../templateSpeedDial";
 import React from "react";
 
 export const TemplateHeader = () => {
@@ -16,7 +16,7 @@ export const TemplateHeader = () => {
                     <TemplateSorter />
                 </Col>
                 <Col>
-                    <TemplateButton />
+                    <TemplateSpeedDial />
                 </Col>
             </Row>
         </Container>

@@ -31,17 +31,9 @@ export const getRenderComponentForType = (
     }
 
     switch (type) {
-        case OPERATION_TYPE.CALCULATION:
-        case OPERATION_TYPE.CLASSIFICATION:
-        case OPERATION_TYPE.COMPARISON:
-        case OPERATION_TYPE.EXPORT:
         case OPERATION_TYPE.EXTRACTION:
         case OPERATION_TYPE.GENERATION:
-        case OPERATION_TYPE.IMPORT:
-        case OPERATION_TYPE.SENTIMENT:
-        case OPERATION_TYPE.SUMMARIZATION:
         case OPERATION_TYPE.TRANSFORMATION:
-        case OPERATION_TYPE.TRANSLATION:
             return <PromptWindow prompt={prompt} setPrompt={setPrompt}/>;
         default:
             return null;
