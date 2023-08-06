@@ -32,9 +32,9 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import ExtensionIcon from "@mui/icons-material/Extension";
 import {sortByType} from "../../../services/templateSortingService";
 
-const TemplateSkeleton = () => {
+const TemplateSkeleton = (id: number) => {
     return (
-        <Container style={{marginTop: "5px"}}>
+        <Container style={{marginTop: "5px"}} key={id}>
             <Row>
                 <Col xs={2}>
                     <Skeleton variant="circular" width={40} height={40}/>
@@ -96,9 +96,9 @@ export const TemplateList = () => {
             const skeletonPreview = Array.from({length: 10}, (_, index) => index);
 
             return (
-                skeletonPreview.map((skeleton) => {
+                skeletonPreview.map((skeleton, index) => {
                     return (
-                        TemplateSkeleton()
+                        TemplateSkeleton(index)
                     )
                 })
             )
