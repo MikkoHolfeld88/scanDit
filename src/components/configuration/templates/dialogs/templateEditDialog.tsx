@@ -120,6 +120,7 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             created: template.created,
             description: description,
             type: type,
+            operations: template.operations || [],
             editable: template.editable,
         }
 
@@ -134,11 +135,12 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
     }
 
     const handleCancel = () => {
-        props.setOpen(false);
         setName(template?.name || "");
         setDescription(template?.description || "");
         setAuthor(template?.author || "");
         setType(template?.type || null);
+        props.setOpen(false);
+        dispatch(resetAppMode());
     }
 
     const renderTypeSpecificFields = () => {
@@ -206,7 +208,11 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <Container>
                         <Row>
-                            <Typography variant="h6">Edit template</Typography>
+                            <Typography variant="h6">
+                                {
+                                    appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER ? "Create template" : "Edit template"
+                                }
+                            </Typography>
                         </Row>
                         <Row>
                             <Typography variant="subtitle2">{template?.name}</Typography>
@@ -236,7 +242,11 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
             <DialogActions>
                 <Button onClick={handleCancel} startIcon={<CancelIcon/>}
                         variant="outlined">Cancel</Button>
-                <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
+                <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">
+                    {
+                        appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER ? "Create" : "Update"
+                    }
+                </Button>
                 <IconButton onClick={() => setOpenTemplateDeletionDialog(true)} sx={{minHeight: "36.5px"}}>
                     <DeleteIcon color="warning"/>
                 </IconButton>
@@ -247,8 +257,10 @@ export const TemplateEditDialog = (props: TemplateEditionDialogProps) => {
                 templateName={template?.name || ""}
                 open={openTemplateDeletionDialog}
                 setOpen={setOpenTemplateDeletionDialog}/>
-            <OperationSequenceCreator open={openOperationSequenceCreator} setOpen={setOpenOperationSequenceCreator}
-                                      template={template}/>
+            <OperationSequenceCreator
+                open={openOperationSequenceCreator}
+                setOpen={setOpenOperationSequenceCreator}
+                template={template}/>
             <SourceMapper open={openSourceMapper} setOpen={setOpenSourceMapper} template={template}/>
             <TargetMapper open={openTargetMapper} setOpen={setOpenTargetMapper} template={template}/>
         </Dialog>

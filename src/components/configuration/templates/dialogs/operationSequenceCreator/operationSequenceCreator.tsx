@@ -23,6 +23,8 @@ import {APP_MODE} from "../../../../../enums/appMode.enum";
 import {v4} from "uuid";
 import {addOperation} from "../../../../../store/slices/operations/reducers";
 import {OPERATION_TYPE} from "../../../../../enums/operationsTypes/operationType.enum";
+import {selectAppMode} from "../../../../../store/slices/appConfig/selectors";
+import {AppMode} from "../../../../../models/AppMode";
 
 /**
  * Remove all characters after the first underscore in a string.
@@ -45,6 +47,7 @@ interface OperationSequenceCreatorProps {
 }
 
 export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) => {
+    const appMode: AppMode = useSelector(selectAppMode);
     const dispatchToRedux: AppDispatch = useAppDispatch();
     const operations: Operation[] = useSelector(selectOperations);
     const [operationId, setOperationId] = useState<string>("");
@@ -60,23 +63,33 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                 draft[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS] = action.payload;
                 break;
             }
-
             case "MOVE": {
                 draft[action.to] = draft[action.to] || [];
+
+                // If the action is between pool operations and template operations
                 if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
                     const original = draft[action.from][action.fromIndex];
                     draft.cloneCounter++;
-                    const clone = {...original, id: original.id + "_clone_" + draft.cloneCounter}; // Append the counter to the id
+                    const clone = {...original, id: original.id + "_clone_" + draft.cloneCounter};
                     draft[action.to].splice(action.toIndex, 0, clone);
-                } else if (action.from === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
-                    return;
-                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
-                    draft[action.from].splice(action.fromIndex, 1);
-                } else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
+                }
+                // If the action is within template operations
+                else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS) {
                     const [moved] = draft[action.from].splice(action.fromIndex, 1);
                     draft[action.to].splice(action.toIndex, 0, moved);
                 }
+                // If the action is from template operations to pool operations
+                else if (action.from === OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS && action.to === OPERATION_SEQUENCE_FIELD.POOL_OPERATIONS) {
+                    draft[action.from].splice(action.fromIndex, 1);
+                }
+                // For all other cases do nothing.
+                else {
+                    return;
+                }
+                break;
             }
+            default: return draft;
+
         }
     });
 
@@ -129,7 +142,7 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
                 payload: updatedTemplateOperations
             });
         }
-    }, [operations]);
+    }, [operations, props.open]);
 
     const handleDragEnd = useCallback((result: any) => {
         if (result.reason === "DROP") {
@@ -173,13 +186,21 @@ export const OperationSequenceCreator = (props: OperationSequenceCreatorProps) =
             console.error("Template id is not defined. Aborting save operations to template.");
             return;
         }
-        dispatchToRedux(saveTemplateOperations({id: props.template.id, operations: state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]}));
+        dispatchToRedux(saveTemplateOperations({
+            id: props.template.id,
+            operations: state[OPERATION_SEQUENCE_FIELD.TEMPLATE_OPERATIONS]
+        }));
         props.setOpen(false);
     }
 
     const handleOperationCreation = () => {
-        console.log("here");
-        dispatchToRedux(setAppMode(APP_MODE.OPERATION_CREATION_FROM_TEMPLATE));
+        // Setting the app mode the correct way enables the user to get back to the correct tab
+        // after the operation creation is finished.
+        if (appMode === APP_MODE.TEMPLATE_CREATION_BY_PIPELINE_BUILDER){
+            dispatchToRedux(setAppMode(APP_MODE.OPERATION_CREATION_BY_PIPELINE_BUILDER));
+        } else {
+            dispatchToRedux(setAppMode(APP_MODE.OPERATION_CREATION_FROM_TEMPLATE));
+        }
 
         const newId = v4().toString();
 

@@ -21,11 +21,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
 import {PromptWindow} from "./specificFields/promptWindow";
 
-export const getRenderComponentForType = (
-    type: OperationType,
-    prompt: string,
-    setPrompt: (prompt: string) => void
-) => {
+export const getRenderComponentForType = (type: OperationType, prompt: string, setPrompt: (prompt: string) => void) => {
     if (type === null || type === undefined) {
         return null;
     }

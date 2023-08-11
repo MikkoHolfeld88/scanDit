@@ -23,6 +23,13 @@ import {OperationType} from "../../../../models/operationTypes/OperationType";
 import {OPERATION_TYPE} from "../../../../enums/operationsTypes/operationType.enum";
 import MenuItem from "@mui/material/MenuItem";
 import {getRenderComponentForType} from "./operationCreationDialog";
+import {APP_MODE} from "../../../../enums/appMode.enum";
+import {selectAppMode} from "../../../../store/slices/appConfig/selectors";
+import {AppMode} from "../../../../models/AppMode";
+import {selectLatestCreatedTemplate} from "../../../../store/slices/template/selectors";
+import {Template} from "../../../../models/Template";
+import {saveTemplateOperations} from "../../../../store/slices/template/reducers";
+import {setConfigurationTab} from "../../../../store/slices/appConfig/reducers";
 
 interface OperationEditionDialogProps {
     open: boolean;
@@ -32,6 +39,8 @@ interface OperationEditionDialogProps {
 
 export const OperationEditDialog = (props: OperationEditionDialogProps) => {
     const dispatch = useAppDispatch();
+    const appMode: AppMode = useSelector(selectAppMode);
+    const latestCreatedTemplate: Template = useSelector(selectLatestCreatedTemplate);
     const operation: Operation | undefined = useSelector((state: RootState) => selectOperationById(state, props.operationId));
     const [openOperationDeletionDialog, setOpenOperationDeletionDialog] = React.useState<boolean>(false);
     const [name, setName] = React.useState<string>("");
@@ -52,8 +61,31 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
         }
     }, [operation]);
 
+    useEffect(() => {
+        console.log(prompt);
+    }, [prompt]);
+
+    /**
+     * If the user started the operation creation from the template
+     * window, his intention is to subordinate this operation to the
+     * created template. Therefore, we need to update the template operations
+     * and route back to the template operation edit window.
+     */
+    const handleUpdateByTemplateCreation = (operation: Operation) => {
+        dispatch(saveTemplateOperations({
+            id: latestCreatedTemplate.id,
+            operations: [...latestCreatedTemplate.operations, operation]
+        }));
+        handleClose();
+        dispatch(setConfigurationTab(1));
+    }
+
+    const handleUpdateByPipelineCreation = () => {
+
+    }
+
     const handleUpdate = () => {
-        if (name === "" || name === null || !operation?.id || !operation.created || operation.prompt === "") {
+        if (name === "" || name === null || prompt === "" || !operation) {
             return;
         }
 
@@ -69,7 +101,14 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
         }
 
         dispatch(editOperation(editedOperation));
-        handleClose();
+
+        if (appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE){
+            handleUpdateByTemplateCreation(editedOperation);
+        } else if (appMode === APP_MODE.OPERATION_CREATION_BY_PIPELINE_BUILDER){
+            handleUpdateByPipelineCreation();
+        } else {
+            handleClose();
+        }
     };
 
     const handleDeletion = () => {
@@ -167,8 +206,11 @@ export const OperationEditDialog = (props: OperationEditionDialogProps) => {
             <DialogActions>
                 <Button onClick={handleCancel} startIcon={<CancelIcon/>} variant="outlined">Cancel</Button>
                 <Button onClick={handleUpdate} startIcon={<EditIcon/>} variant="outlined">Update</Button>
-                <IconButton onClick={() => setOpenOperationDeletionDialog(true)} sx={{minHeight: "36.5px"}}><DeleteIcon
-                    color="warning"/></IconButton>
+                <IconButton
+                    onClick={() => setOpenOperationDeletionDialog(true)}
+                    sx={{minHeight: "36.5px"}}>
+                    <DeleteIcon color="warning"/>
+                </IconButton>
             </DialogActions>
             <OperationDeletionDialog
                 handleDeletion={handleDeletion}

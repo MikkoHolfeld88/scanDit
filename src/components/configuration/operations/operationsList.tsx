@@ -59,7 +59,8 @@ export const OperationsList = () => {
     const [operationId, setOperationId] = React.useState<string>("");
 
     useEffect(() => {
-        if (appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE){
+        // If the user is in the operation creation mode, the operation edit dialog is opened automatically
+        if (appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE || appMode == APP_MODE.OPERATION_CREATION_BY_PIPELINE_BUILDER){
             setOperationId(latestCreatedOperation.id);
             setOpenOperationEditDialog(true);
         }

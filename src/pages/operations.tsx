@@ -12,6 +12,10 @@ export const Operations = () => {
     const appMode: AppMode = useSelector(selectAppMode);
 
     useEffect(() => {
+        if (appMode === APP_MODE.OPERATION_CREATION_BY_PIPELINE_BUILDER || appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE) {
+            return;
+        }
+
         const handleClick = (event: Event) => {
             const target = event.target as Element;
 

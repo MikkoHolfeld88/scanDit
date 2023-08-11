@@ -46,6 +46,7 @@ export const operationSlice = createSlice({
                 operation.updated = new Date().toISOString();
             }
         },
+
         deleteOperation: (state, action) => {
             state.operations = state.operations.filter(operation => operation.id !== action.payload);
         }

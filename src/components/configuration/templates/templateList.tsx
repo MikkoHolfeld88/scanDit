@@ -31,6 +31,7 @@ import {TEMPLATE_TYPE} from "../../../enums/templateType.enum";
 import MemoryIcon from '@mui/icons-material/Memory';
 import ExtensionIcon from "@mui/icons-material/Extension";
 import {sortByType} from "../../../services/templateSortingService";
+import {OperationSequenceCreator} from "./dialogs/operationSequenceCreator/operationSequenceCreator";
 
 const TemplateSkeleton = (id: number) => {
     return (
@@ -57,6 +58,7 @@ export const TemplateList = () => {
     const templates: Template[] = useSelector(selectTemplates);
     const templatesStatus: FetchingStatus = useSelector(selectTemplateStatus);
     const [openTemplateEditDialog, setOpenTemplateEditDialog] = React.useState<boolean>(false);
+    const [openOperationComposer, setOpenOperationComposer] = React.useState<boolean>(false);
     const [templateId, setTemplateId] = React.useState<string>("");
 
     useEffect(() => {
@@ -65,6 +67,12 @@ export const TemplateList = () => {
             setOpenTemplateEditDialog(true);
         }
     }, [latestCreatedTemplate]);
+
+    useEffect(() => {
+        if (appMode === APP_MODE.OPERATION_CREATION_FROM_TEMPLATE){
+            setOpenOperationComposer(true);
+        }
+    }, [appMode])
 
     const handleTemplateEditOpen = (event: React.MouseEvent<SVGSVGElement>, templateId: string) => {
         event.stopPropagation();
@@ -77,7 +85,7 @@ export const TemplateList = () => {
         dispatch(deleteTemplate(templateId));
     };
 
-    // only temporary funciton untel icons are freely choosable
+    // only temporary function until icons are freely choosable
     const renderTempalteIcon = (templateType: TEMPLATE_TYPE | null) => {
         switch (templateType) {
             case TEMPLATE_TYPE.INPUT:
@@ -139,6 +147,11 @@ export const TemplateList = () => {
                         open={openTemplateEditDialog}
                         setOpen={setOpenTemplateEditDialog}
                         templateId={templateId}
+                    />
+                    <OperationSequenceCreator
+                        open={openOperationComposer}
+                        setOpen={setOpenOperationComposer}
+                        template={latestCreatedTemplate}
                     />
                 </React.Fragment>
             )

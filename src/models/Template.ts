@@ -27,7 +27,7 @@ export interface Template {
     type: TemplateType,
     created: string,
     editable: boolean,
-    operations?: Operation[]
+    operations: Operation[]
     sources?: Source[],
     targets?: Target[],
     description?: string,
