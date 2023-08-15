@@ -11,6 +11,7 @@ import {onRequest} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import fetch from "node-fetch";
 
+
 export const detectTextInImage = onRequest(async (request, response) => {
   const imageUri: string = request.body.imageUri;
   const apiKey: string = request.body.apiKey;

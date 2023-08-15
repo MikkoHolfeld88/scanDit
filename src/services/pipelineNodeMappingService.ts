@@ -1,6 +1,7 @@
 import {Pipeline} from "../models/Pipeline";
 import {Node} from "reactflow";
 import {Edge} from "reactflow";
+import {TemplateRelation} from "../models/TemplateRelation";
 
 export const createNodesFromPipeline = (pipeline: Pipeline): Node[] => {
     const templates = pipeline.templates;
@@ -9,6 +10,15 @@ export const createNodesFromPipeline = (pipeline: Pipeline): Node[] => {
 }
 
 export const createEdgesFromPipeline = (pipeline: Pipeline): Edge[] => {
+
+    return [];
+}
+
+export const createNodesFromTemplateRelations = (templateRelations: TemplateRelation[]): Node[] => {
+    return [];
+}
+
+export const createEdgesFromTemplateRelations = (templateRelations: TemplateRelation[]): Edge[] => {
 
     return [];
 }

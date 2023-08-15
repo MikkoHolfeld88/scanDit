@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -12,8 +13,17 @@ import {PipelineViewer} from "./pipelineViewer";
 import {Container, Row} from "react-bootstrap";
 import {DIRECTIONS} from "../../../../enums/directions.enum";
 import {DialogTransition} from "../../../layout/transitions/dialogTransition";
+import {useSelector} from "react-redux";
+import {selectAppMode} from "../../../../store/slices/appConfig/selectors";
+import {AppMode} from "../../../../models/AppMode";
+import {selectLatestCreatedTemplate} from "../../../../store/slices/template/selectors";
+import {Template} from "../../../../models/Template";
+import {AppDispatch, useAppDispatch} from "../../../../store/store";
+import {Pipeline} from "../../../../models/Pipeline";
+import {TemplateRelation} from "../../../../models/TemplateRelation";
 
 interface PipelineBuildingContainerProps {
+    pipeline: Pipeline | undefined;
     pipelineId: string;
     name: string
     open: boolean;
@@ -21,14 +31,37 @@ interface PipelineBuildingContainerProps {
 }
 
 export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps) => {
+    const appMode: AppMode = useSelector(selectAppMode);
+    const dispatch: AppDispatch = useAppDispatch();
+    const latestCreatedTemplate: Template | undefined = useSelector(selectLatestCreatedTemplate);
     const [direction, setDirection] = React.useState<DIRECTIONS>(DIRECTIONS.DOWN);
+    const [templateRelations, setTemplateRelations] = React.useState<TemplateRelation[]>([]);
+
+    useEffect(() => {
+        if (props.pipeline) {
+            setTemplateRelations(props.pipeline.templates);
+        }
+    }, []);
+
+    useEffect(() => { // TODO: FIX
+        if (!latestCreatedTemplate) return;
+
+        const templateRelation = {
+            id: latestCreatedTemplate.id,
+            parentIds: [],
+            childIds: [],
+            directions: []
+        };
+
+        setTemplateRelations([...templateRelations, templateRelation]);
+    }, [latestCreatedTemplate]);
 
     const handleClose = () => {
         props.setOpen(false);
     };
 
     const handleSave = () => {
-        console.log("Save pipeline - call to database");
+        // save
         props.setOpen(false);
     }
 
@@ -77,7 +110,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                         onNavigate={onNavigateToNode}/>
                 </SplitterPanel>
                 <SplitterPanel size={80} minSize={50}>
-                    <PipelineViewer pipelineId={props.pipelineId}/>
+                    <PipelineViewer templateRelations={templateRelations}/>
                 </SplitterPanel>
             </Splitter>
         </Dialog>

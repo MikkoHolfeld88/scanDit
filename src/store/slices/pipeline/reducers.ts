@@ -2,6 +2,8 @@ import {PipelineState} from "./types";
 import {createSlice} from "@reduxjs/toolkit";
 import {fetchPipelines} from "./thunks";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
+import {Template} from "../../../models/Template";
+import {TemplateRelation} from "../../../models/TemplateRelation";
 
 const initialState: PipelineState = {
     status: FETCHING_STATE.IDLE,
@@ -30,32 +32,14 @@ export const pipelineSlice = createSlice({
         addPipeline: (state, action) => {
             state.pipelines.push(action.payload);
         },
-        editPipelineName: (state, action) => {
-            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.id);
-            if (pipeline) {
-                pipeline.name = action.payload.name;
-            }
-        },
-        editPipelineAuthor: (state, action) => {
-            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.id);
-            if (pipeline) {
-                pipeline.author = action.payload.author;
-            }
-        },
-        editPipelineDescription: (state, action) => {
-            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.id);
-            if (pipeline) {
-                pipeline.description = action.payload.description;
-            }
-        },
-        editPipelineIcon: (state, action) => {
-            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.id);
-            if (pipeline) {
-                pipeline.icon = action.payload.icon;
-            }
-        },
         deletePipeline: (state, action) => {
             state.pipelines = state.pipelines.filter(pipeline => pipeline.id !== action.payload);
+        },
+        addTemplateToPipeline: (state, action: { payload: { pipelineId: string, templateRelation: TemplateRelation } }) => {
+            const pipeline = state.pipelines.find(pipeline => pipeline.id === action.payload.pipelineId);
+            if (pipeline) {
+                pipeline.templates.push(action.payload.templateRelation);
+            }
         }
     },
     extraReducers: (builder) => {
@@ -76,7 +60,8 @@ export const pipelineSlice = createSlice({
 export const {
     addPipeline,
     editPipeline,
-    deletePipeline
+    deletePipeline,
+    addTemplateToPipeline
 } = pipelineSlice.actions;
 
 export default pipelineSlice.reducer;

@@ -1,40 +1,32 @@
-import React, {useEffect} from "react";
+import React from "react";
 import 'reactflow/dist/style.css';
-import {Controls, MiniMap, ReactFlow, useEdgesState, useNodesState, Node} from "reactflow";
-import {useSelector} from "react-redux";
-import {selectPipelineById} from "../../../../store/slices/pipeline/selectors";
-import {Pipeline} from "../../../../models/Pipeline";
-import {RootState} from "../../../../store/store";
-import {createEdgesFromPipeline, createNodesFromPipeline} from "../../../../services/pipelineNodeMappingService";
+import {Controls, MiniMap, ReactFlow, useEdgesState, useNodesState} from "reactflow";
+import {
+    createEdgesFromTemplateRelations,
+    createNodesFromTemplateRelations
+} from "../../../../services/pipelineNodeMappingService";
 import {nodeTypes} from "./nodes/nodeTypes";
+import {TemplateRelation} from "../../../../models/TemplateRelation";
 
 interface PipelineViewerProps {
-    pipelineId: string;
+    templateRelations: TemplateRelation[];
 }
 
 export const PipelineViewer = (props: PipelineViewerProps) => {
     const [nodes, setNodes] = useNodesState([]);
     const [edges, setEdges] = useEdgesState([]);
 
-    const pipeline: Pipeline | undefined = useSelector((state: RootState) => selectPipelineById(state, props.pipelineId));
-
-    useEffect(() => {
-        update();
-    }, [pipeline]);
-
     const update = () => {
-        if (!pipeline) {
+        if (!props.templateRelations) {
             return;
         }
 
-        const updatedNodes = createNodesFromPipeline(pipeline);
-        const updatedEdges = createEdgesFromPipeline(pipeline);
+        const updatedNodes = createNodesFromTemplateRelations(props.templateRelations);
+        const updatedEdges = createEdgesFromTemplateRelations(props.templateRelations);
 
         setNodes(updatedNodes);
         setEdges(updatedEdges);
     };
-
-
 
     return (
         <ReactFlow

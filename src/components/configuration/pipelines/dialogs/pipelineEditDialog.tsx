@@ -152,6 +152,7 @@ export const PipelineEditDialog = (props: PipelineEditionDialogProps) => {
                 <IconButton onClick={() => setOpenPipelineDeletionDialog(true)} sx={{minHeight: "36.5px"}} ><DeleteIcon color="warning" /></IconButton>
             </DialogActions>
             <PipelineBuildingContainer
+                pipeline={pipeline}
                 pipelineId={pipeline?.id || ""}
                 name={pipeline?.name || ""}
                 open={openPipelineBuilder}

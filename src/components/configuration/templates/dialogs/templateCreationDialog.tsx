@@ -40,7 +40,7 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
     const [name, setName] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
     const [author, setAuthor] = React.useState<string>(getAuth().currentUser?.displayName || "");
-    const [type, setType] = React.useState<TemplateType>(null);
+    const [type, setType] = React.useState<TemplateType>(TEMPLATE_TYPE.PROCESS);
 
     useEffect(() => {
         return () => {
@@ -71,7 +71,7 @@ export const TemplateCreationDialog = (props: TemplateCreationDialogProps) => {
         setName("");
         setDescription("");
         setAuthor("");
-        setType(null);
+        setType(TEMPLATE_TYPE.PROCESS);
     }
 
     const handleClose = () => {

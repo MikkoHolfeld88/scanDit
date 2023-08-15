@@ -61,7 +61,6 @@ export const PipelineList = () => {
         if (appMode === APP_MODE.TEMPLATE_ADDITION_TO_PIPELINE){
             setPipelineId(latestCreatedPipeline.id);
             setOpenPipelineBuilder(true);
-            dispatch(resetAppMode());
         }
     }, [appMode])
 
@@ -123,6 +122,7 @@ export const PipelineList = () => {
                         pipelineId={pipelineId}
                     />
                     <PipelineBuildingContainer
+                        pipeline={pipelines.find(pipeline => pipeline.id === pipelineId)}
                         pipelineId={pipelineId}
                         name={latestCreatedPipeline && latestCreatedPipeline?.name || ""}
                         open={openPipelineBuilder}
