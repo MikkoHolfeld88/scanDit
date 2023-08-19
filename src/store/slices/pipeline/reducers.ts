@@ -2,13 +2,16 @@ import {PipelineState} from "./types";
 import {createSlice} from "@reduxjs/toolkit";
 import {fetchPipelines} from "./thunks";
 import {FETCHING_STATE} from "../../../enums/fetchingState.enum";
-import {Template} from "../../../models/Template";
 import {TemplateRelation} from "../../../models/TemplateRelation";
+import {DIRECTIONS} from "../../../enums/directions.enum";
 
 const initialState: PipelineState = {
     status: FETCHING_STATE.IDLE,
     error: undefined,
     pipelines: [],
+    pipelineBuilder: {
+        direction: DIRECTIONS.DOWN
+    }
 }
 
 export const pipelineSlice = createSlice({
@@ -40,6 +43,9 @@ export const pipelineSlice = createSlice({
             if (pipeline) {
                 pipeline.templates.push(action.payload.templateRelation);
             }
+        },
+        setDirection: (state, action) => {
+            state.pipelineBuilder.direction = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -61,7 +67,7 @@ export const {
     addPipeline,
     editPipeline,
     deletePipeline,
-    addTemplateToPipeline
+    setDirection
 } = pipelineSlice.actions;
 
 export default pipelineSlice.reducer;

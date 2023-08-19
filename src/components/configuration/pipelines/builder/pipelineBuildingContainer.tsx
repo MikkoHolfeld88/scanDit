@@ -21,6 +21,9 @@ import {Template} from "../../../../models/Template";
 import {AppDispatch, useAppDispatch} from "../../../../store/store";
 import {Pipeline} from "../../../../models/Pipeline";
 import {TemplateRelation} from "../../../../models/TemplateRelation";
+import {APP_MODE} from "../../../../enums/appMode.enum";
+import {selectDirection} from "../../../../store/slices/pipeline/selectors";
+import {setDirection} from "../../../../store/slices/pipeline/reducers";
 
 interface PipelineBuildingContainerProps {
     pipeline: Pipeline | undefined;
@@ -34,7 +37,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
     const appMode: AppMode = useSelector(selectAppMode);
     const dispatch: AppDispatch = useAppDispatch();
     const latestCreatedTemplate: Template | undefined = useSelector(selectLatestCreatedTemplate);
-    const [direction, setDirection] = React.useState<DIRECTIONS>(DIRECTIONS.DOWN);
+    const direction = useSelector(selectDirection);
     const [templateRelations, setTemplateRelations] = React.useState<TemplateRelation[]>([]);
 
     useEffect(() => {
@@ -43,18 +46,28 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
         }
     }, []);
 
-    useEffect(() => { // TODO: FIX
+    useEffect(() => {
         if (!latestCreatedTemplate) return;
 
-        const templateRelation = {
-            id: latestCreatedTemplate.id,
-            parentIds: [],
-            childIds: [],
-            directions: []
-        };
+        if (appMode === APP_MODE.TEMPLATE_ADDITION_TO_PIPELINE){
+            const templateRelation = {
+                id: latestCreatedTemplate.id,
+                parentIds: getParentIdsOfLatestCreated(),
+                childIds: [],
+                directions: [direction]
+            };
 
-        setTemplateRelations([...templateRelations, templateRelation]);
+            setTemplateRelations([...templateRelations, templateRelation]);
+        }
     }, [latestCreatedTemplate]);
+
+    const getParentIdsOfLatestCreated = (): string[] => {
+        if (templateRelations.length === 0) {
+            return [];
+        }
+
+        return [templateRelations[templateRelations.length - 1].id];
+    }
 
     const handleClose = () => {
         props.setOpen(false);
@@ -66,7 +79,7 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
     }
 
     const onNavigateToNode = (direction: DIRECTIONS) => {
-        setDirection(direction);
+        dispatch(setDirection(direction))
         console.log("Navigate to node", direction);
     }
 
@@ -110,7 +123,9 @@ export const PipelineBuildingContainer = (props: PipelineBuildingContainerProps)
                         onNavigate={onNavigateToNode}/>
                 </SplitterPanel>
                 <SplitterPanel size={80} minSize={50}>
-                    <PipelineViewer templateRelations={templateRelations}/>
+                    <PipelineViewer
+                        templateRelations={templateRelations}
+                        setTemplateRelations={setTemplateRelations}/>
                 </SplitterPanel>
             </Splitter>
         </Dialog>

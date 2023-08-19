@@ -29,9 +29,9 @@ import {PipelineBuilder} from "./builder/pipelineBuilder";
 import {PipelineBuildingContainer} from "./builder/pipelineBuildingContainer";
 import {resetAppMode, setAppMode} from "../../../store/slices/appConfig/reducers";
 
-const PipelineListSkeleton = () => {
+const PipelineListSkeleton = (index: number) => {
     return (
-        <Container style={{marginTop: "5px"}}>
+        <Container style={{marginTop: "5px"}} key={index}>
             <Row>
                 <Col xs={2}>
                     <Skeleton variant="circular" width={40} height={40}/>
@@ -80,9 +80,9 @@ export const PipelineList = () => {
             const skeletonPreview = Array.from({length: 10}, (_, index) => index);
 
             return (
-                skeletonPreview.map((skeleton) => {
+                skeletonPreview.map((skeleton, index) => {
                     return (
-                        PipelineListSkeleton()
+                        PipelineListSkeleton(index)
                     )
                 })
             )

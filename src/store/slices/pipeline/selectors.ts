@@ -9,3 +9,4 @@ export const selectLatestCreatedPipeline = (state: RootState) => {
         new Date(b.created).getTime() - new Date(a.created).getTime()
     )[0];
 }
+export const selectDirection = (state: RootState) => state.pipeline.pipelineBuilder.direction;
