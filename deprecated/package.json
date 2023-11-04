@@ -23,7 +23,7 @@
     "@types/sanitize-html": "^2.9.0",
     "firebase": "^9.22.2",
     "firebase-hooks": "^0.0.1",
-    "immer": "^10.0.2",
+    "immer": "^10.0.3",
     "node-sass": "^9.0.0",
     "path-browserify": "^1.0.1",
     "primeflex": "^3.3.1",
