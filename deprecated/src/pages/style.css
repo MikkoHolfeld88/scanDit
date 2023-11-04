@@ -1,0 +1,49 @@
+.sidebar {
+  height: 100vh;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+}
+
+.bottombar {
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+}
+
+@media (min-width: 575px) {
+    .dashboard-content {
+        width: 95vw;
+        margin: 10px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    .data-content {
+        margin: 10px;
+        padding: 10px;
+    }
+}
+
+.link {
+  text-decoration: none;
+  color: var(--text-color-primary);
+}
+
+.link-bottombar {
+    text-decoration: none;
+}
+
+#data-page-header > * {
+    margin: 0 10px 0 10px;
+}
+
+.data-table {
+    margin-top: 10px;
+}
+
+.sign-in-box {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
